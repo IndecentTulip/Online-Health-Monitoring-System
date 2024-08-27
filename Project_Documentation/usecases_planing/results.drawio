@@ -1,0 +1,110 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/127.0" version="24.7.12">
+  <diagram name="Page-1" id="yWk3I8BnqowNyvtYr_GG">
+    <mxGraphModel dx="988" dy="536" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-2" value="create result of exam" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="468.75" y="220" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-5" value="{abstract}&lt;br&gt;craft the result" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="302.5" y="245" width="90" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-17" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=0;startArrow=open;startFill=0;" parent="1" source="g-edERCXG5JLl5eAp2KZ-5" target="g-edERCXG5JLl5eAp2KZ-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="120" y="159.87" as="sourcePoint" />
+            <mxPoint x="185" y="111.87" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-18" value="&amp;lt;extend&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g-edERCXG5JLl5eAp2KZ-17" vertex="1" connectable="0">
+          <mxGeometry x="-0.1257" y="-5" relative="1" as="geometry">
+            <mxPoint x="6" y="-7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-19" value="" style="endArrow=open;html=1;rounded=0;endFill=0;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="g-edERCXG5JLl5eAp2KZ-5" target="g-edERCXG5JLl5eAp2KZ-32" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="348.75" y="360" as="sourcePoint" />
+            <mxPoint x="480" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-20" value="&amp;lt;include&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="g-edERCXG5JLl5eAp2KZ-19" vertex="1" connectable="0">
+          <mxGeometry x="-0.1257" y="-5" relative="1" as="geometry">
+            <mxPoint x="11" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-32" value="modify result of exam" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="483.75" y="305" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-34" value="Doctors" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="60" y="730" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-35" value="Administrator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="60" y="400" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-36" value="Staff" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="60" y="210" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-37" value="Patients" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="60" y="570" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-38" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.072;entryY=0.2;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="g-edERCXG5JLl5eAp2KZ-5" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="75" y="240" as="sourcePoint" />
+            <mxPoint x="700" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-39" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="g-edERCXG5JLl5eAp2KZ-4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="75" y="430" as="sourcePoint" />
+            <mxPoint x="161.98000000000002" y="372.0400000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-43" value="" style="endArrow=none;html=1;rounded=0;entryX=0.064;entryY=0.8;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="g-edERCXG5JLl5eAp2KZ-34" target="g-edERCXG5JLl5eAp2KZ-9" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="140" y="810" as="sourcePoint" />
+            <mxPoint x="687" y="892" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-56" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.02;entryY=0.65;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="g-edERCXG5JLl5eAp2KZ-37" target="g-edERCXG5JLl5eAp2KZ-14" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="530" y="490" as="sourcePoint" />
+            <mxPoint x="580" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-57" value="Results" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="110" y="180" width="510" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-3" value="search for own results of exam" style="ellipse;whiteSpace=wrap;html=1;" parent="g-edERCXG5JLl5eAp2KZ-57" vertex="1">
+          <mxGeometry x="220" y="265" width="105" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-4" value="delete results of exam" style="ellipse;whiteSpace=wrap;html=1;" parent="g-edERCXG5JLl5eAp2KZ-57" vertex="1">
+          <mxGeometry x="77.5" y="165" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-14" value="view own results of exam" style="ellipse;whiteSpace=wrap;html=1;" parent="g-edERCXG5JLl5eAp2KZ-57" vertex="1">
+          <mxGeometry x="60" y="325" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-45" value="" style="endArrow=none;html=1;rounded=0;entryX=0.038;entryY=0.8;entryDx=0;entryDy=0;exitX=0.98;exitY=0.383;exitDx=0;exitDy=0;exitPerimeter=0;entryPerimeter=0;startArrow=block;startFill=0;" parent="g-edERCXG5JLl5eAp2KZ-57" source="g-edERCXG5JLl5eAp2KZ-14" target="g-edERCXG5JLl5eAp2KZ-3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-65" y="395" as="sourcePoint" />
+            <mxPoint x="165" y="419" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-9" value="view other&#39;s results of exam" style="ellipse;whiteSpace=wrap;html=1;" parent="g-edERCXG5JLl5eAp2KZ-57" vertex="1">
+          <mxGeometry x="77.5" y="465.0000000000001" width="110" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-10" value="search for other&#39;s results of exam" style="ellipse;whiteSpace=wrap;html=1;" parent="g-edERCXG5JLl5eAp2KZ-57" vertex="1">
+          <mxGeometry x="270" y="415" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-46" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;startArrow=block;startFill=0;" parent="g-edERCXG5JLl5eAp2KZ-57" source="g-edERCXG5JLl5eAp2KZ-9" target="g-edERCXG5JLl5eAp2KZ-10" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="248" y="433" as="sourcePoint" />
+            <mxPoint x="354" y="403" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g-edERCXG5JLl5eAp2KZ-58" value="NOTE: DELETE LATER&lt;br&gt;* Staff would need to fill in the results(locally) that are based on the results from other clinic, therefore they need to create and modify results&lt;br&gt;* Patients should be able to view and search though their own results&lt;br&gt;* Doctors would be able to view and search results of any Patient&lt;br&gt;* Administrator would be able to delete results as well as generally menage results" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" parent="1" vertex="1">
+          <mxGeometry x="630" y="335" width="210" height="355" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,76 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/127.0" version="24.7.12">
+  <diagram name="Page-1" id="5jS774d29hGBVMHrqwoM">
+    <mxGraphModel dx="682" dy="370" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bqPw3wtDob108oJ-cZyf-1" value="generate monthly report" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="370" y="370" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-2" value="generate yearly report" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="360" y="280" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-3" value="{abstract}&lt;br&gt;Generate reports" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="190" y="320" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-4" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=0;startArrow=classicThin;startFill=1;exitX=0.95;exitY=0.3;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="bqPw3wtDob108oJ-cZyf-3" target="bqPw3wtDob108oJ-cZyf-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="289" y="360" as="sourcePoint" />
+            <mxPoint x="380.75" y="505.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-10" value="&amp;lt;extend&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="bqPw3wtDob108oJ-cZyf-4" vertex="1" connectable="0">
+          <mxGeometry x="-0.2024" y="-2" relative="1" as="geometry">
+            <mxPoint x="14" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-8" value="Administrator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="50" y="360" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-12" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="bqPw3wtDob108oJ-cZyf-8" target="bqPw3wtDob108oJ-cZyf-3" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="420" as="sourcePoint" />
+            <mxPoint x="450" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-13" value="" style="endArrow=none;html=1;rounded=0;entryX=0;entryY=0.386;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="bqPw3wtDob108oJ-cZyf-8" target="bqPw3wtDob108oJ-cZyf-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="75" y="340" as="sourcePoint" />
+            <mxPoint x="210" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-14" value="Reports geniration" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="120" y="220" width="380" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-6" value="generate patients prediction report" style="ellipse;whiteSpace=wrap;html=1;" parent="bqPw3wtDob108oJ-cZyf-14" vertex="1">
+          <mxGeometry x="30" y="200" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="V496CwkZJfQOo0G_LN58-1" value="display on the website" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="bqPw3wtDob108oJ-cZyf-14">
+          <mxGeometry x="240" y="260" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="V496CwkZJfQOo0G_LN58-2" value="" style="endArrow=open;html=1;rounded=0;exitX=0.937;exitY=0.769;exitDx=0;exitDy=0;endFill=0;startArrow=none;startFill=0;exitPerimeter=0;entryX=0.003;entryY=0.563;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="bqPw3wtDob108oJ-cZyf-14" source="bqPw3wtDob108oJ-cZyf-6" target="V496CwkZJfQOo0G_LN58-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="155" y="161" as="sourcePoint" />
+            <mxPoint x="250" y="185" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V496CwkZJfQOo0G_LN58-3" value="&amp;lt;include&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="V496CwkZJfQOo0G_LN58-2">
+          <mxGeometry x="0.0109" y="-1" relative="1" as="geometry">
+            <mxPoint y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V496CwkZJfQOo0G_LN58-4" value="" style="endArrow=none;html=1;rounded=0;endFill=0;startArrow=classicThin;startFill=1;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="bqPw3wtDob108oJ-cZyf-3" target="bqPw3wtDob108oJ-cZyf-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="295" y="348" as="sourcePoint" />
+            <mxPoint x="370" y="310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="V496CwkZJfQOo0G_LN58-5" value="&amp;lt;extend&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="V496CwkZJfQOo0G_LN58-4">
+          <mxGeometry x="-0.2024" y="-2" relative="1" as="geometry">
+            <mxPoint x="16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
