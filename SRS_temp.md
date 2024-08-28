@@ -3,31 +3,32 @@
  
 for 
  
-<Project> 
+[Project Title] 
  
  
-Version 1.0 approved 
+Version [X.X] approved 
  
-Prepared by <author> 
+Prepared by [Your Name], [Team Member Names]
  
-<date created>Software Requirements Specification for <Project> Page ii  
+[date created]Software Requirements Specification for [Project] Page ii  
  
 Table of Contents  
-1. Introduction	3  
-1.1 Purpose	3  
-1.2 Scope	3  
-1.3 Definitions, acronyms, and abbreviations	3  
-1.4 References	3  
-1.5 Overview	3  
-2. Overall Description	4  
-2.1 Product Perspective	4  
-2.2 Product Functions	4  
-3. Specific requirements	5  
-3.1 Functional requirements	5  
-3.2 Non-functional requirements	5  
-    3.2.1 Performance Requirements	5 
-    3.2.2 Other non-functional requirements which are necessary to your system	5  
-3.3 Logical database requirements	5  
+
+1. Introduction	#  
+1.1 Purpose	#
+1.2 Scope	#  
+1.3 Definitions, acronyms, and abbreviations	#  
+1.4 References	#  
+1.5 Overview	#  
+2. Overall Description	#  
+2.1 Product Perspective	#  
+2.2 Product Functions	#  
+3. Specific requirements	#  
+3.1 Functional requirements	#  
+3.2 Non-functional requirements	#  
+    3.2.1 Performance Requirements	# 
+    3.2.2 Other non-functional requirements which are necessary to your system	#  
+3.3 Logical database requirements	#  
 
  
  
