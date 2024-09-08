@@ -67,9 +67,6 @@
         <mxCell id="U8pV0hxq8biJtbgsrZ2j-44" value="email notification" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="560" y="1020" width="80" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="bKu-A3nTddVhj0ViHo6k-16" value="Modify account" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="453.75" y="330" width="90" height="50" as="geometry" />
-        </mxCell>
         <mxCell id="bKu-A3nTddVhj0ViHo6k-17" value="" style="endArrow=open;html=1;rounded=0;exitX=0.63;exitY=1.029;exitDx=0;exitDy=0;endFill=0;exitPerimeter=0;entryX=0.411;entryY=0.02;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="U8pV0hxq8biJtbgsrZ2j-8" target="bKu-A3nTddVhj0ViHo6k-16" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="509.9953390593274" y="274.251262658471" as="sourcePoint" />
@@ -439,13 +436,16 @@
         <mxCell id="bKu-A3nTddVhj0ViHo6k-169" value="Online Health Monitoring System" style="rounded=1;whiteSpace=wrap;html=1;" parent="bKu-A3nTddVhj0ViHo6k-167" vertex="1">
           <mxGeometry x="240" width="350" height="30" as="geometry" />
         </mxCell>
+        <mxCell id="bKu-A3nTddVhj0ViHo6k-16" value="Modify account" style="ellipse;whiteSpace=wrap;html=1;" parent="bKu-A3nTddVhj0ViHo6k-167" vertex="1">
+          <mxGeometry x="580" y="240" width="90" height="50" as="geometry" />
+        </mxCell>
         <mxCell id="bKu-A3nTddVhj0ViHo6k-170" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;strokeWidth=0;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="960" y="360" width="60" height="60" as="geometry" />
         </mxCell>
         <mxCell id="bKu-A3nTddVhj0ViHo6k-171" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;strokeWidth=0;fillColor=none;strokeColor=none;" parent="1" vertex="1">
           <mxGeometry x="460" y="1170" width="120" height="40" as="geometry" />
         </mxCell>
-        <mxCell id="v0Jlk9dvRuNXLWeF-6Za-1" value="System" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+        <mxCell id="v0Jlk9dvRuNXLWeF-6Za-1" value="System" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
           <mxGeometry x="1000" y="360" width="30" height="60" as="geometry" />
         </mxCell>
       </root>
