@@ -1,9 +1,64 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/127.0" version="24.7.12">
   <diagram name="Page-1" id="5jS774d29hGBVMHrqwoM">
-    <mxGraphModel>
+    <mxGraphModel dx="1432" dy="777" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="bqPw3wtDob108oJ-cZyf-1" value="generate monthly report" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="370" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-2" value="generate yearly report" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="280" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-3" value="{abstract}&lt;br&gt;Generate reports" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="320" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-4" value="" style="endArrow=open;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endFill=0;startArrow=none;startFill=0;exitX=0.95;exitY=0.3;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" target="bqPw3wtDob108oJ-cZyf-2" source="bqPw3wtDob108oJ-cZyf-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="289" y="360" as="sourcePoint" />
+            <mxPoint x="380.75" y="505.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-10" value="&amp;lt;include&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="bqPw3wtDob108oJ-cZyf-4">
+          <mxGeometry x="-0.2024" y="-2" relative="1" as="geometry">
+            <mxPoint x="4" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-5" value="" style="endArrow=open;html=1;rounded=0;exitX=1;exitY=1;exitDx=0;exitDy=0;endFill=0;startArrow=none;startFill=0;" edge="1" parent="1" source="bqPw3wtDob108oJ-cZyf-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="271.75" y="434" as="sourcePoint" />
+            <mxPoint x="370" y="395" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-11" value="&amp;lt;include&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="bqPw3wtDob108oJ-cZyf-5">
+          <mxGeometry x="0.0109" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-6" value="generate patients prediction report" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="210" y="460" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-7" value="Doctors" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="450" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-8" value="Administrator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="50" y="300" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-12" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bqPw3wtDob108oJ-cZyf-8" target="bqPw3wtDob108oJ-cZyf-3">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="400" y="420" as="sourcePoint" />
+            <mxPoint x="450" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-13" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.386;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="bqPw3wtDob108oJ-cZyf-7" target="bqPw3wtDob108oJ-cZyf-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="75" y="340" as="sourcePoint" />
+            <mxPoint x="210" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bqPw3wtDob108oJ-cZyf-14" value="Reports geniration" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="220" width="380" height="370" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
