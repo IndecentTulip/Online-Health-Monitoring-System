@@ -1,6 +1,10 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/127.0" version="24.7.12">
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.8 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.8">
   <diagram name="Page-1" id="TX9XbIHk7eYWWUNDwRXn">
+<<<<<<< Updated upstream:.$use-case.drawio.bkp
     <mxGraphModel dx="1793" dy="974" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+=======
+    <mxGraphModel dx="1036" dy="606" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+>>>>>>> Stashed changes:use-case.drawio
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -352,6 +356,7 @@
             <mxPoint x="213" y="173" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+<<<<<<< Updated upstream:.$use-case.drawio.bkp
         <mxCell id="bKu-A3nTddVhj0ViHo6k-145" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="U8pV0hxq8biJtbgsrZ2j-4" target="U8pV0hxq8biJtbgsrZ2j-7">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="95" y="550" as="sourcePoint" />
@@ -377,6 +382,9 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="bKu-A3nTddVhj0ViHo6k-150" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.322;entryY=-0.021;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="U8pV0hxq8biJtbgsrZ2j-1" target="bKu-A3nTddVhj0ViHo6k-51">
+=======
+        <mxCell id="bKu-A3nTddVhj0ViHo6k-150" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.322;entryY=-0.021;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="U8pV0hxq8biJtbgsrZ2j-1" target="bKu-A3nTddVhj0ViHo6k-51" edge="1">
+>>>>>>> Stashed changes:use-case.drawio
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="190" y="450" as="sourcePoint" />
             <mxPoint x="320" y="510" as="targetPoint" />
@@ -445,6 +453,32 @@
         <mxCell id="bKu-A3nTddVhj0ViHo6k-171" value="" style="rounded=1;whiteSpace=wrap;html=1;shadow=0;strokeWidth=0;fillColor=none;strokeColor=none;" vertex="1" parent="1">
           <mxGeometry x="460" y="1170" width="120" height="40" as="geometry" />
         </mxCell>
+<<<<<<< Updated upstream:.$use-case.drawio.bkp
+=======
+        <mxCell id="CxWIzyaecJghgbHkrn7k-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.3333333333333333;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="v0Jlk9dvRuNXLWeF-6Za-1" target="U8pV0hxq8biJtbgsrZ2j-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v0Jlk9dvRuNXLWeF-6Za-1" value="System" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="1020" y="400" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="NzetFAnShOWBpx9mlOt9-1" value="" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" parent="1" source="U8pV0hxq8biJtbgsrZ2j-4" target="U8pV0hxq8biJtbgsrZ2j-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="710" y="520" as="sourcePoint" />
+            <mxPoint x="760" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mKy39Wbedo_4vvVZqQki-2" value="" style="endArrow=open;html=1;rounded=0;exitX=0.564;exitY=0.971;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;endFill=0;exitPerimeter=0;" parent="1" source="bKu-A3nTddVhj0ViHo6k-75" target="U8pV0hxq8biJtbgsrZ2j-40" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="344" y="930" as="sourcePoint" />
+            <mxPoint x="454" y="985" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mKy39Wbedo_4vvVZqQki-3" value="&amp;lt;include&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="mKy39Wbedo_4vvVZqQki-2" vertex="1" connectable="0">
+          <mxGeometry x="-0.1257" y="-5" relative="1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+>>>>>>> Stashed changes:use-case.drawio
       </root>
     </mxGraphModel>
   </diagram>
