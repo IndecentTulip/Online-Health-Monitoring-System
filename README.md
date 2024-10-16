@@ -1,11 +1,23 @@
 # Jlabs
-
 ```
 .
 ├── !Demo!
 │   ├── backend/
+│   │   ├── app.py
+│   │   ├── requirements.txt
+│   │   ├── venv
 │   ├── database/
+│   │   ├── schema.sql
+│   │   ├── seed.sql
 │   └── frontend/
+│       ├── package.json
+│       ├── package-lock.json
+│       ├── App.js
+│       ├── Login.js
+│       ├── index.js
+│       ├── Dashboard.js
+│       ├── reportWebVitals.js
+
 ├── backend/
 ├── database/
 ├── frontend/
@@ -28,8 +40,14 @@
 
     cd ./database/
 
+    psql
+
+    CREATE USER <username> WITH PASSWORD <password>;
+
+
     ```Init database schema
     psql -U <username> -d postgres < schema.sql
+
     ```
 
     ```Seed database
@@ -40,6 +58,8 @@
 
     cd ./backend/
 
+    python -m venv venv
+
     ```cmd
     venv\Scripts\activate
     ```
@@ -47,6 +67,8 @@
     ```powershell
     .\venv\Scripts\Activate.ps1
     ```
+
+    pip install -r requirements.txt
 
     python app.py
 
@@ -59,6 +81,9 @@
 
     cd ./frontend/
 
+    npm install
+
     npm start
+
 
 

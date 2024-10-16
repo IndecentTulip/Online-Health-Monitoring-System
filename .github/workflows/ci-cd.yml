@@ -1,0 +1,71 @@
+name: CI/CD for Demo
+
+on:
+  push:
+    branches:
+      - main  # or any branch you want to trigger on
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'  # specify your Python version
+
+      - name: Install dependencies
+        run: |
+          cd Demo/backend
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Run backend tests
+        run: |
+          cd Demo/backend
+          source venv/bin/activate
+          python -m unittest discover  # Adjust if you're using a different testing framework
+
+  frontend:
+    runs-on: ubuntu-latest
+    needs: backend  # Ensure backend job completes before frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # specify your Node.js version
+
+      - name: Install dependencies
+        run: |
+          cd Demo/frontend
+          npm install
+
+      - name: Run frontend tests
+        run: |
+          cd Demo/frontend
+          npm test -- --watchAll=false  # Adjust if you have a different testing setup
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]  # Ensure both jobs complete
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy application
+        run: |
+          echo "Deployment is not yet implemented..."  
+
