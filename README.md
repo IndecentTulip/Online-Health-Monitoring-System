@@ -17,7 +17,6 @@
 │       ├── index.js
 │       ├── Dashboard.js
 │       ├── reportWebVitals.js
-
 ├── backend/
 ├── database/
 ├── frontend/
