@@ -31,6 +31,7 @@ def get_db_connection():
     )
     return conn
 
+# this will be used by front end
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
