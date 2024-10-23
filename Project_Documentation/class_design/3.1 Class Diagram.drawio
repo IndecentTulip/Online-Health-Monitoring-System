@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0" version="24.8.2">
   <diagram name="Page-1" id="rKXKSbG-rJBd0n83CsFM">
-    <mxGraphModel dx="2730" dy="2965" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="582" dy="1846" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -35,7 +35,7 @@
         <mxCell id="gPDYopP_SoCIw8_HSyjj-92" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontStyle=1" vertex="1" parent="gPDYopP_SoCIw8_HSyjj-90">
           <mxGeometry y="140" width="270" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="gPDYopP_SoCIw8_HSyjj-93" value="+ createPatient(patient: Patient)&lt;br&gt;+ giveListOfPending()&lt;br&gt;+ approvePatient(email: String)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="gPDYopP_SoCIw8_HSyjj-90">
+        <mxCell id="gPDYopP_SoCIw8_HSyjj-93" value="+ createPatientInstance(): Patient&lt;br&gt;+ createPatient(patient Patient)&lt;br&gt;+ giveListOfPending()&lt;br&gt;+ approvePatient(email: String)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="gPDYopP_SoCIw8_HSyjj-90">
           <mxGeometry y="148" width="270" height="82" as="geometry" />
         </mxCell>
         <mxCell id="gPDYopP_SoCIw8_HSyjj-94" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Exam&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
@@ -190,7 +190,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="gPDYopP_SoCIw8_HSyjj-124" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;Workers&lt;/font&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
-          <mxGeometry x="1120" y="-440" width="230" height="200" as="geometry" />
+          <mxGeometry x="1120" y="-440" width="230" height="250" as="geometry" />
         </mxCell>
         <mxCell id="gPDYopP_SoCIw8_HSyjj-125" value="+ workerID&lt;br&gt;&lt;div&gt;+ image: int&lt;/div&gt;&lt;div&gt;+ name : String&lt;/div&gt;&lt;div&gt;+ email: String&lt;/div&gt;&lt;div&gt;+ phoneNumber: Int&lt;/div&gt;&lt;div&gt;+ role: enum (Administrator, Staff, Doctor): Bool&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="gPDYopP_SoCIw8_HSyjj-124">
           <mxGeometry y="26" width="230" height="124" as="geometry" />
@@ -198,8 +198,8 @@
         <mxCell id="gPDYopP_SoCIw8_HSyjj-126" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;fontStyle=1" vertex="1" parent="gPDYopP_SoCIw8_HSyjj-124">
           <mxGeometry y="150" width="230" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="gPDYopP_SoCIw8_HSyjj-127" value="+ createWorker(worker: Worker)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="gPDYopP_SoCIw8_HSyjj-124">
-          <mxGeometry y="158" width="230" height="42" as="geometry" />
+        <mxCell id="gPDYopP_SoCIw8_HSyjj-127" value="+ createWorker(worker: Worker)&lt;br&gt;+ createWorkerInstance(): Worker" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;fontStyle=1" vertex="1" parent="gPDYopP_SoCIw8_HSyjj-124">
+          <mxGeometry y="158" width="230" height="92" as="geometry" />
         </mxCell>
         <mxCell id="gPDYopP_SoCIw8_HSyjj-128" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;endSize=13;fontStyle=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1.005;exitY=0.686;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="gPDYopP_SoCIw8_HSyjj-91" target="gPDYopP_SoCIw8_HSyjj-86">
           <mxGeometry relative="1" as="geometry">
