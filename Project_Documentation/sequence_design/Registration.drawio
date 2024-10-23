@@ -315,8 +315,8 @@
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-60" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="270" y="1140" as="sourcePoint" />
-            <mxPoint x="680" y="1140" as="targetPoint" />
+            <mxPoint x="270" y="1200" as="sourcePoint" />
+            <mxPoint x="680" y="1200" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-61" value="createWorker()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="572e6RrC4S-16Fsk1-sK-60" vertex="1" connectable="0">
@@ -326,8 +326,8 @@
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-62" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="275" y="1190" as="sourcePoint" />
-            <mxPoint x="685" y="1190" as="targetPoint" />
+            <mxPoint x="270" y="1290" as="sourcePoint" />
+            <mxPoint x="680" y="1290" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-63" value="deleteAccount()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="572e6RrC4S-16Fsk1-sK-62" vertex="1" connectable="0">
@@ -365,7 +365,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-70" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="685" y="1130" width="20" height="60" as="geometry" />
+          <mxGeometry x="685" y="1190" width="20" height="60" as="geometry" />
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-74" value="EmailManager" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="855" y="650" width="150" height="30" as="geometry" />
@@ -389,13 +389,43 @@
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-78" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="705" y="1159.66" as="sourcePoint" />
-            <mxPoint x="930" y="1159.66" as="targetPoint" />
+            <mxPoint x="705" y="1219.66" as="sourcePoint" />
+            <mxPoint x="930" y="1219.66" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="572e6RrC4S-16Fsk1-sK-79" value="sendNotification(credentials)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="572e6RrC4S-16Fsk1-sK-78" vertex="1" connectable="0">
           <mxGeometry x="-0.6118" y="-2" relative="1" as="geometry">
             <mxPoint x="62" y="-17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MlnSGFL53wcyRzuS-mfU-3" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="1230" as="sourcePoint" />
+            <mxPoint x="270" y="1270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="1230" />
+              <mxPoint x="330" y="1270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MlnSGFL53wcyRzuS-mfU-4" value="deleteWorkerAccount()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MlnSGFL53wcyRzuS-mfU-3">
+          <mxGeometry x="-0.6118" y="-2" relative="1" as="geometry">
+            <mxPoint x="21" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MlnSGFL53wcyRzuS-mfU-6" value="" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="280" y="1140" as="sourcePoint" />
+            <mxPoint x="270" y="1180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="1140" />
+              <mxPoint x="330" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MlnSGFL53wcyRzuS-mfU-7" value="createWorkerAccount()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="MlnSGFL53wcyRzuS-mfU-6">
+          <mxGeometry x="-0.6118" y="-2" relative="1" as="geometry">
+            <mxPoint x="21" y="-12" as="offset" />
           </mxGeometry>
         </mxCell>
       </root>
