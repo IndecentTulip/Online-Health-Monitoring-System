@@ -48,7 +48,19 @@ Create table Patient(
 	patientPassword varchar(50) not null,
 	Foreign key (doctorID)references workers(workersID)
 );
+alter table Patient add phoneNumber varchar(10);
+
+--Patient table insert
+INSERT INTO Patient (healthID, patientName, email, phoneNumber, DOB, status, doctorID, patientPassword) VALUES
+(10031, 'Bob Ricky', 'Bobby13@hotmail.com', '1239654321', '1952-05-06', TRUE, 21002, '******a'),
+(10032, 'Jenny Kim', 'Kim.jenn14@yahoo.com', '1235246352', '1999-12-20', FALSE, 21001, '******'),
+(10033, 'Joe Gary', 'Jojo.g@outlook.com', '1236243846', '2000-10-18', TRUE, 21001, '******'),
+(10034, 'Lisa John', 'Lisa_00@gamil.com', '1236243369', '2002-02-16', TRUE, 21002, '******'),
+(10035, 'Barry Han', 'Han.barry50@icloud.com', '1230025282', '1978-08-11', FALSE, 21001, '******'),
+(10036, 'Sean Curry', 'Seancurry_8@gamil.com', '1239452361', '2003-01-19', FALSE, 21003, '******'),
+(10037, 'Bella Jay', 'Jay.jayb@hotmail.com', '1237779056', '2005-11-09', TRUE, 21001, '******');
 select * from Patient;
+
 drop table Patient;
 
 -- Create workers table
@@ -61,6 +73,15 @@ create table workers(
     userType varchar(13) not null,
     staffPassword varchar(50) not null
 );
+--workers values to insert
+INSERT INTO workers (workersID, workersName, email, phoneNumber, image, userType, staffPassword) VALUES
+(21001, 'Molly Hue', 'Molly.Hue@jlabemail.com', '7893364852', NULL, 'Staff', '******'),
+(21002, 'Karen Smith', 'Karen.Smith@jlabemail.com', '7895284465', NULL, 'Administrator', '******'),
+(21003, 'Jayne Samer', 'Jayne.Samer@jlabemail.com', '7893217894', NULL, 'Staff', '***********'),
+(21004, 'Lopez Dean', 'Lopez.Dean@jlabemail.com', '7890009000', NULL, 'Doctor', '*****'),
+(21005, 'Derrick Juan', 'Derrick.Juan@jlabemail.com', '7899874356', NULL, 'Staff', '*****'),
+(21006, 'Emily Zhang', 'Emily.Zhang@jlabemail.com', '7891760986', NULL, 'Staff', '*****'),
+(21007, 'Shelly Birch', 'Shelly.Birch@jlabemail.com', '7899235981', NULL, 'Staff', '*****');
 
 select * from workers;
 drop table workers;
@@ -75,6 +96,17 @@ create table ExamTable(
     foreign key (workersID) references workers(workersID),
     foreign key (examType) references examType(examType)
 );
+-- insert to ExamTable
+INSERT INTO ExamTable (examId, examDate, healthID, workersID, examType) VALUES
+(33025, '2024-10-18', 10031, 21004, 'Blood'),
+(33026, '2024-08-01', 10031, 21010, 'ECG'),
+(33027, '2023-11-02', 10032, 21004, 'Ultrasound'),
+(33028, '2023-05-19', 10033, 21004, 'X-Ray'),
+(33029, '2024-08-12', 10034, 21010, 'CT scan'),
+(33030, '2023-03-26', 10035, 21004, 'MRI'),
+(33031, '2024-02-09', 10036, 21004, 'Urine Test'),
+(33032, '2024-10-10', 10037, 21010, 'Ultrasound');
+
 
 select * from ExamTable;
 drop table ExamTable;
