@@ -30,6 +30,3 @@ class Monitor:
 
 class EmailManager:
     pass
-
-class DeleteMe:
-    pass
