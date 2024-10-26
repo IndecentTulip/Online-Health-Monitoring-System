@@ -254,7 +254,7 @@
             <mxPoint x="610" y="790" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="mJ_cfy4o4SSe1txTjCb0-12" value="returnListOfResultsType)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="mJ_cfy4o4SSe1txTjCb0-11" vertex="1" connectable="0">
+        <mxCell id="mJ_cfy4o4SSe1txTjCb0-12" value="returnListOfResults()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="mJ_cfy4o4SSe1txTjCb0-11" vertex="1" connectable="0">
           <mxGeometry x="-0.6118" y="-2" relative="1" as="geometry">
             <mxPoint x="101" y="-12" as="offset" />
           </mxGeometry>
@@ -293,21 +293,6 @@
         <mxCell id="mJ_cfy4o4SSe1txTjCb0-19" value="result in jason" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="mJ_cfy4o4SSe1txTjCb0-18" vertex="1" connectable="0">
           <mxGeometry x="0.2972" y="2" relative="1" as="geometry">
             <mxPoint x="-71" y="-8" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="mJ_cfy4o4SSe1txTjCb0-20" value="" style="endArrow=classic;html=1;rounded=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="180" y="120" as="sourcePoint" />
-            <mxPoint x="610" y="120" as="targetPoint" />
-            <Array as="points">
-              <mxPoint x="400" y="120" />
-              <mxPoint x="530" y="120" />
-            </Array>
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="mJ_cfy4o4SSe1txTjCb0-21" value="showListOfResults()" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="mJ_cfy4o4SSe1txTjCb0-20" vertex="1" connectable="0">
-          <mxGeometry x="-0.6118" y="-2" relative="1" as="geometry">
-            <mxPoint x="57" y="-12" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="mJ_cfy4o4SSe1txTjCb0-23" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.8;exitY=0.11;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="Bxq7dNhiQGgo0WM1oG6--137" edge="1">
