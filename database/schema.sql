@@ -99,13 +99,13 @@ create table ExamTable(
 -- insert to ExamTable
 INSERT INTO ExamTable (examId, examDate, healthID, workersID, examType) VALUES
 (33025, '2024-10-18', 10031, 21004, 'Blood'),
-(33026, '2024-08-01', 10031, 21010, 'ECG'),
+(33026, '2024-08-01', 10031, 21001, 'ECG'),
 (33027, '2023-11-02', 10032, 21004, 'Ultrasound'),
 (33028, '2023-05-19', 10033, 21004, 'X-Ray'),
-(33029, '2024-08-12', 10034, 21010, 'CT scan'),
+(33029, '2024-08-12', 10034, 21001, 'CT-Scan'),
 (33030, '2023-03-26', 10035, 21004, 'MRI'),
 (33031, '2024-02-09', 10036, 21004, 'Urine Test'),
-(33032, '2024-10-10', 10037, 21010, 'Ultrasound');
+(33032, '2024-10-10', 10037, 21003, 'Ultrasound');
 
 
 select * from ExamTable;
@@ -115,17 +115,37 @@ create table examType(
 examType varchar(50) primary key
 );
 
+--Insert values examType.
+INSERT INTO examType(examType) values
+('Blood'),
+('ECG'),
+('Ultrasound'),
+('X-Ray'),
+('CT-Scan'),
+('MRI'),
+('Urine Test');
 select * from examType;
 drop table examType;
 
 create table testTypes(
 	testType varchar(50) primary key,
-    lowerBound numeric(3,1) not null,
-    upperBound numeric(3,1) not null, 
+    lowerBound numeric(4,1) not null,
+    upperBound numeric(4,1) not null, 
     unit varchar(6) not null,
     examType varchar(50),
     foreign key (examType) references examType(examType)
 );
+
+--Insert values testType.
+insert into testTypes(testType, lowerBound, upperBound, unit, examType) values
+('Blood Test Iron', 0.5, 1.1, 'mg/dl', 'Blood'),
+('Blood Test WCC', 100, 160, 'mg/dl', 'Blood'),
+('Ultrasound D', 30, 140, 'U/L', 'Ultrasound'),
+('X-Ray X', 7, 20, 'mmHG', 'X-Ray'),
+('CT-Scan C', 90, 100, '%', 'CT-Scan'),
+('MRI', 7, 55, 'U/L', 'MRI'),
+('Urine Test', 11, 44, 'ng/mL', 'Urine Test'),
+('Ultrasound', 7, 55, 'U/L', 'MRI');
 
 select * from testTypes;
 drop table testTypes;
@@ -134,10 +154,17 @@ create table testResults(
 	testType varchar(50),
     foreign key (testType) references testTypes(testType),
     examId serial,
-    foreign key (examID) references ExamTable(examId),
-    results numeric(4, 4) not null,
+    foreign key (examId) references ExamTable(examId),
+    results numeric(7, 4) not null,
     resultDate date not null
 );
+--insert test result values.
+insert into testResults (testType, examId, results, resultDate) values 
+('Blood Test Iron', 33025, 120, '2024-10-20'),
+('Blood Test WCC', 33025, 12.1313, '2023-11-30'),
+('MRI', 33027, 0.009, '2023-11-18'),
+('Urine Test', 33028, 0.0005, '2023-05-22'), 
+('Urine Test', 33029, 5.5, '2024-08-13');
 
 select * from testResults;
 drop table testResults;
@@ -150,8 +177,18 @@ create table summaryReport(
     summaryDate Date not null,
     timePeriod varchar(40)
 );
+	--inserts for summary report table
+	insert into summaryReport (SReportID, workersID, monthOrYear, summaryDate, timePeriod) values
+	(5508, 21002, 'Month', '2024-10-20', 'April 2024'),
+	(5509, 21002, 'Month', '2023-11-30', 'March 2022'),
+	(5510, 21002, 'Year', '2023-06-01', '2015'),
+	(5511, 21002, 'Year', '2024-08-25', '2024'),
+	(5512, 21003, 'Month', '2023-03-28', 'January 2024'),
+	(5513, 21001, 'Year', '2024-02-28', '2023'), 
+	(5514, 21002, 'Year', '2024-11-23', '2022');
 	select * from summaryReport;
-    drop table summaryReport;
+	
+	drop table summaryReport;
     
 create table summaryReportEntries(
 	 SReportID numeric(4),
@@ -161,6 +198,17 @@ create table summaryReportEntries(
      noofExams numeric(2) not null,
      abnormalExams numeric(2) not null
 	);
+
+	--insert values for summary report entries.
+	insert into summaryReportEntries(SReportID, healthID, noofExams, abnormalExams) values
+	(5508, 10031, 5, 5),
+	(5509, 10032, 9, 5),
+	(5510, 10033, 0, 0),
+	(5511, 10034, 2, 1),
+	(5512, 10035, 3, 0),
+	(5513, 10036, 3, 3),
+	(5514, 10037, 1, 1);
+	
 	select * from summaryReportEntries;
     drop table summaryReportEntries;
     
@@ -172,7 +220,16 @@ create table summaryReportEntries(
     foreign key (healthID) references Patient(healthID),
     pDate date not null
     );
-    
+
+	--insert ino predict report values
+	insert into predictReports(pReportID, workersID, healthID, pDate) values
+	(5508, 21002, 10031, '2024-10-20'),
+	(5509, 21003, 10032, '2023-11-30'),
+	(5510, 21004, 10033, '2023-06-01'),
+	(5511, 21005, 10034, '2024-08-25'),
+	(5512, 21006, 10035, '2023-03-28'),
+	(5513, 21001, 10036, '2024-02-28'),
+	(5514, 21007, 10037, '2024-11-23');
     select * from predictReports;
     drop table predictReports;
     
@@ -183,7 +240,11 @@ create table summaryReportEntries(
     foreign key(examType) references examType(examType),
     concernValue numeric(3) not null
     );
-    
+	--insert into predictReportEntries
+    insert into predictReportEntries(pReportID, examType, concernValue) values
+	(5508, 21004,10031,'2024-10-20'),
+	
+	
     select * from predictReportsEntries;
     drop table predictReportsEntries;
     
