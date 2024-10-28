@@ -1,3 +1,5 @@
+\c jlabs;
+
 SELECT * FROM users;
 
 SELECT * FROM workers;
