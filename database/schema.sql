@@ -240,10 +240,16 @@ create table summaryReportEntries(
     foreign key(examType) references examType(examType),
     concernValue numeric(3) not null
     );
-	--insert into predictReportEntries
-    insert into predictReportEntries(pReportID, examType, concernValue) values
-	(5508, 21004,10031,'2024-10-20'),
 	
+	--insert into predictReportEntries
+    insert into predictReportsEntries(pReportID, examType, concernValue) values
+	(5508, 'Blood', 100 ),
+	(5509, 'Ultrasound', 150 ),
+	(5510, 'Urine Test', 25),
+	(5511, 'Urine Test', 200),
+	(5512, 'Blood', 50),
+	(5513, 'Ultrasound', 75),
+	(5514, 'Blood', 120);
 	
     select * from predictReportsEntries;
     drop table predictReportsEntries;
@@ -254,10 +260,20 @@ create table summaryReportEntries(
         foreign key (workersID) references workers(workersID),
         examType varchar(50) default 'On Stand By' not null,
         foreign key (examType) references examType(examType),
-        smartStatus  VARCHAR(5) CHECK (smartStatus IN ('sent','not sent')) NOT NULL,
+        smartStatus  VARCHAR(10) CHECK (smartStatus IN ('sent','not sent')) NOT NULL,
         healthID smallserial not null,
         foreign key (healthID) references Patient(healthID)
     );
+
+	INSERT INTO smartMonitor (monitorID, workersID, examType, smartStatus, healthID) VALUES
+(60001, 21004, 'Blood', 'sent', 10031),
+(60002, 21007, 'Urine Test', 'not sent', 10032),
+(60003, 21004, 'CT-Scan', 'not sent', 10033),
+(60004, 21004, 'CT-Scan', 'sent', 10034),
+(60005, 21005, 'Blood', 'sent', 10035),
+(60006, 21004, 'X-Ray', 'sent', 10036),
+(60007, 21004, 'ECG', 'not sent', 10037),
+(60008, 21003, 'MRI', 'not sent', 10031);
     
 	select * from smartMonitor;
     drop table smartMonitor;
