@@ -14,6 +14,14 @@ CREATE DATABASE schema
     IS_TEMPLATE = False;
 drop database schema;
 
+
+DROP database jlabs;
+-- Create the database
+
+CREATE DATABASE jlabs WITH ENCODING 'UTF8';
+-- Connect to the new database
+\c jlabs
+
 	-- Create users table
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -106,7 +114,6 @@ INSERT INTO ExamTable (examId, examDate, healthID, workersID, examType) VALUES
 (33030, '2023-03-26', 10035, 21004, 'MRI'),
 (33031, '2024-02-09', 10036, 21004, 'Urine Test'),
 (33032, '2024-10-10', 10037, 21003, 'Ultrasound');
-
 
 select * from ExamTable;
 drop table ExamTable;
