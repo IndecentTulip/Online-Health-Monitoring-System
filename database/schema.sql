@@ -1,152 +1,151 @@
 
--- CREATE DATABASE jlabs
---   WITH
---   OWNER = postgres
---   ENCODING = 'UTF8'
---   LC_COLLATE = 'English_Canada.1252'
---   LC_CTYPE = 'English_Canada.1252'
---   LOCALE_PROVIDER = 'libc'
---   TABLESPACE = pg_default
---   CONNECTION LIMIT = -1
---   IS_TEMPLATE = False;
+-- create database jlabs
+--   with
+--   owner = postgres
+--   encoding = 'utf8'
+--   lc_collate = 'english_canada.1252'
+--   lc_ctype = 'english_canada.1252'
+--   locale_provider = 'libc'
+--   tablespace = pg_default
+--   connection limit = -1
+--   is_template = false;
 
--- Drop if exists
-DROP DATABASE IF EXISTS jlabs;
+-- drop if exists
+drop database if exists jlabs;
 
--- Create the database
-CREATE DATABASE jlabs WITH ENCODING 'UTF8';
+-- create the database
+create database jlabs with encoding 'utf8';
 
--- Connect to the new database
+-- connect to the new database
 \c jlabs;
 
--- Create the workers table first since it is referenced in other tables
-CREATE TABLE workers ( 
-  workersID SERIAL PRIMARY KEY,
-  workersName VARCHAR(50) NOT NULL,
-  email VARCHAR(50) NOT NULL,
-  phoneNumber VARCHAR(10) NOT NULL, 
-  image BYTEA,
-  userType VARCHAR(13) NOT NULL,
-  staffPassword VARCHAR(50) NOT NULL
+-- create the workers table first since it is referenced in other tables
+create table workers ( 
+  workersid serial primary key,
+  workersname varchar(50) not null,
+  email varchar(50) not null,
+  phonenumber varchar(10) not null, 
+  image bytea,
+  usertype varchar(13) not null,
+  staffpassword varchar(50) not null
 );
 
--- Create the examType table first since it is referenced in other tables
-CREATE TABLE examType (
-  examType VARCHAR(50) PRIMARY KEY
+-- create the examtype table first since it is referenced in other tables
+create table examtype (
+  examtype varchar(50) primary key
 );
 
--- Create the users table
-CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  username VARCHAR(50) NOT NULL UNIQUE,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- create the users table
+create table users (
+  id serial primary key,
+  username varchar(50) not null unique,
+  email varchar(100) not null unique,
+  password varchar(255) not null,
+  created_at timestamp default current_timestamp
 );
 
--- Create the patient table
-CREATE TABLE patient (
-  healthID SMALLSERIAL PRIMARY KEY,
-  patientName VARCHAR(50) NOT NULL,
-  email VARCHAR(50) NOT NULL,
-  DOB DATE NOT NULL,
-  status BOOLEAN NOT NULL,
-  doctorID INT NOT NULL,
-  patientPassword VARCHAR(50) NOT NULL,
-  phoneNumber VARCHAR(10),
-  FOREIGN KEY (doctorID) REFERENCES workers(workersID)
+-- create the patient table
+create table patient (
+  healthid smallserial primary key,
+  patientname varchar(50) not null,
+  email varchar(50) not null,
+  dob date not null,
+  status boolean not null,
+  doctorid int not null,
+  patientpassword varchar(50) not null,
+  phonenumber varchar(10),
+  foreign key (doctorid) references workers(workersid)
 );
 
--- Create the posts table
-CREATE TABLE posts (
-  id SERIAL PRIMARY KEY,
-  user_id INT,
-  title VARCHAR(255) NOT NULL,
-  content VARCHAR(355) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+-- create the posts table
+create table posts (
+  id serial primary key,
+  user_id int,
+  title varchar(255) not null,
+  content varchar(355) not null,
+  created_at timestamp default current_timestamp,
+  foreign key (user_id) references users(id)
 );
 
--- Create the examTable
-CREATE TABLE examTable (
-  examId SERIAL PRIMARY KEY,
-  examDate DATE NOT NULL,
-  healthID SMALLINT NOT NULL,  -- Ensure this matches the patient table
-  workersID SERIAL NOT NULL,
-  examType VARCHAR(50) NOT NULL,
-  FOREIGN KEY (healthID) REFERENCES patient(healthID),
-  FOREIGN KEY (workersID) REFERENCES workers(workersID),
-  FOREIGN KEY (examType) REFERENCES examType(examType)
+-- create the examtable
+create table examtable (
+  examid serial primary key,
+  examdate date not null,
+  healthid smallint not null,  -- ensure this matches the patient table
+  workersid serial not null,
+  examtype varchar(50) not null,
+  foreign key (healthid) references patient(healthid),
+  foreign key (workersid) references workers(workersid),
+  foreign key (examtype) references examtype(examtype)
 );
 
--- Create the testTypes table
-CREATE TABLE testTypes (
-  testType VARCHAR(50) PRIMARY KEY,
-  lowerBound NUMERIC(4, 1) NOT NULL,
-  upperBound NUMERIC(4, 1) NOT NULL, 
-  unit VARCHAR(6) NOT NULL,
-  examType VARCHAR(50),
-  FOREIGN KEY (examType) REFERENCES examType(examType)
+-- create the testtypes table
+create table testtypes (
+  testtype varchar(50) primary key,
+  lowerbound numeric(4, 1) not null,
+  upperbound numeric(4, 1) not null, 
+  unit varchar(6) not null,
+  examtype varchar(50),
+  foreign key (examtype) references examtype(examtype)
 );
 
--- Create the testResults table
-CREATE TABLE testResults (
-  testType VARCHAR(50),
-  FOREIGN KEY (testType) REFERENCES testTypes(testType),
-  examId SERIAL,
-  FOREIGN KEY (examId) REFERENCES examTable(examId),
-  results NUMERIC(7, 4) NOT NULL,
-  resultDate DATE NOT NULL
+-- create the testresults table
+create table testresults (
+  testtype varchar(50),
+  foreign key (testtype) references testtypes(testtype),
+  examid serial,
+  foreign key (examid) references examtable(examid),
+  results numeric(7, 4) not null,
+  resultdate date not null
 );
 
--- Create the summaryReport table
-CREATE TABLE summaryReport (
-  SReportID NUMERIC(4) PRIMARY KEY,
-  workersID SERIAL NOT NULL,
-  FOREIGN KEY (workersID) REFERENCES workers(workersID),
-  monthOrYear VARCHAR(5) CHECK (monthOrYear IN ('Month', 'Year')) NOT NULL,
-  summaryDate DATE NOT NULL,
-  timePeriod VARCHAR(40)
+-- create the summaryreport table
+create table summaryreport (
+  sreportid numeric(4) primary key,
+  workersid serial not null,
+  foreign key (workersid) references workers(workersid),
+  monthoryear varchar(5) check (monthoryear in ('month', 'year')) not null,
+  summarydate date not null,
+  timeperiod varchar(40)
 );
 
--- Create the summaryReportEntries table
-CREATE TABLE summaryReportEntries (
-  SReportID NUMERIC(4),
-  FOREIGN KEY (SReportID) REFERENCES summaryReport(SReportID),
-  healthID SMALLSERIAL,
-  FOREIGN KEY (healthID) REFERENCES patient(healthID),
-  noofExams NUMERIC(2) NOT NULL,
-  abnormalExams NUMERIC(2) NOT NULL
+-- create the summaryreportentries table
+create table summaryreportentries (
+  sreportid numeric(4),
+  foreign key (sreportid) references summaryreport(sreportid),
+  healthid smallserial,
+  foreign key (healthid) references patient(healthid),
+  noofexams numeric(2) not null,
+  abnormalexams numeric(2) not null
 );
 
--- Create the predictReports table
-CREATE TABLE predictReports (
-  pReportID NUMERIC(4) PRIMARY KEY NOT NULL,
-  workersID SERIAL NOT NULL,
-  FOREIGN KEY (workersID) REFERENCES workers(workersID),
-  healthID SMALLSERIAL NOT NULL,
-  FOREIGN KEY (healthID) REFERENCES patient(healthID),
-  pDate DATE NOT NULL
+-- create the predictreports table
+create table predictreports (
+  preportid numeric(4) primary key not null,
+  workersid serial not null,
+  foreign key (workersid) references workers(workersid),
+  healthid smallserial not null,
+  foreign key (healthid) references patient(healthid),
+  pdate date not null
 );
 
--- Create the predictReportsEntries table
-CREATE TABLE predictReportsEntries (
-  pReportID NUMERIC(4) PRIMARY KEY,
-  FOREIGN KEY (pReportID) REFERENCES predictReports(pReportID),
-  examType VARCHAR(50) NOT NULL,
-  FOREIGN KEY (examType) REFERENCES examType(examType),
-  concernValue NUMERIC(3) NOT NULL
+-- create the predictreportsentries table
+create table predictreportsentries (
+  preportid numeric(4) primary key,
+  foreign key (preportid) references predictreports(preportid),
+  examtype varchar(50) not null,
+  foreign key (examtype) references examtype(examtype),
+  concernvalue numeric(3) not null
 );
 
--- Create the smartMonitor table
-CREATE TABLE smartMonitor (
-  monitorID SERIAL PRIMARY KEY NOT NULL,
-  workersID SERIAL NOT NULL,
-  FOREIGN KEY (workersID) REFERENCES workers(workersID),
-  examType VARCHAR(50) DEFAULT 'On Stand By' NOT NULL,
-  FOREIGN KEY (examType) REFERENCES examType(examType),
-  smartStatus VARCHAR(10) CHECK (smartStatus IN ('sent', 'not sent')) NOT NULL,
-  healthID SMALLSERIAL NOT NULL,
-  FOREIGN KEY (healthID) REFERENCES patient(healthID)
+-- create the smartmonitor table
+create table smartmonitor (
+  monitorid serial primary key not null,
+  workersid serial not null,
+  foreign key (workersid) references workers(workersid),
+  examtype varchar(50) default 'on stand by' not null,
+  foreign key (examtype) references examtype(examtype),
+  smartstatus varchar(10) check (smartstatus in ('sent', 'not sent')) not null,
+  healthid smallserial not null,
+  foreign key (healthid) references patient(healthid)
 );
-
