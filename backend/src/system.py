@@ -51,8 +51,10 @@ class System:
           user_info.user_type.value == "Staff" and
           user_info.user_type.value == "Doctor"):
             Worker.get_user_record(user_info.email, user_info.password)
+            # return conformation
         elif (user_info.user_type.value == "Patient"):
             Patient.get_user_record(user_info.email, user_info.password)
+            # return conformation
         else:
             return "error"
 

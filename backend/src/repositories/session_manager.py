@@ -16,10 +16,11 @@ class SessionManager:
 
     @staticmethod
     def create_session( token: str, email: str, user_type: str):
-        """
-        Creates a new session for a user (Worker or Patient).
-        """
         # Implementation for creating a session
+        # TODO: figure out how session would be created, 
+        #   Original idea was to create an object and put it into the stack of sessions on the server
+        #   BUT there is also a way to implement in though storing sessions in a db, as a [email][token] table
+        #   IN both cases there should be a timer/hearbit that will eventually remove the session, so it might require additional methods to be impl
         pass
 
     @staticmethod
