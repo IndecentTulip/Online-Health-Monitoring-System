@@ -1,35 +1,17 @@
-class System:
-  pass
+from flask import Flask
+from flask_cors import CORS
+from system import System
 
-class User:
-    pass
+app = Flask(__name__)
+CORS(app)
 
-class Patient:
-    pass
+# Create an instance of the System class
+system = System()
 
-class Worker:
-    pass
+@app.route('/login', methods=['POST'])
+def login():
+    return "test"
 
-class SessionManager:
-    pass
+if __name__ == '__main__':
+    app.run(debug=True)
 
-class Exam:
-    pass
-
-class ReportManager:
-    pass
-
-class PermissionManager:
-    pass
-
-class Results:
-    pass
-
-class Monitor:
-    pass
-
-class EmailManager:
-    pass
-
-class DeleteMe:
-    pass

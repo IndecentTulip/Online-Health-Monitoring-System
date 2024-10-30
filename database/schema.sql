@@ -1,160 +1,151 @@
--- Database: schema
 
--- DROP DATABASE IF EXISTS schema;
+-- create database jlabs
+--   with
+--   owner = postgres
+--   encoding = 'utf8'
+--   lc_collate = 'english_canada.1252'
+--   lc_ctype = 'english_canada.1252'
+--   locale_provider = 'libc'
+--   tablespace = pg_default
+--   connection limit = -1
+--   is_template = false;
 
-CREATE DATABASE jlabs;
+-- drop if exists
+drop database if exists jlabs;
 
--- Create users table
-	CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-select * from users;
-drop table users;
+-- create the database
+create database jlabs with encoding 'utf8';
 
--- Create posts table
-CREATE TABLE posts (
-    id SERIAL PRIMARY KEY,
-    user_id INT,
-    title VARCHAR(255) NOT NULL,
-    content VARCHAR(355) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-select * from posts;
-drop table posts;
+-- connect to the new database
+\c jlabs;
 
--- Create patients table
-Create table Patient(
-	healthID int(5) primary key auto_increment,
-	patientName varchar(50) not null,
-	email varchar(50) not null,
-	DOB date not null,
-	status bool not null,
-	doctorID int(5) not null,
-	patientPassword varchar(50) not null,
-	Foreign key (doctorID)references workers(workersID)
-);
-desc Patient;
-drop table Patient;
-
--- Create workers table
-create table workers( 
-	workersID int(5) primary key auto_increment,
-	workersName varchar(50) not null,
-    email varchar(50) not null,
-    phoneNumber int(10) not null, 
-    image blob,
-    userType varchar(13) not null,
-    staffPassword varchar(50) not null
+-- create the workers table first since it is referenced in other tables
+create table workers ( 
+  workersid serial primary key,
+  workersname varchar(50) not null,
+  email varchar(50) not null,
+  phonenumber varchar(10) not null, 
+  image bytea,
+  usertype varchar(13) not null,
+  staffpassword varchar(50) not null
 );
 
-desc workers;
-drop table workers;
-
-create table ExamTable(
-	examId int(5) primary key auto_increment,
-    examDate date,
-    healthID int(5),
-    workersID int(5),
-    examType varchar(50),
-    foreign key (healthID) references Patient(healthID),
-    foreign key (workersID) references workers(workersID),
-    foreign key (examType) references examType(examType)
+-- create the examtype table first since it is referenced in other tables
+create table examtype (
+  examtype varchar(50) primary key
 );
 
-desc ExamTable;
-drop table ExamTable;
-
-create table examType(
-examType varchar(50) primary key
+-- create the users table
+create table users (
+  id serial primary key,
+  username varchar(50) not null unique,
+  email varchar(100) not null unique,
+  password varchar(255) not null,
+  created_at timestamp default current_timestamp
 );
 
-desc examType;
-drop table examType;
-
-create table testTypes(
-	testType varchar(50) primary key,
-    lowerBound float(3,1) not null,
-    upperBound float(3,1) not null, 
-    unit varchar(6) not null,
-    examType varchar(50),
-    foreign key (examType) references examType(examType)
+-- create the patient table
+create table patient (
+  healthid smallserial primary key,
+  patientname varchar(50) not null,
+  email varchar(50) not null,
+  dob date not null,
+  status boolean not null,
+  doctorid int not null,
+  patientpassword varchar(50) not null,
+  phonenumber varchar(10),
+  foreign key (doctorid) references workers(workersid)
 );
 
-desc table testTypes;
-drop table testTypes;
-
-create table testResults(
-	testType varchar(50),
-    foreign key (testType) references testTypes(testType),
-    examId int(5),
-    foreign key (examID) references ExamTable(examId),
-    results float(4, 4) not null,
-    resultDate date not null
+-- create the posts table
+create table posts (
+  id serial primary key,
+  user_id int,
+  title varchar(255) not null,
+  content varchar(355) not null,
+  created_at timestamp default current_timestamp,
+  foreign key (user_id) references users(id)
 );
 
-desc table testResults;
-drop table testResults;
+-- create the examtable
+create table examtable (
+  examid serial primary key,
+  examdate date not null,
+  healthid smallint not null,  -- ensure this matches the patient table
+  workersid serial not null,
+  examtype varchar(50) not null,
+  foreign key (healthid) references patient(healthid),
+  foreign key (workersid) references workers(workersid),
+  foreign key (examtype) references examtype(examtype)
+);
 
-create table summaryReport(
-	SReportID int(4) primary key auto_increment,
-	workersID int(5),
-    foreign key (workersID) references workers(workersID),
-    monthOrYear enum ('Month','Year') not null,
-    summaryDate Date not null,
-    timePeriod varchar(40)
+-- create the testtypes table
+create table testtypes (
+  testtype varchar(50) primary key,
+  lowerbound numeric(4, 1) not null,
+  upperbound numeric(4, 1) not null, 
+  unit varchar(6) not null,
+  examtype varchar(50),
+  foreign key (examtype) references examtype(examtype)
 );
-	desc summaryReport;
-    drop table summaryReport;
-    
-create table summaryReportEntries(
-	 SReportID int(4),
-     foreign key (SReportID) references summaryReport(SReportID),
-     healthID int(5),
-     foreign key(healthID) references Patient(healthID),
-     noofExams int(2) not null,
-     abnormalExams int(2) not null
+
+-- create the testresults table
+create table testresults (
+  testtype varchar(50),
+  foreign key (testtype) references testtypes(testtype),
+  examid serial,
+  foreign key (examid) references examtable(examid),
+  results numeric(7, 4) not null,
+  resultdate date not null
 );
-	desc summaryReportEntries;
-    drop table summaryReportEntries;
-    
-	create table predictReports(
-    pReportID int(4) primary key auto_increment not null,
-    workersID int(5)not null,
-    foreign key (workersID) references workers(workersID),
-    healthID int(5) not null,
-    foreign key (healthID) references Patient(healthID),
-    pDate date not null
-    );
-    
-    desc predictReports;
-    drop table predictReports;
-    
-    create table predictReportsEntries(
-    pReportID int(4) not null,
-    foreign key(pReportID) references predictReports(pReportID),
-    examType varchar(50) not null,
-    foreign key(examType) references examType(examType),
-    concernValue int(3) not null
-    );
-    
-    desc predictReportsEntries;
-    drop table predictReportsEntries;
-    
-    create table smartMonitor(
-		monitorID int(5) primary key auto_increment not null,
-        workersID int(5) not null,
-        foreign key (workersID) references workers(workersID),
-        examType varchar(50) default 'On Stand By' not null,
-        foreign key (examType) references examType(examType),
-        smartStatus enum ('sent', 'not sent') not null,
-        healthID int(5) not null,
-        foreign key (healthID) references Patient(healthID)
-    );
-    
-	desc smartMonitor;
-    drop table smartMonitor;
+
+-- create the summaryreport table
+create table summaryreport (
+  sreportid numeric(4) primary key,
+  workersid serial not null,
+  foreign key (workersid) references workers(workersid),
+  monthoryear varchar(5) check (monthoryear in ('month', 'year')) not null,
+  summarydate date not null,
+  timeperiod varchar(40)
+);
+
+-- create the summaryreportentries table
+create table summaryreportentries (
+  sreportid numeric(4),
+  foreign key (sreportid) references summaryreport(sreportid),
+  healthid smallserial,
+  foreign key (healthid) references patient(healthid),
+  noofexams numeric(2) not null,
+  abnormalexams numeric(2) not null
+);
+
+-- create the predictreports table
+create table predictreports (
+  preportid numeric(4) primary key not null,
+  workersid serial not null,
+  foreign key (workersid) references workers(workersid),
+  healthid smallserial not null,
+  foreign key (healthid) references patient(healthid),
+  pdate date not null
+);
+
+-- create the predictreportsentries table
+create table predictreportsentries (
+  preportid numeric(4) primary key,
+  foreign key (preportid) references predictreports(preportid),
+  examtype varchar(50) not null,
+  foreign key (examtype) references examtype(examtype),
+  concernvalue numeric(3) not null
+);
+
+-- create the smartmonitor table
+create table smartmonitor (
+  monitorid serial primary key not null,
+  workersid serial not null,
+  foreign key (workersid) references workers(workersid),
+  examtype varchar(50) default 'on stand by' not null,
+  foreign key (examtype) references examtype(examtype),
+  smartstatus varchar(10) check (smartstatus in ('sent', 'not sent')) not null,
+  healthid smallserial not null,
+  foreign key (healthid) references patient(healthid)
+);
