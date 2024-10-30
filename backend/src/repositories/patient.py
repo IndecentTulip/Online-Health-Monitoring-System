@@ -1,4 +1,6 @@
-class Patient:
+from user import User
+
+class Patient(User):
     def __init__(self, health_id: int, name: str, email: str, phone_number: int, dob: str):
         self.health_id = health_id
         self.name = name
@@ -6,6 +8,8 @@ class Patient:
         self.phone_number = phone_number
         self._dob = dob  # Private attribute
         self._status = False  # Private attribute, default to pending (False)
+
+
 
     def create_patient_instance(self) -> 'Patient':
         """
