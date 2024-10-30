@@ -1,5 +1,6 @@
 
 from typing import List
+import psycopg2
 
 class System:
     def __init__(self):
@@ -23,7 +24,21 @@ class System:
         pass
 
     def log_in(self, email: str, password: str):
-        pass
+        #connect to database. Maybe should be done elswhere. Placeholder values update later
+        conn = psycopg2.connect(database="db_name",host="db_host", user="db_user", password="db_pass", port="db_port")
+        cursor = conn.cursor()
+
+        #Storing query as string here
+        passQuery = "SELECT password FROM patient WHERE email=?"
+
+        #Retreive password for user from database, if matches entered password create token/continue login, otherwise reject
+        cursor.execute(passQuery, (password,))
+        passTest = cursor.fetchone()
+
+        if password == passTest:
+            pass
+        else:
+            pass
 
     def token_required(self, f):
         pass
