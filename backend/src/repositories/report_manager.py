@@ -21,10 +21,11 @@ class ReportManager:
 
         pass
 
-    def generate_report(self, year: int, month: int, userID: int):
+    def generate_summary_report(self, year: int, month: int, userID: int):
         """
         Generates a new report.
         """
+         # Implementation for generating a report
         patientIDList = []
         patientTestList = []
         patientAbTestList = []
@@ -32,7 +33,7 @@ class ReportManager:
 
         conn = db_service.get_db_connection
         cursor = conn.cursor()
-        # Implementation for generating a report
+       
         #query to get all patients
         patientQry = "SELECT HealthID FROM patient"
         # queries to count tests for patient within given timeframe.
@@ -51,20 +52,29 @@ class ReportManager:
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
                         WHERE examtable.healthid =? AND YEAR (testresults.resultdate) =? AND MONTH(testresults.resultdate) =?
                         AND NOT (testtypes.lowerbound < testresults.results < testtypes.upperbound )"""
-        MakereportQry     = """INSERT into summaryreport (workersid, monthoryear, summarydate, timeperiod)
+        MakeReportQry     = """INSERT into summaryreport (workersid, monthoryear, summarydate, timeperiod)
                             VALUES (?, ?, ?, ?);"""
         PreMakeReportQry = "SELECT Auto_increment FROM information_schema.tables WHERE table_name='predictreports';"
-        MakeReportEntryQry  = "INSERT INTO predictreports (workersid, monthoryear, summarydate, timeperiod) VALUES(?, ?, ?, ?);"
-        cursor.execute(patientQry)
-        results = cursor.fetchall()
+        MakeReportEntryQry  = "INSERT INTO summaryreportentries (healthid, noofexams, abnormalexams) VALUES(?, ?, ?);"
+       
+        if month == 0:
+            mOrY = "year"
+            timeperiod = "{year}"
+        else:
+            mOrY = "month"
+            timeperiod = "{month}-{year}"
 
+        #Fetch report number of new report, store it, then make report
         cursor.execute(PreMakeReportQry)
         reportID: int = cursor.fetchone()
-        workersid: int = 1 #need method to get logged in user ID
+        cursor.execute(MakeReportQry, (userID, mOrY, today, timeperiod))
 
+        #Fetch all patients in Database, place in list
+        cursor.execute(patientQry)
+        results = cursor.fetchall()
         for row in results:
             patientIDList.append
-        # Count tests per patient
+        # Count tests per patient, place count in separate list
         if month == 0:
              for val in patientIDList:
                  cursor.execute(resultQryY, (val, year))
@@ -73,7 +83,7 @@ class ReportManager:
             for val in patientIDList:
                  cursor.execute(resultQryM, (val, month, year))
                  patientTestList.append = cursor.fetchone()
-        # Count unusualy tests per patient
+        # Count unusual tests per patient, place in list
         if month == 0:
              for val in patientIDList:
                  cursor.execute(countQryY2, (val, year, month))
@@ -82,9 +92,13 @@ class ReportManager:
             for val in patientIDList:
                  cursor.execute(countQryM2, (val, year, month))
                  patientAbTestList.append = cursor.fetchone()
-        cursor.execute()
+        #Now make individual report entries
+        i = 0
+        for val in patientIDList:
+            cursor.execute(MakeReportEntryQry(val,patientTestList[i], patientAbTestList[i] ))
+            i + 1
 
-        pass
+        
 
     def remove_report(self, report_id: int):
         """
