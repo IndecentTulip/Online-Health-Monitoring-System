@@ -31,24 +31,6 @@ class System:
     def delete_worker_account(self):
         pass
 
-<<<<<<< HEAD
-    def log_in(self, email: str, password: str):
-        #connect to database. Maybe should be done elswhere. Placeholder values update later
-        conn = psycopg2.connect(database="db_name",host="db_host", user="db_user", password="db_pass", port="db_port")
-        cursor = conn.cursor()
-
-        #Storing query as string here
-        passQuery = "SELECT password FROM patient WHERE email=?"
-
-        #Retreive password for user from database, if matches entered password create token/continue login, otherwise reject
-        cursor.execute(passQuery, (password,))
-        passTest = cursor.fetchone()
-
-        if password == passTest:
-            pass
-        else:
-            pass
-=======
     def log_in(self, type: int, email: str, password: str):
         user_info: UserInfo
         if type == 1: # patient
@@ -57,7 +39,6 @@ class System:
             user_info = Worker.get_user_record(email, password)
         else:
             return "error"
->>>>>>> 58df4360761b96693c44d136fe4a4d03635566cd
 
         if (user_info.user_type.value != "Error"):
 
