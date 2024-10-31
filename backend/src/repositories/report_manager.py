@@ -18,7 +18,7 @@ class ReportManager:
         Returns a list of reports associated with the given email.
         """
         # Implementation for returning reports
-
+        # Is this really something we need
         pass
 
     def generate_summary_report(self, year: int, month: int, userID: int):
@@ -37,8 +37,8 @@ class ReportManager:
         #query to get all patients
         patientQry = "SELECT HealthID FROM patient"
         # queries to count tests for patient within given timeframe.
-        resultQryY = "SELECT * FROM testresults WHERE healthID = ? AND YEAR (date) = ?"
-        resultQryM = "SELECT * FROM testresults WHERE healthID = ? AND MONTH(date) = ? AND YEAR (date) = ?"
+        resultQryY = "SELECT COUNT(results) FROM testresults WHERE healthID = ? AND YEAR (date) = ?"
+        resultQryM = "SELECT COUNT(results) FROM testresults WHERE healthID = ? AND MONTH(date) = ? AND YEAR (date) = ?"
         # queries to count abnormal tests for patient within given timeframe
         countQryY2 = """SELECT COUNT(results) FROM testresults 
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
@@ -55,14 +55,14 @@ class ReportManager:
         MakeReportQry     = """INSERT into summaryreport (workersid, monthoryear, summarydate, timeperiod)
                             VALUES (?, ?, ?, ?);"""
         PreMakeReportQry = "SELECT Auto_increment FROM information_schema.tables WHERE table_name='predictreports';"
-        MakeReportEntryQry  = "INSERT INTO summaryreportentries (healthid, noofexams, abnormalexams) VALUES(?, ?, ?);"
+        MakeReportEntryQry  = "INSERT INTO summaryreportentries (sreportid, healthid, noofexams, abnormalexams) VALUES(?, ?, ?, ?);"
        
         if month == 0:
             mOrY = "year"
-            timeperiod = "{year}"
+            timeperiod = f"{year}"
         else:
             mOrY = "month"
-            timeperiod = "{month}-{year}"
+            timeperiod = f"{month}-{year}"
 
         #Fetch report number of new report, store it, then make report
         cursor.execute(PreMakeReportQry)
@@ -95,17 +95,36 @@ class ReportManager:
         #Now make individual report entries
         i = 0
         for val in patientIDList:
-            cursor.execute(MakeReportEntryQry(val,patientTestList[i], patientAbTestList[i] ))
-            i + 1
-
+            cursor.execute(MakeReportEntryQry(reportID, val,patientTestList[i], patientAbTestList[i] ))
+            i += 1
+            
+        cursor.close()
+        del cursor
         
 
-    def remove_report(self, report_id: int):
+    def remove_report(self, report_id: int, report_type: int):
         """
         Removes a report by its ID.
         """
         # Implementation for removing a report
-        pass
+        # 0 Means summary, 1 means predict
+        if report_Type == 0:
+            deleteEnt = "DELETE FROM summaryreportentries WHERE sreportid = ?"
+            deleteRep = "DELETE FROM summaryreport WHERE sreportid = ?"
+        else if report_type == 1:
+            deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = ?"
+            deleteRep = "DELETE FROM predictreports WHERE sreportid = ?"
+
+        conn = db_service.get_db_connection
+        cursor = conn.cursor()
+
+        cursor.execute(deleteEnt(report_id))
+        cursor.execute(deleteRep(report_od))
+
+        cursor.close()
+        del cursor
+        
+      
 
     def send_report(self, receiver_email: str):
         """
