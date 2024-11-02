@@ -31,33 +31,37 @@ class System:
     def delete_worker_account(self):
         pass
 
-    def log_in(self, type: int, email: str, password: str):
-        user_info: UserInfo
-        if type == 1: # patient
-            user_info = Patient.get_user_record(email, password)
-        elif type == 0: # worker
-            user_info = Worker.get_user_record(email, password)
+    def log_in(self, userType: str, email: str, password: str):
+        testing = True
+        if (testing == True):
+            return True
         else:
-            return "error"
+            user_info: UserInfo
+            if userType == "patient": # patient
+                user_info = Patient.get_user_record(email, password)
+            elif userType == "worker": # worker
+                user_info = Worker.get_user_record(email, password)
+            else:
+                return "error"
 
-        if (user_info.user_type.value != "Error"):
+            if (user_info.user_type.value != "Error"):
 
-            token = SessionManager.generate_token(user_info.email)
-            SessionManager.create_session(token, user_info.email, user_info.user_type.value)
+                token = SessionManager.generate_token(user_info.email)
+                SessionManager.create_session(token, user_info.email, user_info.user_type.value)
 
-    def token_required(self, token: str):
-        user_info: UserInfo
-        user_info = SessionManager.decode_token(token)
-        if (user_info.user_type.value == "Administrator" and
-          user_info.user_type.value == "Staff" and
-          user_info.user_type.value == "Doctor"):
-            Worker.get_user_record(user_info.email, user_info.password)
-            # return conformation
-        elif (user_info.user_type.value == "Patient"):
-            Patient.get_user_record(user_info.email, user_info.password)
-            # return conformation
-        else:
-            return "error"
+    #def token_required(self, token: str):
+    #    user_info: UserInfo
+    #    user_info = SessionManager.decode_token(token)
+    #    if (user_info.user_type.value == "Administrator" and
+    #      user_info.user_type.value == "Staff" and
+    #      user_info.user_type.value == "Doctor"):
+    #        Worker.get_user_record(user_info.email, user_info.password)
+    #        # return conformation
+    #    elif (user_info.user_type.value == "Patient"):
+    #        Patient.get_user_record(user_info.email, user_info.password)
+    #        # return conformation
+    #    else:
+    #        return "error"
 
             
 
@@ -67,34 +71,34 @@ class System:
     def view_exam(self):
         pass
 
-        #    def prescribe_exam(self, doctor: Doctor, patient: Patient):
-        #        pass
-        #
-        #    def view_results(self):
-        #        pass
-        #
-        #    def create_results(self, staff: Staff, patient: Patient):
-        #        pass
-        #
-        #    def delete_results(self, result_id: int):
-        #        pass
-        #
-        #    def filter_results(self, results: List[Result], result_type: str):
-        #        pass
-        #
-        #    def create_reports(self, admin: Admin):
-        #        pass
-        #
-        #    def delete_report(self, report_id: int):
-        #        pass
-        #
-        #    def create_smart_monitor(self, doctor: Doctor, options: List[str]):
-        #        pass
-        #
-        #    def change_smart_monitor(self, doctor: Doctor, options: List[str]):
-        #        pass
-        #
-        #    def delete_smart_monitor(self, monitor_id: int):
-        #        pass
-        #
+    #def prescribe_exam(self, doctor: Doctor, patient: Patient):
+    #    pass
+    #
+    #def view_results(self):
+    #    pass
+    #
+    #def create_results(self, staff: Staff, patient: Patient):
+    #    pass
+    #
+    #def delete_results(self, result_id: int):
+    #    pass
+    #
+    #def filter_results(self, results: List[Result], result_type: str):
+    #    pass
+    #
+    #def create_reports(self, admin: Admin):
+    #    pass
+    #
+    #def delete_report(self, report_id: int):
+    #    pass
+    #
+    #def create_smart_monitor(self, doctor: Doctor, options: List[str]):
+    #    pass
+    #
+    #def change_smart_monitor(self, doctor: Doctor, options: List[str]):
+    #    pass
+    #
+    #def delete_smart_monitor(self, monitor_id: int):
+    #        pass
+    #
 
