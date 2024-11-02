@@ -1,4 +1,4 @@
-from repositories.user import User
+from repositories.user import User, Role, UserInfo
 import db_service
 import datetime
 class Patient(User):
@@ -65,3 +65,25 @@ class Patient(User):
         cursor.close()
         del cursor
 
+    @staticmethod
+    def get_user_record(email: str, password: str) -> UserInfo:
+        # ...
+        # SQL
+        # ... 
+        checkPat = """SELECT COUNT patiendid FROM patient WHERE email = ? AND password = ?"""
+
+        conn = db_service.get_db_connection
+        cursor = conn.cursor()
+        cursor.execute(checkPat(email, password))
+        check = cursor.fetchone()
+
+        cursor.close()
+        del cursor
+
+        if check == 1:
+            userRole = Role("Patient")
+        else:  
+            userRole = Role("Error")
+        
+
+        return UserInfo(userRole, email, password)

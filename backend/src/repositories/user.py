@@ -1,4 +1,5 @@
 from enum import Enum
+import db_service
 
 class Role(Enum):
     ADMIN = "Administrator"
