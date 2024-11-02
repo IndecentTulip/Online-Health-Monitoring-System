@@ -1,6 +1,6 @@
-from repositories.db_service import DBService;
+from repositories.user import User, Role, UserInfo
+import db_service
 import datetime
-from repositories.user import User
 class Patient(User):
     def __init__(self, health_id: int, name: str, email: str, phone_number: int, dob: datetime.date, doctor: int, password: str):
         self.health_id = health_id
@@ -11,7 +11,6 @@ class Patient(User):
         self._status = False  # Private attribute, default to pending (False)
         self.doctor = doctor
         self.password = password
-
     def create_patient_instance(self) -> 'Patient':
         """
         Creates and returns a new instance of Patient.
@@ -66,3 +65,25 @@ class Patient(User):
         cursor.close()
         del cursor
 
+    @staticmethod
+    def get_user_record(email: str, password: str) -> UserInfo:
+        # ...
+        # SQL
+        # ... 
+        checkPat = """SELECT COUNT patiendid FROM patient WHERE email = ? AND password = ?"""
+
+        conn = db_service.get_db_connection
+        cursor = conn.cursor()
+        cursor.execute(checkPat(email, password))
+        check = cursor.fetchone()
+
+        cursor.close()
+        del cursor
+
+        if check == 1:
+            userRole = Role("Patient")
+        else:  
+            userRole = Role("Error")
+        
+
+        return UserInfo(userRole, email, password)

@@ -1,4 +1,5 @@
-from repositories.user import User, Role
+from repositories.user import User, Role, UserInfo
+import db_service
 
 class Worker(User):
 
@@ -23,4 +24,27 @@ class Worker(User):
         """
         # Implementation for creating a new Worker instance
         return Worker(0, 0, "", "", 0, Role.STAF)  # Placeholder, replace with actual logic
+    
+    @staticmethod
+    def get_user_record(email: str, password: str) -> UserInfo:
+        # ...
+        # SQL
+        # ... 
+       
+        checkWork = """SELECT COUNT usertype FROM workers WHERE email = ? AND staffpassword = ?"""
+        fetchWork = """SELECT usertype FROM workers WHERE email = ? AND staffpassword = ?"""
+        
+        conn = db_service.get_db_connection
+        cursor = conn.cursor()
+        cursor.execute(checkWork(email, password))
+        check = cursor.fetchone()
+        if check == 0:
+            userRole = Role("Error")
+        else:  
+            cursor.execute(fetchWork(email, password))
+            userRole = Role(cursor.fetchone())
+        
+        cursor.close()
+        del cursor
+        return UserInfo(userRole, email, password)
 
