@@ -1,4 +1,3 @@
-\c jlabs;
 
 SELECT * FROM users;
 

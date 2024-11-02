@@ -10,14 +10,11 @@
 --   connection limit = -1
 --   is_template = false;
 
--- drop if exists
-drop database if exists jlabs;
-
--- create the database
-create database jlabs with encoding 'utf8';
-
--- connect to the new database
-\c jlabs;
+---- drop if exists
+--drop database if exists jlabs;
+--
+---- create the database
+--create database jlabs with encoding 'utf8';
 
 -- create the workers table first since it is referenced in other tables
 create table workers ( 

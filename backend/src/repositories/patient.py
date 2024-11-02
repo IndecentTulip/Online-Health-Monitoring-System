@@ -1,6 +1,7 @@
 import db_service
 import datetime
-class Patient:
+from repositories.user import User
+class Patient(User):
     def __init__(self, health_id: int, name: str, email: str, phone_number: int, dob: datetime.date, doctor: int, password: str):
         self.health_id = health_id
         self.name = name
@@ -10,6 +11,7 @@ class Patient:
         self._status = False  # Private attribute, default to pending (False)
         self.doctor = doctor
         self.password = password
+
     def create_patient_instance(self) -> 'Patient':
         """
         Creates and returns a new instance of Patient.
@@ -34,7 +36,7 @@ class Patient:
         cursor.close()
         del cursor
 
-    def give_list_of_pending(self) -> list:
+    def give_list_of_pending(self):
         """
         Returns a list of patients with pending status.
         """
