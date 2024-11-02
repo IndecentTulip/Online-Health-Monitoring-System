@@ -40,25 +40,25 @@ class ReportManager:
         #query to get all patients
         patientQry = "SELECT HealthID FROM patient"
         # queries to count tests for patient within given timeframe.
-        resultQryY = "SELECT COUNT(results) FROM testresults WHERE healthID = ? AND YEAR (date) = ?"
-        resultQryM = "SELECT COUNT(results) FROM testresults WHERE healthID = ? AND MONTH(date) = ? AND YEAR (date) = ?"
+        resultQryY = "SELECT COUNT(results) FROM testresults WHERE healthID = %s AND YEAR (date) = %s"
+        resultQryM = "SELECT COUNT(results) FROM testresults WHERE healthID = %s AND MONTH(date) = %s AND YEAR (date) = %s"
         # queries to count abnormal tests for patient within given timeframe
         countQryY2 = """SELECT COUNT(results) FROM testresults 
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
-                        WHERE examtable.healthid = ? AND YEAR (testresults.resultdate) = ?
+                        WHERE examtable.healthid = %s AND YEAR (testresults.resultdate) = %s
                         AND NOT (testtypes.lowerbound < testresults.results < testtypes.upperbound )"""
         
         countQryM2 = """SELECT COUNT(results)
                         FROM testresults 
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
-                        WHERE examtable.healthid =? AND YEAR (testresults.resultdate) =? AND MONTH(testresults.resultdate) =?
+                        WHERE examtable.healthid =%s AND YEAR (testresults.resultdate) =%s AND MONTH(testresults.resultdate) =%s
                         AND NOT (testtypes.lowerbound < testresults.results < testtypes.upperbound )"""
         MakeReportQry     = """INSERT into summaryreport (workersid, monthoryear, summarydate, timeperiod)
-                            VALUES (?, ?, ?, ?);"""
+                            VALUES (%s, %s, %s, %s);"""
         PreMakeReportQry = "SELECT Auto_increment FROM information_schema.tables WHERE table_name='predictreports';"
-        MakeReportEntryQry  = "INSERT INTO summaryreportentries (sreportid, healthid, noofexams, abnormalexams) VALUES(?, ?, ?, ?);"
+        MakeReportEntryQry  = "INSERT INTO summaryreportentries (sreportid, healthid, noofexams, abnormalexams) VALUES(%s, %s, %s, %s);"
        
         if month == 0:
             mOrY = "year"
@@ -114,12 +114,12 @@ class ReportManager:
         deleteEnt = ''
         deleteRep = ''
         if report_type == 0:
-            deleteEnt = "DELETE FROM summaryreportentries WHERE sreportid = ?"
-            deleteRep = "DELETE FROM summaryreport WHERE sreportid = ?"
+            deleteEnt = "DELETE FROM summaryreportentries WHERE sreportid = %s"
+            deleteRep = "DELETE FROM summaryreport WHERE sreportid = %s"
         else:
             if report_type == 1:
-                deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = ?"
-                deleteRep = "DELETE FROM predictreports WHERE sreportid = ?"
+                deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = %s"
+                deleteRep = "DELETE FROM predictreports WHERE sreportid = %s"
 
         db = DBService()
         conn = db.get_db_connection()

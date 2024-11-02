@@ -21,7 +21,7 @@ const Login = () => {
         email,
         password,
       });
-      setMessage(`${response.data.message.userType} needs to hear this message: ${response.data.message.content}`);
+      setMessage(`send to ${response.data.login.routeTo} user with email: ${response.data.login.email}`);
       setError(''); 
     } catch (err) {
       setError('Login failed. Please check your credentials and try again.');

@@ -13,6 +13,7 @@ class UserInfo:
     def __init__(self, user_type: Role, email: str, password: str):
         self.user_type = user_type
         self.email = email 
+        # WE might not need the password
         self.password = password
 
 

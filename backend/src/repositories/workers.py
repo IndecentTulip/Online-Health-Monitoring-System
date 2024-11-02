@@ -27,12 +27,9 @@ class Worker(User):
     
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
-        # ...
-        # SQL
-        # ... 
-       
-        checkWork = """SELECT COUNT usertype FROM workers WHERE email = ? AND staffpassword = ?"""
-        fetchWork = """SELECT usertype FROM workers WHERE email = ? AND staffpassword = ?"""
+        checkWork = """SELECT COUNT(usertype) FROM workers WHERE email = %s AND staffpassword = %s"""
+        fetchWork = """SELECT usertype FROM workers WHERE email = %s AND staffpassword = %s"""
+        strRole = ""
         
         db = DBService()
         conn = db.get_db_connection()
@@ -40,13 +37,21 @@ class Worker(User):
         cursor = conn.cursor()
         cursor.execute(checkWork, (email, password))
         check = cursor.fetchone()
-        if check == 0:
-            userRole = Role("Error")
+        if check is None:
+            userRole = Role.NONE
         else:  
             cursor.execute(fetchWork, (email, password))
-            userRole = Role(cursor.fetchone())
+            strRole = cursor.fetchone()
+
+            if check is not None:
+                strRole = strRole[0]
         
         cursor.close()
         del cursor
-        return UserInfo(userRole, email, password)
+
+        for role in Role:
+            if role.value == strRole:
+                return UserInfo(role, email, password)
+
+        return UserInfo(Role.NONE, "", "")
 

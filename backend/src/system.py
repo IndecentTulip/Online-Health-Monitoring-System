@@ -6,6 +6,7 @@ from repositories.patient import Patient;
 from typing import List
 import psycopg2
 
+from flask import Flask, request, jsonify
 from repositories.session_manager import SessionManager
 from repositories.workers import Worker
 from repositories.user import UserInfo
@@ -32,18 +33,23 @@ class System:
         pass
 
     def log_in(self, userType: str, email: str, password: str):
-        user_info: UserInfo
-        if userType == "patient": # patient
+        if userType == "patient":  # Patient
             user_info = Patient.get_user_record(email, password)
-        elif userType == "worker": # worker
+        elif userType == "worker":  # Worker
             user_info = Worker.get_user_record(email, password)
         else:
-            return "error"
+            return jsonify({'error': 'Invalid user type'}), 400  # Return an error response for invalid user type
 
-        #if (user_info.user_type.value != "Error"):
-        #
-        #    token = SessionManager.generate_token(user_info.email)
-        #    SessionManager.create_session(token, user_info.email, user_info.user_type.value)
+        if user_info and user_info.user_type.value != "Error":
+            return jsonify({
+                'login': {
+                    'routeTo': user_info.user_type.value,
+                    'email': user_info.email,
+                }
+            })
+        return None 
+            #token = SessionManager.generate_token(user_info.email)
+            #SessionManager.create_session(token, user_info.email, user_info.user_type.value)
 
     #def token_required(self, token: str):
     #    user_info: UserInfo

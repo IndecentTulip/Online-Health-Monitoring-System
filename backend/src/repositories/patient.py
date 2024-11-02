@@ -31,7 +31,7 @@ class Patient(User):
 
         creatPat = """INSERT INTO patients
          (healthid, patientname, email, dob, status, doctorid, patientpassword, phonenumber)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?) """
+          VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
 
         cursor.execute(creatPat, (Patient.health_id, Patient.name, Patient.email, Patient._dob, False, Patient.doctor, Patient.password, Patient.phone_number))
 
@@ -66,14 +66,14 @@ class Patient(User):
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        approve = "UPDATE patient SET status = TRUE WHERE email = ?"
+        approve = "UPDATE patient SET status = TRUE WHERE email = %s"
         cursor.execute(approve, (email))
         cursor.close()
         del cursor
 
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
-        checkPat = """SELECT COUNT patiendid FROM patient WHERE email = ? AND password = ?"""
+        checkPat = """SELECT COUNT(healthid) FROM patient WHERE email = %s AND patientpassword = %s"""
 
         db = DBService()
         conn = db.get_db_connection()
@@ -85,11 +85,10 @@ class Patient(User):
         cursor.close()
         del cursor
 
-        if check == 1:
-            userRole = Role("Patient")
+        if check:
+            userRole = Role.PAT
         else:  
-            userRole = Role("Error")
+            userRole = Role.NONE
         
-
         return UserInfo(userRole, email, password)
 

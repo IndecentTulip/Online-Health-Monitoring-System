@@ -16,9 +16,12 @@ def login():
     email = data['email']
     password = data['password']
 
-    conformation = system.log_in(userType, email, password)
-    if (conformation):
-        return jsonify()
+    response = system.log_in(userType, email, password)
+
+    if response is None:
+        return jsonify({'error': 'Invalid login credentials'}), 400  # Return an error response if None
+
+    return response 
 
 
 
