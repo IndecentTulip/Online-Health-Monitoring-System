@@ -23,6 +23,7 @@ python -m venv ./backend/venv_linux
 npm update --prefix ./frontend
 
 npm install --prefix ./frontend
+npm install react-router-dom --prefix ./frontend
 
 npm start --prefix ./frontend &
 
