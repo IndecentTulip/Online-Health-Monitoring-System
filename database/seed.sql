@@ -1,4 +1,3 @@
-\c jlabs;
 
 -- Insert into workers first
 INSERT INTO workers (workersID, workersName, email, phoneNumber, image, userType, staffPassword) VALUES
@@ -59,15 +58,16 @@ INSERT INTO testResults (testType, examId, results, resultDate) VALUES
   ('Urine Test', 33028, 0.0005, '2023-05-22'), 
   ('Urine Test', 33029, 5.5, '2024-08-13');
 
+
 -- Insert into summaryReport
 INSERT INTO summaryReport (SReportID, workersID, monthOrYear, summaryDate, timePeriod) VALUES
-  (5508, 21002, 'Month', '2024-10-20', 'April 2024'),
-  (5509, 21002, 'Month', '2023-11-30', 'March 2022'),
-  (5510, 21002, 'Year', '2023-06-01', '2015'),
-  (5511, 21002, 'Year', '2024-08-25', '2024'),
-  (5512, 21003, 'Month', '2023-03-28', 'January 2024'),
-  (5513, 21001, 'Year', '2024-02-28', '2023'), 
-  (5514, 21002, 'Year', '2024-11-23', '2022');
+  (5508, 21002, 'month', '2024-10-20', 'April 2024'),
+  (5509, 21002, 'month', '2023-11-30', 'March 2022'),
+  (5510, 21002, 'year', '2023-06-01', '2015'),
+  (5511, 21002, 'year', '2024-08-25', '2024'),
+  (5512, 21003, 'month', '2023-03-28', 'January 2024'),
+  (5513, 21001, 'year', '2024-02-28', '2023'), 
+  (5514, 21002, 'year', '2024-11-23', '2022');
 
 -- Insert into summaryReportEntries
 INSERT INTO summaryReportEntries(SReportID, healthID, noofExams, abnormalExams) VALUES

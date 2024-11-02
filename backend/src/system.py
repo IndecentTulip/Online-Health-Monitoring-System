@@ -67,36 +67,34 @@ class System:
     def view_exam(self):
         pass
 
-    def prescribe_exam(self, doctor: Doctor, patient: Patient):
-        pass
-
-    def view_results(self):
-        pass
-
-    def create_results(self, staff: Staff, patient: Patient):
-        pass
-
-    def delete_results(self, result_id: int):
-        pass
-
-    def filter_results(self, results: List[Result], result_type: str):
-        pass
-
-    def create_reports(self, admin: Admin):
-        pass
-
-    def delete_report(self, report_id: int):
-        pass
-
-    def create_smart_monitor(self, doctor: Doctor, options: List[str]):
-        pass
-
-    def change_smart_monitor(self, doctor: Doctor, options: List[str]):
-        pass
-
-    def delete_smart_monitor(self, monitor_id: int):
-        pass
-
-    def logout(self, email: str):
-        pass
+        #    def prescribe_exam(self, doctor: Doctor, patient: Patient):
+        #        pass
+        #
+        #    def view_results(self):
+        #        pass
+        #
+        #    def create_results(self, staff: Staff, patient: Patient):
+        #        pass
+        #
+        #    def delete_results(self, result_id: int):
+        #        pass
+        #
+        #    def filter_results(self, results: List[Result], result_type: str):
+        #        pass
+        #
+        #    def create_reports(self, admin: Admin):
+        #        pass
+        #
+        #    def delete_report(self, report_id: int):
+        #        pass
+        #
+        #    def create_smart_monitor(self, doctor: Doctor, options: List[str]):
+        #        pass
+        #
+        #    def change_smart_monitor(self, doctor: Doctor, options: List[str]):
+        #        pass
+        #
+        #    def delete_smart_monitor(self, monitor_id: int):
+        #        pass
+        #
 

@@ -1,8 +1,8 @@
-from user import User
+from repositories.user import User, Role
 
 class Worker(User):
 
-    def __init__(self, worker_id: int, image: int, name: str, email: str, phone_number: int, role: User.Role):
+    def __init__(self, worker_id: int, image: int, name: str, email: str, phone_number: int, role: Role):
         self.worker_id = worker_id
         self.image = image
         self.name = name
@@ -22,5 +22,5 @@ class Worker(User):
         Creates and returns a new instance of Worker.
         """
         # Implementation for creating a new Worker instance
-        return Worker(0, 0, "", "", 0, User.Role.STAFF)  # Placeholder, replace with actual logic
+        return Worker(0, 0, "", "", 0, Role.STAF)  # Placeholder, replace with actual logic
 
