@@ -1,4 +1,4 @@
-from user import User
+from repositories.user import User
 
 class Patient(User):
     def __init__(self, health_id: int, name: str, email: str, phone_number: int, dob: str):
@@ -25,7 +25,7 @@ class Patient(User):
         # Implementation for creating a patient
         pass
 
-    def give_list_of_pending(self) -> list:
+    def give_list_of_pending(self):
         """
         Returns a list of patients with pending status.
         """
