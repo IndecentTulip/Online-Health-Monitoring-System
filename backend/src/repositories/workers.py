@@ -1,5 +1,5 @@
 from repositories.user import User, Role, UserInfo
-import db_service
+from repositories.db_service import DBService
 
 class Worker(User):
 
@@ -34,14 +34,16 @@ class Worker(User):
         checkWork = """SELECT COUNT usertype FROM workers WHERE email = ? AND staffpassword = ?"""
         fetchWork = """SELECT usertype FROM workers WHERE email = ? AND staffpassword = ?"""
         
-        conn = db_service.get_db_connection
+        db = DBService()
+        conn = db.get_db_connection()
+
         cursor = conn.cursor()
-        cursor.execute(checkWork(email, password))
+        cursor.execute(checkWork, (email, password))
         check = cursor.fetchone()
         if check == 0:
             userRole = Role("Error")
         else:  
-            cursor.execute(fetchWork(email, password))
+            cursor.execute(fetchWork, (email, password))
             userRole = Role(cursor.fetchone())
         
         cursor.close()

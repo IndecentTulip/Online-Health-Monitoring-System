@@ -32,22 +32,18 @@ class System:
         pass
 
     def log_in(self, userType: str, email: str, password: str):
-        testing = True
-        if (testing == True):
-            return True
+        user_info: UserInfo
+        if userType == "patient": # patient
+            user_info = Patient.get_user_record(email, password)
+        elif userType == "worker": # worker
+            user_info = Worker.get_user_record(email, password)
         else:
-            user_info: UserInfo
-            if userType == "patient": # patient
-                user_info = Patient.get_user_record(email, password)
-            elif userType == "worker": # worker
-                user_info = Worker.get_user_record(email, password)
-            else:
-                return "error"
+            return "error"
 
-            if (user_info.user_type.value != "Error"):
-
-                token = SessionManager.generate_token(user_info.email)
-                SessionManager.create_session(token, user_info.email, user_info.user_type.value)
+        #if (user_info.user_type.value != "Error"):
+        #
+        #    token = SessionManager.generate_token(user_info.email)
+        #    SessionManager.create_session(token, user_info.email, user_info.user_type.value)
 
     #def token_required(self, token: str):
     #    user_info: UserInfo

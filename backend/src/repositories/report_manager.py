@@ -1,6 +1,7 @@
 from enum import Enum
 import datetime
-import db_service
+from repositories.db_service import DBService
+
 class ReportType(Enum):
     MONTHLY = "monthly"
     YEARLY = "yearly"
@@ -31,7 +32,9 @@ class ReportManager:
         patientAbTestList = []
         today = datetime.date
 
-        conn = db_service.get_db_connection
+        db = DBService()
+        conn = db.get_db_connection()
+
         cursor = conn.cursor()
        
         #query to get all patients
@@ -95,7 +98,7 @@ class ReportManager:
         #Now make individual report entries
         i = 0
         for val in patientIDList:
-            cursor.execute(MakeReportEntryQry(reportID, val,patientTestList[i], patientAbTestList[i] ))
+            cursor.execute(MakeReportEntryQry, (reportID, val,patientTestList[i], patientAbTestList[i] ))
             i += 1
             
         cursor.close()
@@ -108,19 +111,22 @@ class ReportManager:
         """
         # Implementation for removing a report
         # 0 Means summary, 1 means predict
+        deleteEnt = ''
+        deleteRep = ''
         if report_type == 0:
             deleteEnt = "DELETE FROM summaryreportentries WHERE sreportid = ?"
             deleteRep = "DELETE FROM summaryreport WHERE sreportid = ?"
         else:
             if report_type == 1:
-             deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = ?"
-             deleteRep = "DELETE FROM predictreports WHERE sreportid = ?"
+                deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = ?"
+                deleteRep = "DELETE FROM predictreports WHERE sreportid = ?"
 
-        conn = db_service.get_db_connection
+        db = DBService()
+        conn = db.get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute(deleteEnt(report_id))
-        cursor.execute(deleteRep(report_id))
+        cursor.execute(deleteEnt, (report_id))
+        cursor.execute(deleteRep, (report_id))
 
         cursor.close()
         del cursor

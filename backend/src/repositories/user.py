@@ -1,5 +1,6 @@
 from enum import Enum
-import db_service
+from repositories.db_service import DBService
+
 
 class Role(Enum):
     ADMIN = "Administrator"
