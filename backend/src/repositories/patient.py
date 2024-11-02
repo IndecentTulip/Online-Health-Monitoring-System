@@ -1,4 +1,4 @@
-import db_service
+from repositories.db_service import DBService;
 import datetime
 from repositories.user import User
 class Patient(User):
