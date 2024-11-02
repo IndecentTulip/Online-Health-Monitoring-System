@@ -108,18 +108,19 @@ class ReportManager:
         """
         # Implementation for removing a report
         # 0 Means summary, 1 means predict
-        if report_Type == 0:
+        if report_type == 0:
             deleteEnt = "DELETE FROM summaryreportentries WHERE sreportid = ?"
             deleteRep = "DELETE FROM summaryreport WHERE sreportid = ?"
-        else if report_type == 1:
-            deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = ?"
-            deleteRep = "DELETE FROM predictreports WHERE sreportid = ?"
+        else:
+            if report_type == 1:
+             deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = ?"
+             deleteRep = "DELETE FROM predictreports WHERE sreportid = ?"
 
         conn = db_service.get_db_connection
         cursor = conn.cursor()
 
         cursor.execute(deleteEnt(report_id))
-        cursor.execute(deleteRep(report_od))
+        cursor.execute(deleteRep(report_id))
 
         cursor.close()
         del cursor
