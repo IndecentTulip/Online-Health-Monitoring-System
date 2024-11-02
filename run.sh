@@ -24,6 +24,7 @@ npm update --prefix ./frontend
 
 npm install --prefix ./frontend
 npm install react-router-dom --prefix ./frontend
+npm install axios --prefix ./frontend
 
 npm start --prefix ./frontend &
 
