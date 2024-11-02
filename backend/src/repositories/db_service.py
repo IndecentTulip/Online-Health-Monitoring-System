@@ -2,7 +2,7 @@ import psycopg2
 
 class DBService:
     def __init__(self):
-        self.credentials = self.read_credentials('./credentials.txt')
+        self.credentials = self.read_credentials('./backend/src/credentials.txt')
         self.user = self.credentials.get('user')
         self.password = self.credentials.get('password')
 

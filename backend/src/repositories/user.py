@@ -1,4 +1,21 @@
+from enum import Enum
+
+class Role(Enum):
+    ADMIN = "Administrator"
+    STAF = "Staff"
+    DOC = "Doctor"
+    PAT = "Patient"
+    NONE = "Error"
+
+class UserInfo:
+    def __init__(self, user_type: Role, email: str, password: str):
+        self.user_type = user_type
+        self.email = email 
+        self.password = password
+
+
 class User:
+
     def __init__(self, user_id: int, phone_number: int, user_name: str, email: str, password: str):
         self.user_id = user_id
         self.phone_number = phone_number
@@ -7,6 +24,13 @@ class User:
         self._password = password  # Private attribute
         self.patient = None  # Placeholder for Patient object
         self.worker = None  # Placeholder for Worker object
+
+    @staticmethod
+    def get_user_record(email: str, password: str) -> UserInfo:
+        # ...
+        # SQL
+        # ... 
+        return UserInfo(Role.NONE, "user@example.com", "******")
 
     def modify_account_info(self, email: str):
         """
@@ -35,4 +59,5 @@ class User:
         """
         # Implementation for sending a notification
         pass
+
 
