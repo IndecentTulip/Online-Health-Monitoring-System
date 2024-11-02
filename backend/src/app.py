@@ -12,17 +12,16 @@ system = System()
 def login():
     data = request.json
     userType = data['userType']
+    # userType is ether "patient" or "worker"
     email = data['email']
     password = data['password']
 
-    conformation = system.log_in(userType, email, password)
-    if (conformation):
-        return jsonify({
-            'message': {
-                'userType': userType,
-                'contence': 'we are behind'
-            }
-        })
+    response = system.log_in(userType, email, password)
+
+    if response is None:
+        return jsonify({'error': 'Invalid login credentials'}), 400  # Return an error response if None
+
+    return response 
 
 
 

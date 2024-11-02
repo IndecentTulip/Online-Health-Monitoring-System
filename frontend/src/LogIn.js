@@ -1,16 +1,18 @@
 import './LogIn.css';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// TODO: Store user email and Type somewhere
+
 const Login = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const userType = queryParams.get('type');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
@@ -21,13 +23,17 @@ const Login = () => {
         email,
         password,
       });
-      setMessage(`${response.data.message.userType} needs to hear this message: ${response.data.message.content}`);
       setError(''); 
+      let route = response.data.login.routeTo
+      route.toLowerCase()
+      navigate(`/${route}main`); // Adjust the path as needed
     } catch (err) {
       setError('Login failed. Please check your credentials and try again.');
-      setMessage('');
     }
   };
+
+
+
 
   return (
     <div>
@@ -49,7 +55,6 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
-      {message && <p>{message}</p>} {/* Display message if it exists */}
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
     </div>
   );
