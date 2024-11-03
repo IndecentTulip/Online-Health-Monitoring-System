@@ -23,6 +23,22 @@ def login():
 
     return response 
 
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    patientName = data['patientName']
+    email = data['email']
+    phoneNumber = data['phoneNumber']
+    dob = data['dob']
+    status = data['status']
+    docID = data['docID']
+    password = data['password']
+    print("%s, %s", patientName, docID)
+    return ""
+
+@app.route('/register', methods=['GET'])
+def getDoctors():
+    return system.get_doc_list_form()
 
 
 if __name__ == '__main__':

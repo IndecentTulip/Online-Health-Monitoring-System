@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // TODO: Store user email and Type somewhere
+// TODO: use userType to RESTRIC going into urls reserved to other userTypes
 
 const Login = () => {
   const navigate = useNavigate();

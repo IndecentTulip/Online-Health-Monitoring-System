@@ -1,5 +1,6 @@
 from collections import namedtuple
 from contextlib import nullcontext
+from os import walk
 
 from repositories import user
 from repositories.patient import Patient;
@@ -38,7 +39,9 @@ class System:
         elif userType == "worker":  # Worker
             user_info = Worker.get_user_record(email, password)
         else:
-            return jsonify({'error': 'Invalid user type'}), 400  # Return an error response for invalid user type
+            return jsonify({
+                'error': 'Invalid user type'
+            }), 400  # Return an error response for invalid user type
 
         if user_info and user_info.user_type.value != "Error":
             return jsonify({
@@ -72,6 +75,17 @@ class System:
 
     def view_exam(self):
         pass
+
+    def get_doc_list_form(self):
+        result = Worker.get_doctors_list()
+
+        doctor_list = [{
+            'id': info.id,
+            'email': info.email,
+        } for info in result]
+
+        return jsonify(doctor_list)
+            
 
     #def prescribe_exam(self, doctor: Doctor, patient: Patient):
     #    pass
