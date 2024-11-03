@@ -1,42 +1,51 @@
-from repositories.user import User, Role, UserInfo
+from repositories.user import Status, User, Role, UserInfo
 from repositories.db_service import DBService
 import datetime
 
 class Patient(User):
-    def __init__(self, health_id: int, name: str, email: str, phone_number: int, dob: datetime.date, doctor: int, password: str):
-        self.health_id = health_id
+    def __init__(self, name: str, email: str, phone_number: str, dob: datetime.date, doctor: int, password: str):
         self.name = name
         self.email = email
         self.phone_number = phone_number
-        self._dob = dob  # Private attribute
-        self._status = False  # Private attribute, default to pending (False)
+        self._dob = dob 
+        self._status = False
         self.doctor = doctor
         self.password = password
-    def create_patient_instance(self) -> 'Patient':
-        """
-        Creates and returns a new instance of Patient.
-        """
-        # Implementation for creating a new Patient instance
-        return Patient(0, "", "", 0, datetime.date(2024, 11, 2), 8, "")  # Placeholder, replace with actual logic
+    #def create_patient_instance(self) -> 'Patient':
+    #    """
+    #    Creates and returns a new instance of Patient.
+    #    """
+    #    # Implementation for creating a new Patient instance
+    #    return Patient(0, "", "", 0, datetime.date(2024, 11, 2), 8, "")  # Placeholder, replace with actual logic
 
-    def create_patient(self, patient: 'Patient'):
+    # REQUIRED TO RUN AFTER using Patient() constractor
+    def create_patient(self):
         """
         Creates a new patient record.
         """
-        # Implementation for creating a patient
         db = DBService()
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
+        
+        creatPat = """INSERT INTO patient
+         (patientname, email, dob, status, doctorid, patientpassword, phonenumber)
+         VALUES (%s, %s, %s, %s, %s, %s, %s) """
 
-        creatPat = """INSERT INTO patients
-         (healthid, patientname, email, dob, status, doctorid, patientpassword, phonenumber)
-          VALUES (%s, %s, %s, %s, %s, %s, %s, %s) """
+        try:
+            cursor.execute(creatPat, (self.name, self.email, self._dob, self._status, self.doctor, self.password, self.phone_number))
+            conn.commit()  # Commit the transaction to save changes
+            print("Patient record created successfully.")
+            out = Status.OK
+        except Exception as e:
+            print(f"Failed to create patient record: {e}")
+            conn.rollback()  # Rollback the transaction in case of error
+            out = Status.ERROR
+        finally:
+            cursor.close()
+            conn.close()  # Close the connection to free resources
 
-        cursor.execute(creatPat, (Patient.health_id, Patient.name, Patient.email, Patient._dob, False, Patient.doctor, Patient.password, Patient.phone_number))
-
-        cursor.close()
-        del cursor
+        return out 
 
     def give_list_of_pending(self):
         """
