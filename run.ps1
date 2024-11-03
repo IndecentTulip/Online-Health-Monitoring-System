@@ -26,16 +26,17 @@ Add-Content -Path "./backend/src/credentials.txt" -Value "user=$user"
 Add-Content -Path "./backend/src/credentials.txt" -Value "password=$password"
 
 python -m venv ./backend/venv
+& .\backend\venv\Scripts\activate.bat
+& .\backend\venv\Scripts\Activate.ps1
 
+# jason had issues with this lines, I added new lines to force it to work
 & ./backend/venv/Scripts/pip install -r ./backend/requirements.txt
-
+& pip install -r ./backend/requirements.txt
 & ./backend/venv/Scripts/python ./backend/createdb.py
+& python ./backend/createdb.py
 
 & npm update --prefix ./frontend
 & npm install --prefix ./frontend
-
-"./backend/venv/Scripts/python ./backend/src/app.py"
-"npm start --prefix ./frontend"
 
 $workingDirectory = Get-Location
 Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "./backend/venv/Scripts/python ./backend/src/app.py" -WorkingDirectory $workingDirectory
