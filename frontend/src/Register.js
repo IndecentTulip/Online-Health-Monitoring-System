@@ -51,9 +51,9 @@ const Register = () => {
       });
 
       console.log('Registration successful:', response.data);
-      if (response.data.confirm == "OK"){
+      if (response.data.confirm === "OK"){
         navigate('/');
-      }if (response.data.confirm == "ERROR") {
+      }if (response.data.confirm === "ERROR") {
         setError('Registration failed. Account on the same email already exist');
       } else {
         setError('Registration failed. Something went wrong');
