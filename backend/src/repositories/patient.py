@@ -27,7 +27,7 @@ class Patient(User):
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
-        
+         #insert into table from test#
         creatPat = """INSERT INTO patient
          (patientname, email, dob, status, doctorid, patientpassword, phonenumber)
          VALUES (%s, %s, %s, %s, %s, %s, %s) """

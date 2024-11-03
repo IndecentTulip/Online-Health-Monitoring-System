@@ -86,6 +86,13 @@ create table testtypes (
   foreign key (examtype) references examtype(examtype)
 );
 
+-- create the prescribed test.
+create table presecribedTest(
+  examid integer,
+  foreign key (examid) references examtable(examid),
+  testtype varchar(50),
+  foreign key (testtype) references testtypes(testtype)
+);
 -- create the testresults table
 create table testresults (
   testtype varchar(50),
