@@ -1,6 +1,9 @@
 from enum import Enum
 from repositories.db_service import DBService
 
+class Status(Enum):
+    OK = "OK"
+    ERROR = "ERROR"
 
 class Role(Enum):
     ADMIN = "Administrator"

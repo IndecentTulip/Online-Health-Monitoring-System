@@ -1,3 +1,4 @@
+from os import stat
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from system import System
@@ -30,11 +31,12 @@ def register():
     email = data['email']
     phoneNumber = data['phoneNumber']
     dob = data['dob']
-    status = data['status']
     docID = data['docID']
     password = data['password']
-    print("%s, %s", patientName, docID)
-    return ""
+    print(patientName, docID, dob)
+    response = system.register(patientName, email, phoneNumber, dob, docID, password)
+
+    return response
 
 @app.route('/register', methods=['GET'])
 def getDoctors():

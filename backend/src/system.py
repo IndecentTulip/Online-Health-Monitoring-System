@@ -11,6 +11,7 @@ from flask import Flask, request, jsonify
 from repositories.session_manager import SessionManager
 from repositories.workers import Worker
 from repositories.user import UserInfo
+from datetime import datetime
 
 class System:
     # def __init__(self):
@@ -21,8 +22,18 @@ class System:
         # self.exams_list: List[Exam] = []
         # self.results_list: List[Result] = []
 
-    def register(self):
-        pass
+    def register(self,patientName: str, email: str, phoneNumber: str, dob: str, docID: int, password: str):
+
+        date_object = datetime.strptime(dob, "%Y-%m-%d").date()
+        newPatient = Patient(patientName, email, phoneNumber, date_object, docID, password)
+        status = newPatient.create_patient()
+
+        return jsonify({
+                'confirm': status.name
+            })
+
+
+
 
     def manage_accounts(self):
         pass
