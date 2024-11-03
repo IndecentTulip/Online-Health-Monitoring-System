@@ -7,7 +7,8 @@ INSERT INTO workers (workersID, workersName, email, phoneNumber, image, userType
   (21004, 'Lopez Dean', 'Lopez.Dean@jlabemail.com', '7890009000', NULL, 'Doctor', '*****'),
   (21005, 'Derrick Juan', 'Derrick.Juan@jlabemail.com', '7899874356', NULL, 'Staff', '*****'),
   (21006, 'Emily Zhang', 'Emily.Zhang@jlabemail.com', '7891760986', NULL, 'Staff', '*****'),
-  (21007, 'Shelly Birch', 'Shelly.Birch@jlabemail.com', '7899235981', NULL, 'Staff', '*****');
+  (21007, 'Shelly Birch', 'Shelly.Birch@jlabemail.com', '7899235981', NULL, 'Staff', '*****'),
+  (21008, 'Totaly Read Doctor', 'Total.real@jlabemail..com', '7890009777', NULL, 'Doctor', '*****');
 
 -- Now insert into patients
 INSERT INTO patient (healthID, patientName, email, phoneNumber, DOB, status, doctorID, patientPassword) VALUES

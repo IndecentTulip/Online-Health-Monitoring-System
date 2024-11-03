@@ -90,5 +90,9 @@ class Patient(User):
         else:  
             userRole = Role.NONE
         
-        return UserInfo(userRole, email, password)
+        info = UserInfo()
+        info.setRole(userRole)
+        info.setEmail(email)
+        info.setPassword(password)
+        return info
 

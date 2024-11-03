@@ -1,3 +1,4 @@
+from typing import List
 from repositories.user import User, Role, UserInfo
 from repositories.db_service import DBService
 
@@ -44,14 +45,51 @@ class Worker(User):
             strRole = cursor.fetchone()
 
             if check is not None:
-                strRole = strRole[0]
+                if strRole:
+                    strRole = strRole[0]
         
         cursor.close()
         del cursor
+        conn.close()
 
         for role in Role:
             if role.value == strRole:
-                return UserInfo(role, email, password)
+                info = UserInfo()
+                info.setRole(role)
+                info.setEmail(email)
+                info.setPassword(password)
+                return info
 
-        return UserInfo(Role.NONE, "", "")
+        info = UserInfo()
+        info.setRole(Role.NONE)
+        return info
+
+    @staticmethod
+    def get_doctors_list() -> List:
+        fetchEmailNId = """SELECT workersID, email FROM workers WHERE userType = 'Doctor';"""
+        
+        db = DBService()
+        conn = db.get_db_connection()
+
+        cursor = conn.cursor()
+        cursor.execute(fetchEmailNId)
+        doctors = cursor.fetchall()
+
+        doctors_info_list = []
+
+        if doctors:
+            for doc in doctors:
+                info = UserInfo()
+                info.setId(doc[0])
+                info.setEmail(doc[1])
+                doctors_info_list.append(info)
+
+        cursor.close()
+        del cursor
+        conn.close()
+
+        return doctors_info_list
+
+        
+
 

@@ -10,11 +10,20 @@ class Role(Enum):
     NONE = "Error"
 
 class UserInfo:
-    def __init__(self, user_type: Role, email: str, password: str):
+    #def __init__(self, user_type: Role, email: str, password: str, id: int):
+    #    self.user_type = user_type
+    #    self.email = email 
+    #    # WE might not need the password
+    #    self.password = password
+    #    self.id = id 
+    def setRole(self, user_type: Role):
         self.user_type = user_type
+    def setEmail(self, email: str):
         self.email = email 
-        # WE might not need the password
+    def setPassword(self, password: str):
         self.password = password
+    def setId(self, id: int):
+        self.id = id
 
 
 class User:
@@ -33,7 +42,8 @@ class User:
         # ...
         # SQL
         # ... 
-        return UserInfo(Role.NONE, "user@example.com", "******")
+        info = UserInfo()
+        return info
 
     def modify_account_info(self, email: str):
         """
