@@ -2,7 +2,7 @@
 //navigation menu
 import { useNavigate } from 'react-router-dom';
 //Tracking the information filled out on the form.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // if docter decides to prescribe an exam for patients
 import './DoctorMain';
 
@@ -31,4 +31,10 @@ const Exam = () =>{
             required/>
            </form>
     }//if
+
+    //Storing prescribed exams in the database. 
+   useEffect(() =>{
+    const 
+   })//
+   
 }//Exam
