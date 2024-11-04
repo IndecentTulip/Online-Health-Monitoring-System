@@ -88,7 +88,7 @@ create table testtypes (
 
 -- create the prescribed test.
 create table presecribedTest(
-  examid integer,
+  examId INTEGER,
   foreign key (examid) references examtable(examid),
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype)
