@@ -1,22 +1,6 @@
 # Jlabs
 ```
 .
-├── !Demo!
-│   ├── backend/
-│   │   ├── app.py
-│   │   ├── requirements.txt
-│   │   ├── venv
-│   ├── database/
-│   │   ├── schema.sql
-│   │   ├── seed.sql
-│   └── frontend/
-│       ├── package.json
-│       ├── package-lock.json
-│       ├── App.js
-│       ├── Login.js
-│       ├── index.js
-│       ├── Dashboard.js
-│       ├── reportWebVitals.js
 ├── backend/
 ├── database/
 ├── frontend/
