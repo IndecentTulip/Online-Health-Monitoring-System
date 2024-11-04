@@ -34,7 +34,7 @@ const Exam = () =>{
 
     //Storing prescribed exams in the database. 
    useEffect(() =>{
-    const 
+    const fslkds
    })//
    
 }//Exam
