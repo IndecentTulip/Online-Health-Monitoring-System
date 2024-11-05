@@ -6,6 +6,7 @@ class Exam:
 
     def prescribe_exam(self, exam: 'Exam'):
         # Implementation for prescribing an exam
+        
         pass
 
     def remove_exam(self, exam_id: int):
