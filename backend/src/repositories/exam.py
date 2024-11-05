@@ -29,21 +29,9 @@ class Exam:
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-
-        # check to see if userID exist. 
-        try:
-        
         cursor.execute(removeExam,(removeExam.examid))
 
-        conn.commit()
-        print(f"{exam_id} removed")
-
-        except Exception as e: #if the user ID does not exist.
-            
-        connect.rollback()
-        
-        finally: 
-    
+        #close the execution
         cursor.close()
         conn.close()
         pass
