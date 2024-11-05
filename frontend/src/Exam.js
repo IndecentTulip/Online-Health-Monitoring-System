@@ -32,9 +32,20 @@ const Exam = () =>{
            </form>
     }//if
 
+    //form handling 
+    const
+
     //Storing prescribed exams in the database. 
-   useEffect(() =>{
-    const fslkds
-   })//
+   try {
+       await axios.post('http://localhost:5000/exam',{
+       examId,
+       patientId,
+       content
+       });
+   }//try
+   catch(err){
+
+
+   }
    
 }//Exam
