@@ -2,10 +2,13 @@ import './LogIn.css';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useRole } from './RoleContext';
 
 // TODO: Store user email and Type somewhere
+// TODO: use userType to RESTRIC going into urls reserved to other userTypes
 
 const Login = () => {
+  const { setRole } = useRole();
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -24,9 +27,11 @@ const Login = () => {
         password,
       });
       setError(''); 
-      let route = response.data.login.routeTo
-      route.toLowerCase()
-      navigate(`/${route}main`); // Adjust the path as needed
+      let route = response.data.login.routeTo;
+      console.log(route);
+      //setRoutePerm(route);
+      setRole(route);
+      navigate(`/${route.toLowerCase()}/main`);
     } catch (err) {
       setError('Login failed. Please check your credentials and try again.');
     }

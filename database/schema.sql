@@ -20,7 +20,7 @@
 create table workers ( 
   workersid serial primary key,
   workersname varchar(50) not null,
-  email varchar(50) not null,
+  email varchar(50) not null UNIQUE,
   phonenumber varchar(10) not null, 
   image bytea,
   usertype varchar(13) not null,
@@ -45,11 +45,11 @@ create table users (
 create table patient (
   healthid smallserial primary key,
   patientname varchar(50) not null,
-  email varchar(50) not null,
+  email varchar(50) not null UNIQUE,
   dob date not null,
   status boolean not null,
   doctorid int not null,
-  patientpassword varchar(50) not null,
+  patientpassword varchar(250) not null,
   phonenumber varchar(10),
   foreign key (doctorid) references workers(workersid)
 );
@@ -86,6 +86,13 @@ create table testtypes (
   foreign key (examtype) references examtype(examtype)
 );
 
+-- create the prescribed test.
+create table presecribedTest(
+  examId INTEGER,
+  foreign key (examid) references examtable(examid),
+  testtype varchar(50),
+  foreign key (testtype) references testtypes(testtype)
+);
 -- create the testresults table
 create table testresults (
   testtype varchar(50),

@@ -11,7 +11,7 @@ def read_credentials(file_path):
     return credentials
 
 # Read credentials from the file
-credentials = read_credentials('./Demo/backend/src/credentials.txt')
+credentials = read_credentials('./backend/src/credentials.txt')
 user = credentials.get('user')
 password = credentials.get('password')
 

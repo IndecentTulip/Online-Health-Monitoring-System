@@ -1,3 +1,4 @@
+from os import stat
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from system import System
@@ -23,6 +24,23 @@ def login():
 
     return response 
 
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    patientName = data['patientName']
+    email = data['email']
+    phoneNumber = data['phoneNumber']
+    dob = data['dob']
+    docID = data['docID']
+    password = data['password']
+    print(patientName, docID, dob)
+    response = system.register(patientName, email, phoneNumber, dob, docID, password)
+
+    return response
+
+@app.route('/register', methods=['GET'])
+def getDoctors():
+    return system.get_doc_list_form()
 
 
 if __name__ == '__main__':

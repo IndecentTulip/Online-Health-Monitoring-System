@@ -1,5 +1,6 @@
 from collections import namedtuple
 from contextlib import nullcontext
+from os import walk
 
 from repositories import user
 from repositories.patient import Patient;
@@ -10,6 +11,7 @@ from flask import Flask, request, jsonify
 from repositories.session_manager import SessionManager
 from repositories.workers import Worker
 from repositories.user import UserInfo
+from datetime import datetime
 
 class System:
     # def __init__(self):
@@ -20,8 +22,18 @@ class System:
         # self.exams_list: List[Exam] = []
         # self.results_list: List[Result] = []
 
-    def register(self):
-        pass
+    def register(self,patientName: str, email: str, phoneNumber: str, dob: str, docID: int, password: str):
+
+        date_object = datetime.strptime(dob, "%Y-%m-%d").date()
+        newPatient = Patient(patientName, email, phoneNumber, date_object, docID, password)
+        status = newPatient.create_patient()
+
+        return jsonify({
+                'confirm': status.name
+            })
+
+
+
 
     def manage_accounts(self):
         pass
@@ -38,7 +50,9 @@ class System:
         elif userType == "worker":  # Worker
             user_info = Worker.get_user_record(email, password)
         else:
-            return jsonify({'error': 'Invalid user type'}), 400  # Return an error response for invalid user type
+            return jsonify({
+                'error': 'Invalid user type'
+            }), 400  # Return an error response for invalid user type
 
         if user_info and user_info.user_type.value != "Error":
             return jsonify({
@@ -72,6 +86,17 @@ class System:
 
     def view_exam(self):
         pass
+
+    def get_doc_list_form(self):
+        result = Worker.get_doctors_list()
+
+        doctor_list = [{
+            'id': info.id,
+            'email': info.email,
+        } for info in result]
+
+        return jsonify(doctor_list)
+            
 
     #def prescribe_exam(self, doctor: Doctor, patient: Patient):
     #    pass
