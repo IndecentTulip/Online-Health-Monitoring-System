@@ -17,9 +17,6 @@ class Monitor:
         Creates a new monitor instance.
         """
         # Implementation for creating a new monitor
-        db = DBService()
-        conn = db.get_db_connection()
-        cursor = conn.cursor()
         createmonitor = "Insert into smartmonitor(monitorid, workersid, examtype, smartstatus, healthid) "
         pass
 
