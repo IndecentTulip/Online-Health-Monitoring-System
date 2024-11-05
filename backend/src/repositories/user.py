@@ -62,12 +62,24 @@ class User:
         # Implementation for returning user record
         pass
 
-    def delete_account(self, user_id: int):
+    def delete_account(self, user_id: int, accType: str):
         """
         Deletes the user's account by user ID.
         """
         # Implementation for deleting the account
-        pass
+        if accType == "Patient":
+            delete = "DELETE FROM patient WHERE healthid = %s"
+        if accType == "Worker":
+            delete = "DELETE FROM workers WHERE workersid = %s"
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(delete, (user_id))
+
+        cursor.close()
+        conn.close() 
+    
 
     def _notify(self, message: str, email: str):
         """

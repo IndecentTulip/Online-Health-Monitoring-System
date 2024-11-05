@@ -4,20 +4,40 @@ from repositories.db_service import DBService
 
 class Worker(User):
 
-    def __init__(self, worker_id: int, image: int, name: str, email: str, phone_number: int, role: Role):
+    def __init__(self, worker_id: int, image: int, name: str, email: str, phone_number: int, role: Role, password: str):
         self.worker_id = worker_id
         self.image = image
         self.name = name
         self.email = email
         self.phone_number = phone_number
         self.role = role
-
+        self._password = password
     def create_worker(self, worker: 'Worker'):
         """
         Creates a new worker record.
         """
         # Implementation for creating a worker
-        pass
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        createWork = """INSERT INTO workers
+        (workersname, email, phonenumber, image, usertype, staffpassword)
+        VALUES (%s, %s, %s, %s, %s, %s)"""
+
+        try:
+            cursor.execute(createWork, (self.name, self.email, self.phone_number, self.image, self.role.value, self._password,))
+            conn.commit()  # Commit the transaction to save changes
+            print("Worker record created successfully.")
+        except Exception as e:
+            print(f"Failed to create worker record: {e}")
+            conn.rollback()  # Rollback the transaction in case of error
+
+        finally:
+            cursor.close()
+            conn.close()  # Close the connection to free resources
+
+
 
     def create_worker_instance(self) -> 'Worker':
         """
