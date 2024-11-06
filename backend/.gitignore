@@ -1,1 +1,5 @@
 credentials.txt
+venv/
+venv_linux/
+src/__pycache__/
+src/repositories/__pycache__/
