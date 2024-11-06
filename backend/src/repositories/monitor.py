@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import List
 
+from backend.src.repositories.db_service import DBService
+
 class Status(Enum):
     ACTIVE = "active"
     INACTIVE = "inactive"
@@ -17,7 +19,14 @@ class Monitor:
         Creates a new monitor instance.
         """
         # Implementation for creating a new monitor
-        createmonitor = "Insert into smartmonitor(monitorid, workersid, examtype, smartstatus, healthid) "
+        createmonitor = """Insert into smartmonitor(monitorid, workersid, examtype, smartstatus, healthid) 
+        values (%d, %d, %s, %s, %d)"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(createmonitor)
+        conn.commit
+
         pass
 
     def return_list_of_monitors(self, email: str) -> List['Monitor']:
@@ -25,6 +34,18 @@ class Monitor:
         Returns a list of monitors associated with the given email.
         """
         # Implementation for returning monitors
+        listmonitors = """select * from smartmonitor where exist (select email from users where users.email = %s)"""
+        
+        #search the database. 
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        results = cursor.execute(listmonitors)
+        conn.commit
+
+        #output the results
+        print(results)
+        
         pass
 
     def modify_monitor(self, monitor_id: int):
@@ -32,6 +53,8 @@ class Monitor:
         Modifies an existing monitor by its ID.
         """
         # Implementation for modifying a monitor
+
+
         pass
 
     def remove_monitor(self, monitor_id: int):
