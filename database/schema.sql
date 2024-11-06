@@ -18,7 +18,7 @@
 
 -- create the workers table first since it is referenced in other tables
 create table workers ( 
-  workersid SMALLINT primary key,
+  workersid INT primary key,
   workersname varchar(50) not null,
   email varchar(50) not null UNIQUE,
   phonenumber varchar(10) not null, 
@@ -34,7 +34,7 @@ create table examtype (
 
 -- create the users table
 create table users (
-  id SMALLINT primary key,
+  id INT primary key,
   username varchar(50) not null unique,
   email varchar(100) not null unique,
   password varchar(255) not null,
@@ -43,7 +43,7 @@ create table users (
 
 -- create the patient table
 create table patient (
-  healthid SMALLINT primary key,
+  healthid serial primary key,
   patientname varchar(50) not null,
   email varchar(50) not null UNIQUE,
   dob date not null,
@@ -56,7 +56,7 @@ create table patient (
 
 -- create the posts table
 create table posts (
-  id SMALLINT primary key,
+  id INT primary key,
   user_id int,
   title varchar(255) not null,
   content varchar(355) not null,
@@ -66,10 +66,10 @@ create table posts (
 
 -- create the examtable
 create table examtable (
-  examid SMALLINT primary key,
+  examid INT primary key,
   examdate date not null,
-  healthid smallint not null,  -- ensure this matches the patient table
-  workersid SMALLINT not null,
+  healthid int not null,  -- ensure this matches the patient table
+  workersid INT not null,
   examtype varchar(50) not null,
   foreign key (healthid) references patient(healthid),
   foreign key (workersid) references workers(workersid),
@@ -97,7 +97,7 @@ create table presecribedTest(
 create table testresults (
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype),
-  examid SMALLINT,
+  examid INT,
   foreign key (examid) references examtable(examid),
   results numeric(7, 4) not null,
   resultdate date not null
@@ -106,7 +106,7 @@ create table testresults (
 -- create the summaryreport table
 create table summaryreport (
   sreportid numeric(4) primary key,
-  workersid SMALLINT not null,
+  workersid INT not null,
   foreign key (workersid) references workers(workersid),
   monthoryear varchar(5) check (monthoryear in ('month', 'year')) not null,
   summarydate date not null,
@@ -117,7 +117,7 @@ create table summaryreport (
 create table summaryreportentries (
   sreportid numeric(4),
   foreign key (sreportid) references summaryreport(sreportid),
-  healthid smallserial,
+  healthid INT,
   foreign key (healthid) references patient(healthid),
   noofexams numeric(2) not null,
   abnormalexams numeric(2) not null
@@ -126,9 +126,9 @@ create table summaryreportentries (
 -- create the predictreports table
 create table predictreports (
   preportid numeric(4) primary key not null,
-  workersid SMALLINT not null,
+  workersid INT not null,
   foreign key (workersid) references workers(workersid),
-  healthid smallserial not null,
+  healthid INT not null,
   foreign key (healthid) references patient(healthid),
   pdate date not null
 );
@@ -144,12 +144,12 @@ create table predictreportsentries (
 
 -- create the smartmonitor table
 create table smartmonitor (
-  monitorid SMALLINT primary key not null,
-  workersid SMALLINT not null,
+  monitorid INT primary key not null,
+  workersid INT not null,
   foreign key (workersid) references workers(workersid),
   examtype varchar(50) default 'on stand by' not null,
   foreign key (examtype) references examtype(examtype),
   smartstatus varchar(10) check (smartstatus in ('sent', 'not sent')) not null,
-  healthid smallserial not null,
+  healthid int not null,
   foreign key (healthid) references patient(healthid)
 );
