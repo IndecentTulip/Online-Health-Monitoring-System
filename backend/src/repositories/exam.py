@@ -10,15 +10,6 @@ class Exam:
 
     def prescribe_exam(self, exam: 'Exam'):
         # Implementation for prescribing an exam
-
-        #insert a new exam onto the table. #user enters info. 
-        createExam = input("""Insert into examtable(examid, examdate, healthid, workersid, examtype) values (%d, %s, %d, %d, %s)""")
-        db = DBService()
-        conn = db.get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(createExam(exam.examid, exam.examdate,exam.healtid,  ))
-
-
         pass
 
     def remove_exam(self, exam_id: int):
@@ -40,3 +31,10 @@ class Exam:
         # Implementation for returning a list of exams based on email
         pass
 
+    def addExam():
+          #insert a new exam onto the table. #user enters info. 
+        createExam = ("""Insert into examtable(examid, examdate, healthid, workersid, examtype) values (%d, %s, %d, %d, %s)""")
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(createExam)

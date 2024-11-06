@@ -1,6 +1,8 @@
 from enum import Enum
 from typing import List
 
+from backend.src.repositories.db_service import DBService
+
 class Status(Enum):
     ACTIVE = "active"
     INACTIVE = "inactive"
@@ -17,7 +19,13 @@ class Monitor:
         Creates a new monitor instance.
         """
         # Implementation for creating a new monitor
-        createmonitor = "Insert into smartmonitor(monitorid, workersid, examtype, smartstatus, healthid) "
+        createmonitor = """Insert into smartmonitor(monitorid, workersid, examtype, smartstatus, healthid)"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(createmonitor)
+        conn.commit
+        
         pass
 
     def return_list_of_monitors(self, email: str) -> List['Monitor']:

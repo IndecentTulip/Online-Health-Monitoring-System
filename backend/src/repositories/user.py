@@ -44,6 +44,7 @@ class User:
     def get_user_record(email: str, password: str) -> UserInfo:
         # ...
         # SQL
+        
         # ... 
         info = UserInfo()
         return info
