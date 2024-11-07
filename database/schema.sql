@@ -43,7 +43,7 @@ create table users (
 
 -- create the patient table
 create table patient (
-  healthid serial primary key,
+  healthid INT primary key,
   patientname varchar(50) not null,
   email varchar(50) not null UNIQUE,
   dob date not null,

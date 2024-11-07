@@ -11,7 +11,7 @@ import './Exam.css';
 //retrieving info from the database
 import axios from 'axios';
 
-const Exam = () =>{
+const Exam = async () =>{
     
     //Doctor can nvigate around the exam menu.
     const navigate = useNavigate();

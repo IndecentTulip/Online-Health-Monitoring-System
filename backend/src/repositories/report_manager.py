@@ -20,6 +20,22 @@ class ReportManager:
         """
         # Implementation for returning reports
         # Is this really something we need
+
+        #summary report query.
+        summaryReport = """select * from summaryreport"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(summaryReport)
+
+        #predict report query.
+        predictReport = """select * from predictreports"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(predictReport)
+
+        return summaryReport, predictReport
         pass
 
     def generate_summary_report(self, year: int, month: int, userID: int):
