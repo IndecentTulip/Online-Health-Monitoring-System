@@ -23,7 +23,6 @@ const roleRoutes = {
   ],
   Administrator: [
     { path: '/administrator/main', component: AdminMain },
-    { path: '/administrator/accmanagment', component: AccManage },
   ],
 };
 

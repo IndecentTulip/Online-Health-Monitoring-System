@@ -1,0 +1,100 @@
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Tab Container */
+.atabs {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+}
+
+/* Tab Item */
+.atab {
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+  flex-grow: 1;
+  text-transform: uppercase;
+  font-weight: bold;
+  position: relative; /* Required for dropdown positioning */
+}
+
+/* Tab Item Hover Effect */
+.atab:hover {
+  background-color: #f0f0f0;
+}
+
+/* Active Tab Style */
+.atab.active {
+  background-color: #b33a3a;
+  color: white;
+  border-bottom: 2px solid #b33a3a; /* Highlighting active tab */
+}
+
+/* Tab Content */
+.atab-content {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-top: none;
+  min-height: 200px;
+  background-color: #f9f9f9;
+  margin-top: -1px;
+}
+
+/* Dropdown Menu */
+.atab-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content */
+.atab-dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border: 1px solid #ccc;
+  border-top: none;
+  margin-top: 5px;
+  left: 0; /* Ensure dropdown aligns with the tab */
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s 0.3s; /* Transition opacity and add delay for visibility */
+}
+
+/* Keep dropdown visible when hovering on tab or dropdown content */
+.atab-dropdown:hover .dropdown-content,
+.atab-dropdown .dropdown-content:hover {
+  display: block;
+  opacity: 1; /* Make dropdown visible */
+  visibility: visible;
+  transition-delay: 0s; /* Remove delay on hover */
+}
+
+/* Dropdown Item */
+.dropdown-content div {
+  padding: 10px 20px;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-weight: normal;
+  transition: background-color 0.3s;
+}
+
+/* Hover Effect for Dropdown Items */
+.dropdown-content div:hover {
+  background-color: #ddd;
+}
+
+/* Adjust the active tab content margin to fit dropdown */
+.atab-dropdown .atab {
+  padding-right: 40px; /* Make room for the dropdown icon */
+}
+
