@@ -29,6 +29,7 @@ INSERT INTO examType(examType) VALUES
   ('CT-Scan'),
   ('MRI'),
   ('Urine Test');
+  
 
 -- Now insert into examTable
 INSERT INTO examTable (examId, examDate, healthID, workersID, examType) VALUES
@@ -49,7 +50,15 @@ INSERT INTO testTypes(testType, lowerBound, upperBound, unit, examType) VALUES
   ('X-Ray X', 7, 20, 'mmHG', 'X-Ray'),
   ('CT-Scan C', 90, 100, '%', 'CT-Scan'),
   ('MRI', 7, 55, 'U/L', 'MRI'),
-  ('Urine Test', 11, 44, 'ng/mL', 'Urine Test');
+  ('Urine Test', 11, 44, 'ng/mL', 'Urine Test'),
+  ('Routine Hematology', 0.9, 1.2, 'mg/dl', 'Blood'),
+  ('Coagulation', 130, 1.2, 'mg/dl', 'Blood'),
+  ('Routine Chemistry', 60, 20, 'mg/dl', 'Blood'),
+  ('Renal Function', 150, 30, 'mg/dl', 'Blood'),
+  ('Liver Function', 90, 25, 'mg/dl', 'Blood'),
+  ('Pancreas Function', 100, 50, 'mg/dl', 'Blood'),
+  ('Endocrinology', 170, 90, 'mg/dl', 'Blood'),
+  ('Tumor Markers', 230, 100, 'mg/dl','Blood');
 
 
 -- Insert into testResults
