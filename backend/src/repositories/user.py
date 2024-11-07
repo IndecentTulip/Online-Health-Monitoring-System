@@ -1,6 +1,9 @@
 from enum import Enum
 from repositories.db_service import DBService
 
+class Status(Enum):
+    OK = "OK"
+    ERROR = "ERROR"
 
 class Role(Enum):
     ADMIN = "Administrator"
@@ -10,11 +13,20 @@ class Role(Enum):
     NONE = "Error"
 
 class UserInfo:
-    def __init__(self, user_type: Role, email: str, password: str):
+    #def __init__(self, user_type: Role, email: str, password: str, id: int):
+    #    self.user_type = user_type
+    #    self.email = email 
+    #    # WE might not need the password
+    #    self.password = password
+    #    self.id = id 
+    def setRole(self, user_type: Role):
         self.user_type = user_type
+    def setEmail(self, email: str):
         self.email = email 
-        # WE might not need the password
+    def setPassword(self, password: str):
         self.password = password
+    def setId(self, id: int):
+        self.id = id
 
 
 class User:
@@ -32,8 +44,10 @@ class User:
     def get_user_record(email: str, password: str) -> UserInfo:
         # ...
         # SQL
+        
         # ... 
-        return UserInfo(Role.NONE, "user@example.com", "******")
+        info = UserInfo()
+        return info
 
     def modify_account_info(self, email: str):
         """
@@ -49,12 +63,24 @@ class User:
         # Implementation for returning user record
         pass
 
-    def delete_account(self, user_id: int):
+    def delete_account(self, user_id: int, accType: str):
         """
         Deletes the user's account by user ID.
         """
         # Implementation for deleting the account
-        pass
+        if accType == "Patient":
+            delete = "DELETE FROM patient WHERE healthid = %s"
+        if accType == "Worker":
+            delete = "DELETE FROM workers WHERE workersid = %s"
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(delete, (user_id))
+
+        cursor.close()
+        conn.close() 
+    
 
     def _notify(self, message: str, email: str):
         """

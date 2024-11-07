@@ -18,9 +18,9 @@
 
 -- create the workers table first since it is referenced in other tables
 create table workers ( 
-  workersid serial primary key,
+  workersid SMALLINT primary key,
   workersname varchar(50) not null,
-  email varchar(50) not null,
+  email varchar(50) not null UNIQUE,
   phonenumber varchar(10) not null, 
   image bytea,
   usertype varchar(13) not null,
@@ -34,7 +34,7 @@ create table examtype (
 
 -- create the users table
 create table users (
-  id serial primary key,
+  id SMALLINT primary key,
   username varchar(50) not null unique,
   email varchar(100) not null unique,
   password varchar(255) not null,
@@ -43,20 +43,20 @@ create table users (
 
 -- create the patient table
 create table patient (
-  healthid smallserial primary key,
+  healthid SMALLINT primary key,
   patientname varchar(50) not null,
-  email varchar(50) not null,
+  email varchar(50) not null UNIQUE,
   dob date not null,
   status boolean not null,
   doctorid int not null,
-  patientpassword varchar(50) not null,
+  patientpassword varchar(250) not null,
   phonenumber varchar(10),
   foreign key (doctorid) references workers(workersid)
 );
 
 -- create the posts table
 create table posts (
-  id serial primary key,
+  id SMALLINT primary key,
   user_id int,
   title varchar(255) not null,
   content varchar(355) not null,
@@ -66,10 +66,10 @@ create table posts (
 
 -- create the examtable
 create table examtable (
-  examid serial primary key,
+  examid SMALLINT primary key,
   examdate date not null,
   healthid smallint not null,  -- ensure this matches the patient table
-  workersid serial not null,
+  workersid SMALLINT not null,
   examtype varchar(50) not null,
   foreign key (healthid) references patient(healthid),
   foreign key (workersid) references workers(workersid),
@@ -86,11 +86,18 @@ create table testtypes (
   foreign key (examtype) references examtype(examtype)
 );
 
+-- create the prescribed test.
+create table presecribedTest(
+  examId INTEGER,
+  foreign key (examid) references examtable(examid),
+  testtype varchar(50),
+  foreign key (testtype) references testtypes(testtype)
+);
 -- create the testresults table
 create table testresults (
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype),
-  examid serial,
+  examid SMALLINT,
   foreign key (examid) references examtable(examid),
   results numeric(7, 4) not null,
   resultdate date not null
@@ -99,7 +106,7 @@ create table testresults (
 -- create the summaryreport table
 create table summaryreport (
   sreportid numeric(4) primary key,
-  workersid serial not null,
+  workersid SMALLINT not null,
   foreign key (workersid) references workers(workersid),
   monthoryear varchar(5) check (monthoryear in ('month', 'year')) not null,
   summarydate date not null,
@@ -119,7 +126,7 @@ create table summaryreportentries (
 -- create the predictreports table
 create table predictreports (
   preportid numeric(4) primary key not null,
-  workersid serial not null,
+  workersid SMALLINT not null,
   foreign key (workersid) references workers(workersid),
   healthid smallserial not null,
   foreign key (healthid) references patient(healthid),
@@ -137,8 +144,8 @@ create table predictreportsentries (
 
 -- create the smartmonitor table
 create table smartmonitor (
-  monitorid serial primary key not null,
-  workersid serial not null,
+  monitorid SMALLINT primary key not null,
+  workersid SMALLINT not null,
   foreign key (workersid) references workers(workersid),
   examtype varchar(50) default 'on stand by' not null,
   foreign key (examtype) references examtype(examtype),

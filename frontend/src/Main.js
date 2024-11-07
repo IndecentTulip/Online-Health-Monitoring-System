@@ -11,9 +11,7 @@ const Main = () => {
 
   return (
     <div>
-      <p>WHO ARE WE</p>
-      <p>Blah bolah blah</p>
-      <button onClick={handleRedirect}>Go to Sign In</button>
+       <button onClick={handleRedirect}>Go to Sign In</button>
     </div>
   );
 

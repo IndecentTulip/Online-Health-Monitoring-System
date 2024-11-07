@@ -7,7 +7,8 @@ INSERT INTO workers (workersID, workersName, email, phoneNumber, image, userType
   (21004, 'Lopez Dean', 'Lopez.Dean@jlabemail.com', '7890009000', NULL, 'Doctor', '*****'),
   (21005, 'Derrick Juan', 'Derrick.Juan@jlabemail.com', '7899874356', NULL, 'Staff', '*****'),
   (21006, 'Emily Zhang', 'Emily.Zhang@jlabemail.com', '7891760986', NULL, 'Staff', '*****'),
-  (21007, 'Shelly Birch', 'Shelly.Birch@jlabemail.com', '7899235981', NULL, 'Staff', '*****');
+  (21007, 'Shelly Birch', 'Shelly.Birch@jlabemail.com', '7899235981', NULL, 'Staff', '*****'),
+  (21008, 'Totaly Read Doctor', 'Total.real@jlabemail..com', '7890009777', NULL, 'Doctor', '*****');
 
 -- Now insert into patients
 INSERT INTO patient (healthID, patientName, email, phoneNumber, DOB, status, doctorID, patientPassword) VALUES
@@ -50,6 +51,7 @@ INSERT INTO testTypes(testType, lowerBound, upperBound, unit, examType) VALUES
   ('MRI', 7, 55, 'U/L', 'MRI'),
   ('Urine Test', 11, 44, 'ng/mL', 'Urine Test');
 
+
 -- Insert into testResults
 INSERT INTO testResults (testType, examId, results, resultDate) VALUES 
   ('Blood Test Iron', 33025, 120, '2024-10-20'),
@@ -58,6 +60,14 @@ INSERT INTO testResults (testType, examId, results, resultDate) VALUES
   ('Urine Test', 33028, 0.0005, '2023-05-22'), 
   ('Urine Test', 33029, 5.5, '2024-08-13');
 
+-- insert values for presecribedtest. 
+INSERT into presecribedtest (examId, testtype) VALUES
+  (33025, 'Blood Test Iron'),
+  (33025, 'Blood Test WCC'),
+  (33026, 'Blood Test Iron'),
+  (33027, 'Ultrasound D'),
+  (33028, 'CT-Scan C'),
+  (33028, 'MRI');
 
 -- Insert into summaryReport
 INSERT INTO summaryReport (SReportID, workersID, monthOrYear, summaryDate, timePeriod) VALUES
