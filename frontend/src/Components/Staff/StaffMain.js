@@ -1,8 +1,8 @@
 import './StaffMain.css';
 import React, { useState } from 'react';
-import TestResultsPatient from './TestResultsPatient';
-import Profile from './Profile';
-import MainContence from './MainContence';
+//import TestResultsPatient from './TestResultsPatient';
+//import Profile from './Profile';
+//import MainContence from './MainContence';
 
 const StaffMain = () => {
   const [activeTab, setActiveTab] = useState('main');
@@ -33,9 +33,11 @@ const StaffMain = () => {
 
       {/* Render Tab Content */}
       <div className="stab-content">
+      {/* 
         {activeTab === 'profile' && <Profile />}
         {activeTab === 'test' && <TestResultsPatient />}
         {activeTab === 'main' && <MainContence />}
+      */}
       </div>
     </div>
   );

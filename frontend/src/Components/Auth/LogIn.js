@@ -2,7 +2,7 @@ import './LogIn.css';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useRole } from './RoleContext';
+import { useRole } from '../../Utils/RoleContext';
 
 // TODO: Store user email and Type somewhere
 // TODO: use userType to RESTRIC going into urls reserved to other userTypes
