@@ -1,9 +1,8 @@
 import './AdminMain.css';
 import React, { useState } from 'react';
 import DelResults from '../Results/DelTestResults';
-import CreateAcc from '../Accounts/CreateAcc';
-import DeleteAcc from '../Accounts/DeleteAcc';
 import ApproveAcc from '../Accounts/ApproveAcc';
+import ManageAcc from '../Accounts/ManageAcc';
 import PredicRep from '../Reports/Prediction';
 import YearMonthRep from '../Reports/YearNMonth';
 import Profile from '../Profile/Profile';
@@ -64,8 +63,7 @@ const AdminMain = () => {
           {activeDropdown === 'accounts' && (
             <div className="dropdown-content">
               <div onClick={() => setActiveTab('approve')}>Approve</div>
-              <div onClick={() => setActiveTab('delete')}>Delete</div>
-              <div onClick={() => setActiveTab('create')}>Create</div>
+              <div onClick={() => setActiveTab('manage')}>Manage</div>
             </div>
           )}
         </div>
@@ -85,8 +83,7 @@ const AdminMain = () => {
         {activeTab === 'prediction' && <PredicRep />}
         {activeTab === 'yearlynmonthly' && <YearMonthRep />}
         {activeTab === 'approve' && <ApproveAcc />}
-        {activeTab === 'delete' && <DeleteAcc />}
-        {activeTab === 'create' && <CreateAcc />}
+        {activeTab === 'manage' && <ManageAcc />}
         {activeTab === 'delresults' && <DelResults />}
       </div>
     </div>

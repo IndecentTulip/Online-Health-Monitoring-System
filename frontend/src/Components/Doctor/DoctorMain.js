@@ -4,7 +4,7 @@ import Profile from '../Profile/Profile';
 import MainContence from '../Profile/MainContence';
 import TestResultsDoctor from '../Results/TestResultsDoctor';
 import PrescExam from '../Exam/PrescExam';
-import MakeMonitor from '../Monitor/MakeMonitor';
+import Monitor from '../Monitor/Monitor';
 
 
 const DoctorMain = () => {
@@ -33,10 +33,10 @@ const DoctorMain = () => {
           Prescribe Exam
         </div>
         <div
-          className={`dtab ${activeTab === 'makemonitor' ? 'active' : ''}`}
-          onClick={() => setActiveTab('makemonitor')}
+          className={`dtab ${activeTab === 'monitor' ? 'active' : ''}`}
+          onClick={() => setActiveTab('monitor')}
         >
-          Make Smart Monitor
+          Manage Smart Monitor
         </div>
 
       </div>
@@ -47,7 +47,7 @@ const DoctorMain = () => {
         {activeTab === 'profile' && <Profile />}
         {activeTab === 'test' && <TestResultsDoctor />}
         {activeTab === 'prescexam' && <PrescExam />}
-        {activeTab === 'makemonitor' && <MakeMonitor />}
+        {activeTab === 'monitor' && <Monitor />}
       </div>
     </div>
   );
