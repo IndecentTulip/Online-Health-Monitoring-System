@@ -1,4 +1,6 @@
 
-& npm install --prefix ./frontend
+cd ./frontend/
+& npm install
+cd ..
 
-Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "npm start --prefix ./frontend" -WorkingDirectory $workingDirectory
+Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "cd ./frontend/ ; npm start" -WorkingDirectory $workingDirectory

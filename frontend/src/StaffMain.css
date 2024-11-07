@@ -1,0 +1,50 @@
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* sTab Container */
+.stabs {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+}
+
+/* sTab Item */
+.stab {
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+  flex-grow: 1;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* sTab Item Hover Effect */
+.stab:hover {
+  background-color: #f0f0f0;
+}
+
+/* Active sTab Style */
+.stab.active {
+  background-color: #e67e22;
+  color: white;
+  border-bottom: 2px solid #e67e22; /* Highlighting active stab */
+}
+
+/* sTab Content */
+.stab-content {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-top: none;
+  min-height: 200px;
+  background-color: #f9f9f9;
+  margin-top: -1px;
+}
+
+

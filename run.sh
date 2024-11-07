@@ -26,6 +26,8 @@ npm install --prefix ./frontend
 npm install react-router-dom --prefix ./frontend
 npm install axios --prefix ./frontend
 npm install bcryptjs --prefix ./frontend
+npm install crypto-browserify --prefix ./frontend
+
 
 npm start --prefix ./frontend &
 
