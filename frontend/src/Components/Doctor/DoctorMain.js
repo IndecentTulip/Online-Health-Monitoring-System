@@ -1,5 +1,11 @@
 import './DoctorMain.css';
 import React, { useState } from 'react';
+import Profile from '../Profile/Profile';
+import MainContence from '../Profile/MainContence';
+import TestResultsDoctor from '../Results/TestResultsDoctor';
+import PrescExam from '../Exam/PrescExam';
+import Monitor from '../Monitor/Monitor';
+
 
 const DoctorMain = () => {
   const [activeTab, setActiveTab] = useState('main');
@@ -21,22 +27,27 @@ const DoctorMain = () => {
           Test Results
         </div>
         <div
-          className={`dtab ${activeTab === 'main' ? 'active' : ''}`}
-          onClick={() => setActiveTab('main')}
+          className={`dtab ${activeTab === 'prescexam' ? 'active' : ''}`}
+          onClick={() => setActiveTab('prescexam')}
         >
-          Main Content
+          Prescribe Exam
         </div>
+        <div
+          className={`dtab ${activeTab === 'monitor' ? 'active' : ''}`}
+          onClick={() => setActiveTab('monitor')}
+        >
+          Manage Smart Monitor
+        </div>
+
       </div>
 
       {/* Render Tab Content */}
       <div className="dtab-content">
-
-      {/*
-        {activeTab === 'profile' && <Profile />}
-        {activeTab === 'test' && <TestResultsPatient />}
         {activeTab === 'main' && <MainContence />}
-       */}
-
+        {activeTab === 'profile' && <Profile />}
+        {activeTab === 'test' && <TestResultsDoctor />}
+        {activeTab === 'prescexam' && <PrescExam />}
+        {activeTab === 'monitor' && <Monitor />}
       </div>
     </div>
   );

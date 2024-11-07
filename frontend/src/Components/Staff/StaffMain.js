@@ -1,8 +1,9 @@
 import './StaffMain.css';
 import React, { useState } from 'react';
-//import TestResultsPatient from './TestResultsPatient';
-//import Profile from './Profile';
-//import MainContence from './MainContence';
+import Profile from '../Profile/Profile';
+import MainContence from '../Profile/MainContence';
+import InsertTestResults from '../Results/InsertTestResults';
+
 
 const StaffMain = () => {
   const [activeTab, setActiveTab] = useState('main');
@@ -18,26 +19,18 @@ const StaffMain = () => {
           Profile
         </div>
         <div
-          className={`stab ${activeTab === 'test' ? 'active' : ''}`}
-          onClick={() => setActiveTab('test')}
+          className={`stab ${activeTab === 'input' ? 'active' : ''}`}
+          onClick={() => setActiveTab('input')}
         >
-          Test Results
-        </div>
-        <div
-          className={`stab ${activeTab === 'main' ? 'active' : ''}`}
-          onClick={() => setActiveTab('main')}
-        >
-          Main Content
+          Input Exam Results 
         </div>
       </div>
 
       {/* Render Tab Content */}
       <div className="stab-content">
-      {/* 
-        {activeTab === 'profile' && <Profile />}
-        {activeTab === 'test' && <TestResultsPatient />}
         {activeTab === 'main' && <MainContence />}
-      */}
+        {activeTab === 'profile' && <Profile />}
+        {activeTab === 'input' && <InsertTestResults />}
       </div>
     </div>
   );
