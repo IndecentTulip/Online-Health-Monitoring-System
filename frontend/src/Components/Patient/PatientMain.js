@@ -27,9 +27,9 @@ const PatientMain = () => {
 
       {/* Render Tab Content */}
       <div className="ptab-content">
+        {activeTab === 'main' && <MainContence />}
         {activeTab === 'profile' && <Profile />}
         {activeTab === 'test' && <TestResultsPatient />}
-        {activeTab === 'main' && <MainContence />}
       </div>
     </div>
   );

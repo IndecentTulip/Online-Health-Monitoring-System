@@ -1,5 +1,15 @@
 import './AdminMain.css';
 import React, { useState } from 'react';
+import DelResults from '../Results/DelTestResults';
+import CreateAcc from '../Accounts/CreateAcc';
+import DeleteAcc from '../Accounts/DeleteAcc';
+import ApproveAcc from '../Accounts/ApproveAcc';
+import PredicRep from '../Reports/Prediction';
+import YearMonthRep from '../Reports/YearNMonth';
+import Profile from '../Profile/Profile';
+import MainContence from '../Profile/MainContence';
+
+
 
 const AdminMain = () => {
   const [activeTab, setActiveTab] = useState('main');
@@ -35,7 +45,7 @@ const AdminMain = () => {
           {activeDropdown === 'reports' && (
             <div className="dropdown-content">
               <div onClick={() => setActiveTab('prediction')}>Prediction Report</div>
-              <div onClick={() => setActiveTab('yearly')}>Yearly/Monthly Report</div>
+              <div onClick={() => setActiveTab('yearlynmonthly')}>Yearly/Monthly Report</div>
             </div>
           )}
         </div>
@@ -70,12 +80,14 @@ const AdminMain = () => {
 
       {/* Render Tab Content */}
       <div className="atab-content">
-        {activeTab === 'prediction' && <div>Prediction Report Content</div>}
-        {activeTab === 'yearly' && <div>Yearly/Monthly Report Content</div>}
-        {activeTab === 'approve' && <div>Approve Accounts Content</div>}
-        {activeTab === 'delete' && <div>Delete Accounts Content</div>}
-        {activeTab === 'create' && <div>Create Account Content</div>}
-        {activeTab === 'delresults' && <div>Delete Test Results Content</div>}
+        {activeTab === 'main' && <MainContence />}
+        {activeTab === 'profile' && <Profile />}
+        {activeTab === 'prediction' && <PredicRep />}
+        {activeTab === 'yearlynmonthly' && <YearMonthRep />}
+        {activeTab === 'approve' && <ApproveAcc />}
+        {activeTab === 'delete' && <DeleteAcc />}
+        {activeTab === 'create' && <CreateAcc />}
+        {activeTab === 'delresults' && <DelResults />}
       </div>
     </div>
   );
