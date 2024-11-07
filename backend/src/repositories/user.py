@@ -44,7 +44,11 @@ class User:
     def get_user_record(email: str, password: str) -> UserInfo:
         # ...
         # SQL
-        
+        info = ("""select * from users""")
+        db= DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(info)
         # ... 
         info = UserInfo()
         return info
@@ -54,6 +58,8 @@ class User:
         Modifies the user's account information based on the provided email.
         """
         # Implementation for modifying account info
+
+        
         pass
 
     def return_user_record(self, email: str):
