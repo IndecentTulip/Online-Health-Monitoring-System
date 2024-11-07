@@ -105,7 +105,7 @@ create table testresults (
 
 -- create the summaryreport table
 create table summaryreport (
-  sreportid numeric(4) primary key,
+  sreportid serial(4) primary key,
   workersid INT not null,
   foreign key (workersid) references workers(workersid),
   monthoryear varchar(5) check (monthoryear in ('month', 'year')) not null,
@@ -125,7 +125,7 @@ create table summaryreportentries (
 
 -- create the predictreports table
 create table predictreports (
-  preportid numeric(4) primary key not null,
+  preportid serial(4) primary key not null,
   workersid INT not null,
   foreign key (workersid) references workers(workersid),
   healthid INT not null,
