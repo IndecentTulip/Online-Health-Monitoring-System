@@ -38,7 +38,6 @@ class Worker(User):
             conn.close()  # Close the connection to free resources
 
 
-
     def create_worker_instance(self) -> 'Worker':
         """
         Creates and returns a new instance of Worker.
