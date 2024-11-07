@@ -8,23 +8,23 @@ import PatientMain from './PatientMain';
 import DoctorMain from './DoctorMain';
 import StaffMain from './StaffMain';
 import AdminMain from './AdminMain';
-import AccManage from './AccManage';
 import { RoleProvider, useRole } from './RoleContext'; // Import your context
 
+
+// TODO CHNAGE(USE) THIS BEFORE SUBMISSION
 const roleRoutes = {
-  Patient: [
-    { path: '/patient/main', component: PatientMain },
-  ],
-  Doctor: [
-    { path: '/doctor/main', component: DoctorMain },
-  ],
-  Staff: [
-    { path: '/staff/main', component: StaffMain },
-  ],
-  Administrator: [
-    { path: '/administrator/main', component: AdminMain },
-    { path: '/administrator/accmanagment', component: AccManage },
-  ],
+//  Patient: [
+//    { path: '/patient/main', component: PatientMain },
+//  ],
+//  Doctor: [
+//    { path: '/doctor/main', component: DoctorMain },
+//  ],
+//  Staff: [
+//    { path: '/staff/main', component: StaffMain },
+//  ],
+//  Administrator: [
+//    { path: '/administrator/main', component: AdminMain },
+//  ],
 };
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -41,6 +41,12 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LogIn />} />
+
+          <Route path="/patient/main" element={<PatientMain />} />
+          <Route path="/doctor/main" element={<DoctorMain />} />
+          <Route path="/staff/main" element={<StaffMain />} />
+          <Route path="/administrator/main" element={<AdminMain />} />
+
 
           {/* Use the role context in routes */}
           {Object.entries(roleRoutes).map(([role, routes]) => (
