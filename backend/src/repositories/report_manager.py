@@ -22,7 +22,7 @@ class ReportManager:
         # Is this really something we need
 
         #summary report query.
-        summaryReport = """select * from summaryreport"""
+        summaryReport = """select * from summaryreport """
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
@@ -35,6 +35,7 @@ class ReportManager:
         cursor = conn.cursor()
         cursor.execute(predictReport)
 
+        #return list of reports
         return summaryReport, predictReport
         pass
 
