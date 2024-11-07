@@ -1,14 +1,14 @@
 // App.js
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './Main';
-import SignIn from './SignIn';
-import LogIn from './LogIn';
-import Register from './Register';
-import PatientMain from './PatientMain';
-import DoctorMain from './DoctorMain';
-import StaffMain from './StaffMain';
-import AdminMain from './AdminMain';
-import { RoleProvider, useRole } from './RoleContext'; // Import your context
+import SignIn from './Components/Auth/SignIn';
+import LogIn from './Components/Auth/LogIn';
+import Register from './Components/Auth/Register';
+import PatientMain from './Components/Patient/PatientMain';
+import DoctorMain from './Components/Doctor/DoctorMain';
+import StaffMain from './Components/Staff/StaffMain';
+import AdminMain from './Components/Admin/AdminMain';
+import { RoleProvider, useRole } from './Utils/RoleContext'; // Import your context
 
 
 // TODO CHNAGE(USE) THIS BEFORE SUBMISSION

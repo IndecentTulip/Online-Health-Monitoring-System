@@ -1,38 +1,32 @@
-import './DoctorMain.css';
+import './PatientMain.css';
 import React, { useState } from 'react';
-import TestResultsPatient from './TestResultsPatient';
-import Profile from './Profile';
-import MainContence from './MainContence';
+import TestResultsPatient from '../Results/TestResultsPatient';
+import Profile from '../Profile/Profile';
+import MainContence from '../Profile/MainContence';
 
-const DoctorMain = () => {
+const PatientMain = () => {
   const [activeTab, setActiveTab] = useState('main');
 
   return (
     <div>
       {/* Tab Navigation */}
-      <div className="dtabs">
+      <div className="ptabs">
         <div
-          className={`dtab ${activeTab === 'profile' ? 'active' : ''}`}
+          className={`ptab ${activeTab === 'profile' ? 'active' : ''}`}
           onClick={() => setActiveTab('profile')}
         >
           Profile
         </div>
         <div
-          className={`dtab ${activeTab === 'test' ? 'active' : ''}`}
+          className={`ptab ${activeTab === 'test' ? 'active' : ''}`}
           onClick={() => setActiveTab('test')}
         >
           Test Results
         </div>
-        <div
-          className={`dtab ${activeTab === 'main' ? 'active' : ''}`}
-          onClick={() => setActiveTab('main')}
-        >
-          Main Content
-        </div>
       </div>
 
       {/* Render Tab Content */}
-      <div className="dtab-content">
+      <div className="ptab-content">
         {activeTab === 'profile' && <Profile />}
         {activeTab === 'test' && <TestResultsPatient />}
         {activeTab === 'main' && <MainContence />}
@@ -41,5 +35,5 @@ const DoctorMain = () => {
   );
 };
 
-export default DoctorMain;
+export default PatientMain;
 
