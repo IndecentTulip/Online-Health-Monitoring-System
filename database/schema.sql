@@ -112,7 +112,7 @@ create table predictreports (
   foreign key (workersid) references workers(workersid),
   healthid SERIAL not null,
   foreign key (healthid) references patient(healthid),
-  pdate date not null
+  pdate date not null 
 );
 
 -- create the predictreportsentries table

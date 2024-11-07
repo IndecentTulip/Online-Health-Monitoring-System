@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 // if docter decides to prescribe an exam for patients
 import './DoctorMain';
+ // import exam css styles
+import './Exam.css';
 
 //retrieving info from the database
 import axios from 'axios';
 
-const Exam = () =>{
+const Exam = async () =>{
     
     //Doctor can nvigate around the exam menu.
     const navigate = useNavigate();
