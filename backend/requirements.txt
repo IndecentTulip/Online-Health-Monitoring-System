@@ -1,4 +1,3 @@
 Flask
 psycopg2-binary
 Flask-Cors
-

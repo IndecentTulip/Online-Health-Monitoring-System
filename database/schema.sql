@@ -50,8 +50,8 @@ create table posts (
 create table examtable (
   examid SERIAL primary key,  -- Changed to INTEGER
   examdate date not null,
-  healthid SERIAL not null,
-  workersid SERIAL not null,
+  healthid int not null,  -- ensure this matches the patient table
+  workersid INT not null,
   examtype varchar(50) not null,
   foreign key (healthid) references patient(healthid),
   foreign key (workersid) references workers(workersid),

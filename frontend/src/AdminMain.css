@@ -1,4 +1,3 @@
-
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
@@ -56,7 +55,7 @@ body {
 
 /* Dropdown Content */
 .atab-dropdown .dropdown-content {
-  display: none;
+  display: none; /* Default to hidden */
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
@@ -70,13 +69,12 @@ body {
   transition: opacity 0.3s ease, visibility 0s 0.3s; /* Transition opacity and add delay for visibility */
 }
 
-/* Keep dropdown visible when hovering on tab or dropdown content */
-.atab-dropdown:hover .dropdown-content,
-.atab-dropdown .dropdown-content:hover {
+/* Show the dropdown when it's toggled on */
+.atab-dropdown .dropdown-content {
   display: block;
   opacity: 1; /* Make dropdown visible */
   visibility: visible;
-  transition-delay: 0s; /* Remove delay on hover */
+  transition-delay: 0s; /* Remove delay on toggle */
 }
 
 /* Dropdown Item */

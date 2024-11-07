@@ -1,11 +1,14 @@
 import './AdminMain.css';
 import React, { useState } from 'react';
-import TestResultsPatient from './TestResultsPatient';
-import Profile from './Profile';
-import MainContence from './MainContence';
 
 const AdminMain = () => {
   const [activeTab, setActiveTab] = useState('main');
+  const [activeDropdown, setActiveDropdown] = useState(null); // Track active dropdown
+
+  // Toggle dropdown visibility, close the others when a new one is opened
+  const toggleDropdown = (dropdown) => {
+    setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+  };
 
   return (
     <div>
@@ -22,29 +25,39 @@ const AdminMain = () => {
         <div className="atab-dropdown">
           <div
             className={`atab ${activeTab === 'reports' ? 'active' : ''}`}
-            onClick={() => setActiveTab('reports')}
+            onClick={() => {
+              setActiveTab('reports');
+              toggleDropdown('reports'); // Toggle Reports dropdown
+            }}
           >
             Manage Reports
           </div>
-          <div className="dropdown-content">
-            <div onClick={() => setActiveTab('prediction')}>Prediction Report</div>
-            <div onClick={() => setActiveTab('yearly')}>Yearly/Monthly Report</div>
-          </div>
+          {activeDropdown === 'reports' && (
+            <div className="dropdown-content">
+              <div onClick={() => setActiveTab('prediction')}>Prediction Report</div>
+              <div onClick={() => setActiveTab('yearly')}>Yearly/Monthly Report</div>
+            </div>
+          )}
         </div>
 
         {/* Manage Accounts Dropdown */}
         <div className="atab-dropdown">
           <div
             className={`atab ${activeTab === 'accounts' ? 'active' : ''}`}
-            onClick={() => setActiveTab('accounts')}
+            onClick={() => {
+              setActiveTab('accounts');
+              toggleDropdown('accounts'); // Toggle Accounts dropdown
+            }}
           >
             Manage Accounts
           </div>
-          <div className="dropdown-content">
-            <div onClick={() => setActiveTab('approve')}>Approve</div>
-            <div onClick={() => setActiveTab('delete')}>Delete</div>
-            <div onClick={() => setActiveTab('create')}>Create</div>
-          </div>
+          {activeDropdown === 'accounts' && (
+            <div className="dropdown-content">
+              <div onClick={() => setActiveTab('approve')}>Approve</div>
+              <div onClick={() => setActiveTab('delete')}>Delete</div>
+              <div onClick={() => setActiveTab('create')}>Create</div>
+            </div>
+          )}
         </div>
 
         <div
@@ -57,9 +70,6 @@ const AdminMain = () => {
 
       {/* Render Tab Content */}
       <div className="atab-content">
-        {activeTab === 'profile' && <Profile />}
-        {activeTab === 'test' && <TestResultsPatient />}
-        {activeTab === 'main' && <MainContence />}
         {activeTab === 'prediction' && <div>Prediction Report Content</div>}
         {activeTab === 'yearly' && <div>Yearly/Monthly Report Content</div>}
         {activeTab === 'approve' && <div>Approve Accounts Content</div>}
@@ -72,3 +82,4 @@ const AdminMain = () => {
 };
 
 export default AdminMain;
+
