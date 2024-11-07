@@ -34,7 +34,7 @@ class Monitor:
         Returns a list of monitors associated with the given email.
         """
         # Implementation for returning monitors
-        listmonitors = """select * from smartmonitor where exist (select email from users where users.email = %s)"""
+        listmonitors = ("""select * from smartmonitor where exist (select email from users where users.email = %s)""")
         
         #search the database. 
         db = DBService()
@@ -53,8 +53,16 @@ class Monitor:
         Modifies an existing monitor by its ID.
         """
         # Implementation for modifying a monitor
+        modifiyMonitor = """update smartmonitor set monitorid =%d, workersid = %d, examtype = %s,
+        smartstatus = %s, healtid = %d                  
+        where monitorid = %s"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(modifiyMonitor)
 
-
+         #commit te change.
+        cursor.commit(modifiyMonitor)
         pass
 
     def remove_monitor(self, monitor_id: int):
@@ -62,6 +70,7 @@ class Monitor:
         Removes a monitor by its ID.
         """
         # Implementation for removing a monitor
+        
         pass
 
     def update_monitor_status(self, monitor_id: int):
