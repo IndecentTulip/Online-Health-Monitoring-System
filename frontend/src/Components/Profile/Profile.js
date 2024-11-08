@@ -14,12 +14,12 @@ const Profile = ({ userId }) => {
         let response;
 
 
-        // Fetch based on the user's role
-//        if (role === 'Patient') {
-//          response = await axios.get(`http://localhost:5000/profile/patient?id=${patientId}`);
-//        } else if (['Staff', 'Administrator', 'Doctor'].includes(role)) {
-//          response = await axios.get(`http://localhost:5000/profile/worker?id=${workerId}`);
-//        }
+      // Fetch based on the user's role
+        if (role === 'Patient') {
+          response = await axios.get(`http://localhost:5000/profile/patient?id=${patientId}`);
+        } else if (['Staff', 'Administrator', 'Doctor'].includes(role)) {
+          response = await axios.get(`http://localhost:5000/profile/worker?id=${workerId}`);
+        }
         // Update state with the fetched profile data
         setProfileData(response.data);
       } catch (error) {

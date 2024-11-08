@@ -88,6 +88,10 @@ class Worker(User):
         return info
 
     @staticmethod
+    def get_user_record_profile(id: int) -> UserInfo:
+        pass
+
+    @staticmethod
     def get_doctors_list() -> List:
         fetchEmailNId = """SELECT workersID, email FROM workers WHERE userType = 'Doctor';"""
         

@@ -80,7 +80,23 @@ class System:
     #    else:
     #        return "error"
 
-            
+    def view_patient(self, id:int):
+        out = Patient.get_user_record_profile(id)
+
+        # ...
+        return jsonify({
+            ""
+        })
+
+    def view_worker(self, id:int):
+        out = Worker.get_user_record_profile(id)
+
+        # ...
+        return jsonify({
+            ""
+        })
+
+
 
     def modify_account(self, user_type: str, ui_input: List[str]):
         pass

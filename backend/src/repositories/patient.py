@@ -115,3 +115,7 @@ class Patient(User):
         info.setPassword(password)
         return info
 
+    @staticmethod
+    def get_user_record_profile(id: int) -> UserInfo:
+        pass
+
