@@ -119,8 +119,8 @@ create table predictreports (
 create table predictreportsentries (
   preportid numeric(4) primary key,
   foreign key (preportid) references predictreports(preportid),
-  examtype varchar(50) not null,
-  foreign key (examtype) references examtype(examtype),
+  testtype varchar(50) not null,
+  foreign key (testtype) references testtypes(testtype),
   concernvalue numeric(3) not null
 );
 
