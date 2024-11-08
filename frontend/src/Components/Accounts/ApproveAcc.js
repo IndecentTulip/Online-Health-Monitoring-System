@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ApproveAcc = () => {
+const ApproveAcc = ({ userId }) => {
   return (
     <div>
       <h2>ApproveAcc Content</h2>

@@ -1,5 +1,6 @@
 import './DoctorMain.css';
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Profile from '../Profile/Profile';
 import MainContence from '../Profile/MainContence';
 import TestResultsDoctor from '../Results/TestResultsDoctor';
@@ -9,6 +10,11 @@ import Monitor from '../Monitor/Monitor';
 
 const DoctorMain = () => {
   const [activeTab, setActiveTab] = useState('main');
+  const location = useLocation();
+  const userId = location.state?.id;
+  console.log("id:", userId)
+
+
 
   return (
     <div>
@@ -43,11 +49,11 @@ const DoctorMain = () => {
 
       {/* Render Tab Content */}
       <div className="dtab-content">
-        {activeTab === 'main' && <MainContence />}
-        {activeTab === 'profile' && <Profile />}
-        {activeTab === 'test' && <TestResultsDoctor />}
-        {activeTab === 'prescexam' && <PrescExam />}
-        {activeTab === 'monitor' && <Monitor />}
+        {activeTab === 'main' && <MainContence userId={userId} />}
+        {activeTab === 'profile' && <Profile userId={userId} />}
+        {activeTab === 'test' && <TestResultsDoctor userId={userId} />}
+        {activeTab === 'prescexam' && <PrescExam userId={userId} />}
+        {activeTab === 'monitor' && <Monitor userId={userId} />}
       </div>
     </div>
   );

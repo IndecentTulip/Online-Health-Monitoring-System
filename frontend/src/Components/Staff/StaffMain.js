@@ -1,5 +1,6 @@
 import './StaffMain.css';
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Profile from '../Profile/Profile';
 import MainContence from '../Profile/MainContence';
 import InsertTestResults from '../Results/InsertTestResults';
@@ -7,6 +8,11 @@ import InsertTestResults from '../Results/InsertTestResults';
 
 const StaffMain = () => {
   const [activeTab, setActiveTab] = useState('main');
+  const location = useLocation();
+  const userId = location.state?.id;
+  console.log("id:", userId)
+
+
 
   return (
     <div>
@@ -28,9 +34,9 @@ const StaffMain = () => {
 
       {/* Render Tab Content */}
       <div className="stab-content">
-        {activeTab === 'main' && <MainContence />}
-        {activeTab === 'profile' && <Profile />}
-        {activeTab === 'input' && <InsertTestResults />}
+        {activeTab === 'main' && <MainContence userId={userId} />}
+        {activeTab === 'profile' && <Profile userId={userId} />}
+        {activeTab === 'input' && <InsertTestResults userId={userId} />}
       </div>
     </div>
   );

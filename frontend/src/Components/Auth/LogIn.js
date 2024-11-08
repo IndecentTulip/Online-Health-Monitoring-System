@@ -28,16 +28,14 @@ const Login = () => {
       });
       setError(''); 
       let route = response.data.login.routeTo;
+      let id = response.data.login.id;
       console.log(route);
-      //setRoutePerm(route);
       setRole(route);
-      navigate(`/${route.toLowerCase()}/main`);
+      navigate(`/${route.toLowerCase()}/main`, {state: { id }});
     } catch (err) {
       setError('Login failed. Please check your credentials and try again.');
     }
   };
-
-
 
 
   return (

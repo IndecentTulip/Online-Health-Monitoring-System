@@ -1,5 +1,6 @@
 import './AdminMain.css';
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import DelResults from '../Results/DelTestResults';
 import ApproveAcc from '../Accounts/ApproveAcc';
 import ManageAcc from '../Accounts/ManageAcc';
@@ -9,10 +10,13 @@ import Profile from '../Profile/Profile';
 import MainContence from '../Profile/MainContence';
 
 
-
 const AdminMain = () => {
   const [activeTab, setActiveTab] = useState('main');
   const [activeDropdown, setActiveDropdown] = useState(null); // Track active dropdown
+
+  const location = useLocation();
+  const userId = location.state?.id;
+  console.log("id:", userId)
 
   // Toggle dropdown visibility, close the others when a new one is opened
   const toggleDropdown = (dropdown) => {
@@ -78,13 +82,13 @@ const AdminMain = () => {
 
       {/* Render Tab Content */}
       <div className="atab-content">
-        {activeTab === 'main' && <MainContence />}
-        {activeTab === 'profile' && <Profile />}
-        {activeTab === 'prediction' && <PredicRep />}
-        {activeTab === 'yearlynmonthly' && <YearMonthRep />}
-        {activeTab === 'approve' && <ApproveAcc />}
-        {activeTab === 'manage' && <ManageAcc />}
-        {activeTab === 'delresults' && <DelResults />}
+        {activeTab === 'main' && <MainContence userId={userId}/>}
+        {activeTab === 'profile' && <Profile userId={userId} />}
+        {activeTab === 'prediction' && <PredicRep userId={userId} />}
+        {activeTab === 'yearlynmonthly' && <YearMonthRep userId={userId} />}
+        {activeTab === 'approve' && <ApproveAcc userId={userId} />}
+        {activeTab === 'manage' && <ManageAcc userId={userId} />}
+        {activeTab === 'delresults' && <DelResults userId={userId} />}
       </div>
     </div>
   );

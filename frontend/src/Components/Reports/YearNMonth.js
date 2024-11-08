@@ -1,6 +1,6 @@
 import React from 'react';
 
-const YearNMonth = () => {
+const YearNMonth = ({ userId }) => {
   return (
     <div>
       <h2>YearNMonth Content</h2>

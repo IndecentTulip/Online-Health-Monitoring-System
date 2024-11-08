@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Prediction = () => {
+const Prediction = ({ userId }) => {
   return (
     <div>
       <h2>Prediction Content</h2>
