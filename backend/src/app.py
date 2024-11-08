@@ -104,6 +104,7 @@ def get_patient_profile():
     
     if patient:
         return patient
+        #return jsonify({'temp': 'Not implemented'}), 404
     else:
         return jsonify({'error': 'Patient not found'}), 404
 
@@ -137,6 +138,7 @@ def get_worker_profile():
     
     if worker:
         return worker
+        #return jsonify({'temp': 'Not implemented'}), 404
     else:
         return jsonify({'error': 'Worker not found'}), 404
 
@@ -158,6 +160,7 @@ def patch_worker_profile():
         return jsonify({'message': 'Worker profile updated successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 # <><><><><><><> COMMON <><><><><><><><><>
 
 # <><><><><><><> EXAMS <><><><><><><><><>
@@ -178,19 +181,35 @@ def post_exams():
 
 # <><><><><><><> RESULTS <><><><><><><><><>
 
-# Fetch results for a specific user
-@app.route('/results/fetch', methods=['GET'])
-def get_results():
+@app.route('/results/patient/fetch', methods=['GET'])
+def get_results_patient():
     user_id = request.args.get('user_id')  # Get the user ID from query parameters
     if not user_id:
         return jsonify({'error': 'User ID is required'}), 400
 
-    #results = system.view_results(user_id)  # Retrieve results from the system
-    results = system.view_results(user_id)
+    # will return different
+    results = system.view_results(user_id, "Patient")
     if results:
-        return results
+        #return results
+        return jsonify({'temp': 'Not implemented'}), 404
     else:
         return jsonify({'error': 'No results found for this user'}), 404
+
+@app.route('/results/doctor/fetch', methods=['GET'])
+def get_results_doctor():
+    user_id = request.args.get('user_id')  # Get the user ID from query parameters
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+
+    # will return different
+    results = system.view_results(user_id, "Doctor")
+    if results:
+        #return results
+        return jsonify({'temp': 'Not implemented'}), 404
+    else:
+        return jsonify({'error': 'No results found for this user'}), 404
+
+
 
 # Add new test results for a specific user
 @app.route('/results/new', methods=['POST'])
