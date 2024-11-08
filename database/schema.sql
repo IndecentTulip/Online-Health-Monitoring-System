@@ -129,8 +129,8 @@ create table smartmonitor (
   monitorid SERIAL primary key not null,
   workersid SERIAL not null,
   foreign key (workersid) references workers(workersid),
-  examtype varchar(50) default 'on stand by' not null,
-  foreign key (examtype) references examtype(examtype),
+  testtype varchar(50) default 'on stand by' not null,
+  foreign key (testtype) references testtypes(testtype),
   smartstatus varchar(10) check (smartstatus in ('sent', 'not sent')) not null,
   healthid SERIAL not null,
   foreign key (healthid) references patient(healthid)
