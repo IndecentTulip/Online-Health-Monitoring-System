@@ -9,45 +9,84 @@ CORS(app)
 # Create an instance of the System class
 system = System()
 
+# <><><><><><><> AUTH <><><><><><><><><>
+
+# Used by Components/Auth/Login
+
+
 # Used by Components/Auth/Login
 @app.route('/login', methods=['POST'])
 def post_login():
-    data = request.json
-    userType = data['userType']
-    # userType is ether "patient" or "worker"
-    email = data['email']
-    password = data['password']
+    try:
+        data = request.json
+        if not data or not all(k in data for k in ['userType', 'email', 'password']):
+            return jsonify({'error': 'Missing required fields'}), 400
+        
+        userType = data['userType']
+        email = data['email']
+        password = data['password']
 
-    response = system.log_in(userType, email, password)
+        if userType not in ['patient', 'worker']:
+            return jsonify({'error': 'Invalid userType. Must be "patient" or "worker".'}), 400
 
-    if response is None:
-        return jsonify({'error': 'Invalid login credentials'}), 400  # Return an error response if None
+        response = system.log_in(userType, email, password)
+        
+        if response is None:
+            return jsonify({'error': 'Invalid login credentials'}), 400  # Return an error response if None
 
-    return response 
+        return response 
 
-# <><><><><><><> AUTH <><><><><><><><><>
+    except KeyError as e:
+        return jsonify({'error': f'Missing key: {str(e)}'}), 400
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
-# Used by Components/Auth/Register
-# to register a patient
+
+# Used by Components/Auth/Register (to register a patient)
 @app.route('/register', methods=['POST'])
 def post_register():
-    data = request.json
-    patientName = data['patientName']
-    email = data['email']
-    phoneNumber = data['phoneNumber']
-    dob = data['dob']
-    docID = data['docID']
-    password = data['password']
-    print(patientName, docID, dob)
-    response = system.register(patientName, email, phoneNumber, dob, docID, password)
+    try:
+        data = request.json
+        required_fields = ['patientName', 'email', 'phoneNumber', 'dob', 'docID', 'password']
+        
+        # Check for missing fields
+        if not data or not all(k in data for k in required_fields):
+            return jsonify({'error': 'Missing required fields'}), 400
 
-    return response
+        patientName = data['patientName']
+        email = data['email']
+        phoneNumber = data['phoneNumber']
+        dob = data['dob']
+        docID = data['docID']
+        password = data['password']
+        
+        response = system.register(patientName, email, phoneNumber, dob, docID, password)
+        
+        if response is None:
+            return jsonify({'error': 'Registration failed. Please check your details and try again.'}), 400
+        
+        return response
 
-# Used by Components/Auth/Register
-# to get doctors that exist(because it is required by dabatabse)
+    except KeyError as e:
+        return jsonify({'error': f'Missing key: {str(e)}'}), 400
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+
+
+# Used by Components/Auth/Register (to get doctors)
 @app.route('/register', methods=['GET'])
 def get_doctors():
-    return system.get_doc_list_form()
+    try:
+        # Retrieve the doctor list
+        doctors = system.get_doc_list_form()
+        
+        if not doctors:
+            return jsonify({'error': 'No doctors found'}), 404
+        
+        return doctors
+
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
 # <><><><><><><> AUTH <><><><><><><><><>
 
