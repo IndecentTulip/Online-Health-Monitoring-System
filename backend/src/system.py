@@ -130,6 +130,11 @@ class System:
             'temp': 'temp'
         })
 
+    def doctors_patients(self):
+        return jsonify({
+            'temp': 'temp'
+        })
+
     def prescribe_exam(self):
         return jsonify({
             'temp': 'temp'

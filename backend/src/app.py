@@ -177,6 +177,12 @@ def post_exams():
     system.prescribe_exam()
     return jsonify({'temp': 'Not implemented'}), 404
 
+# get Patients of the Doctor (IS NEEDED TO ADD EXAM) 
+@app.route('/exam/doc', methods=['GET'])
+def post_pat_for_doc():
+    system.doctors_patients()
+    return jsonify({'temp': 'Not implemented'}), 404
+
 # <><><><><><><> EXAMS <><><><><><><><><>
 
 # <><><><><><><> RESULTS <><><><><><><><><>
