@@ -114,7 +114,7 @@ INSERT INTO predictReportsEntries(pReportID, examType, concernValue) VALUES
   (5514, 'Blood', 120);
 
 -- Insert into smartMonitor
-INSERT INTO smartMonitor (monitorID, workersID, examType, smartStatus, healthID) VALUES
+INSERT INTO smartMonitor (monitorID, workersID, testtype, smartStatus, healthID) VALUES
   (60001, 21004, 'Blood', 'sent', 10031),
   (60002, 21007, 'Urine Test', 'not sent', 10032),
   (60003, 21004, 'CT-Scan', 'not sent', 10033),
