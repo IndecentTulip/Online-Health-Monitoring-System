@@ -135,7 +135,7 @@ class System:
             'temp': 'temp'
         })
     
-    def view_results(self, id: int):
+    def view_results(self, id: int, userType: str):
         return jsonify({
             'temp': 'temp'
         })
