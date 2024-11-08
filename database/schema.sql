@@ -70,7 +70,7 @@ create table testtypes (
 
 -- create the prescribed test.
 create table presecribedTest(
-  examId SERIAL,
+  examId INT,
   foreign key (examid) references examtable(examid),
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype)
@@ -79,7 +79,7 @@ create table presecribedTest(
 create table testresults (
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype),
-  examid SERIAL,
+  examid INT,
   foreign key (examid) references examtable(examid),
   results numeric(7, 4) not null,
   resultdate date not null
@@ -87,8 +87,8 @@ create table testresults (
 
 -- create the summaryreport table
 create table summaryreport (
-  sreportid numeric(4) primary key,
-  workersid SERIAL not null,
+  sreportid SERIAL primary key,
+  workersid INT not null,
   foreign key (workersid) references workers(workersid),
   monthoryear varchar(5) check (monthoryear in ('month', 'year')) not null,
   summarydate date not null,
@@ -97,41 +97,41 @@ create table summaryreport (
 
 -- create the summaryreportentries table
 create table summaryreportentries (
-  sreportid numeric(4),
+  sreportid INT,
   foreign key (sreportid) references summaryreport(sreportid),
-  healthid SERIAL,
+  healthid INT,
   foreign key (healthid) references patient(healthid),
-  noofexams numeric(2) not null,
-  abnormalexams numeric(2) not null
+  noofexams INT not null,
+  abnormalexams INT not null
 );
 
 -- create the predictreports table
 create table predictreports (
-  preportid numeric(4) primary key not null,
-  workersid SERIAL not null,
+  preportid SERIAL primary key not null,
+  workersid INT not null,
   foreign key (workersid) references workers(workersid),
-  healthid SERIAL not null,
+  healthid INT not null,
   foreign key (healthid) references patient(healthid),
   pdate date not null 
 );
 
 -- create the predictreportsentries table
 create table predictreportsentries (
-  preportid numeric(4) primary key,
+  preportid INT primary key,
   foreign key (preportid) references predictreports(preportid),
-  examtype varchar(50) not null,
-  foreign key (examtype) references examtype(examtype),
-  concernvalue numeric(3) not null
+  testtype varchar(50) not null,
+  foreign key (testtype) references testtypes(testtype),
+  concernvalue INT not null
 );
 
 -- create the smartmonitor table
 create table smartmonitor (
   monitorid SERIAL primary key not null,
-  workersid SERIAL not null,
+  workersid INT not null,
   foreign key (workersid) references workers(workersid),
   testtype varchar(50) default 'on stand by' not null,
   foreign key (testtype) references testtypes(testtype),
   smartstatus varchar(10) check (smartstatus in ('sent', 'not sent')) not null,
-  healthid SERIAL not null,
+  healthid INT not null,
   foreign key (healthid) references patient(healthid)
 );
