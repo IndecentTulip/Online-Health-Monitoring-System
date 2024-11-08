@@ -89,7 +89,7 @@ class System:
 
         # ...
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def view_worker(self, id:int):
@@ -97,100 +97,100 @@ class System:
 
         # ...
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def create_worker_account(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
             
     def modify_patient_account(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def modify_worker_account(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def delete_worker_account(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def delete_patient_account(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def view_exam(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def prescribe_exam(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
     
-    def view_results(self):
+    def view_results(self, id: int):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def create_results(self):
     #def create_results(self, staff: Worker, patient: Patient):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
     
     def delete_results(self):
     # def delete_results(self, result_id: int):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
     
     def view_reports(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
     
     def create_reports(self):
     #def create_reports(self, admin: Worker):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def delete_report(self):
     #def delete_report(self, report_id: int):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def view_smart_monitor(self):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
 
     def create_smart_monitor(self):
     #def create_smart_monitor(self, doctor: Worker, options: List[str]):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
  
     
     def change_smart_monitor(self):
     #def change_smart_monitor(self, doctor: Worker, options: List[str]):
         return jsonify({
-            ""
+            'temp': 'temp'
         })
  
     def delete_smart_monitor(self):
     #def delete_smart_monitor(self, monitor_id: int):
          return jsonify({
-            ""
+            'temp': 'temp'
         })
     
 
