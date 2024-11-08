@@ -1,17 +1,19 @@
 from enum import Enum
 from typing import List
+from backend.src.repositories.db_service import DBService
 
 class Status(Enum):
     NORMAL = "normal"
     ABNORMAL = "abnormal"
 
 class Results:
-    def __init__(self, result_id: int, patient_id: int, test_type: str, test_date: str, status: Status):
-        self.result_id = result_id
+    def __init__(self, exam_id: int, patient_id: int, test_type: str, test_date: str, status: Status, value: float):
+        self.exam_id = exam_id
         self._patient_id = patient_id  # Private attribute
         self.test_type = test_type
         self.test_date = test_date
         self.status = status
+        self.value = value
 
     def return_list_of_results(self, user_type: str, email: str) -> List['Results']:
         """
@@ -24,22 +26,55 @@ class Results:
         """
         Adds a new result to the system.
         """
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
         # Implementation for adding a new result
-        pass
+        addRes = "INSERT INTO testresults (testtype, examid, result) VALUES (%s, %s, %s)"
 
-    def remove_result(self, result_id: int):
+        cursor.execute(addRes, (result.test_type, result.exam_id, result.value))
+
+        cursor.commit()
+
+        cursor.close()
+        conn.close()
+       
+
+    def remove_result(self, result: 'Results'):
         """
         Removes a result by its ID.
         """
         # Implementation for removing a result
-        pass
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        # Implementation for adding a new result
+        delRes = "DELETE FROM WHERE testtype = %s AND examid = %s)"
 
-    def modify_results(self, result_id: int):
+        cursor.execute(delRes, ( result.test_type, result.exam_id,))
+
+        cursor.commit()
+
+        cursor.close()
+        conn.close()
+
+    def modify_results(self, result: 'Results'):
         """
         Modifies an existing result by its ID.
         """
         # Implementation for modifying results
-        pass
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        # Implementation for adding a new result
+        updateRes = "UPDATE testresults SET result = %s WHERE testtype = %s AND examid = %s)"
+
+        cursor.execute(updateRes, (result.value, result.test_type, result.exam_id,))
+
+        cursor.commit()
+
+        cursor.close()
+        conn.close()
 
     def download_result(self, result_id: int):
         """
