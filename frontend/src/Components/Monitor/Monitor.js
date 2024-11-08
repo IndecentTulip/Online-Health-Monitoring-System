@@ -2,7 +2,7 @@ import React from 'react';
 
 // WILL INCLUDE MAKING, DELETING, UPDATING N VIEW
 
-const Monitor = () => {
+const Monitor = ({ userId }) => {
   return (
     <div>
       <h2>Monitor Content</h2>

@@ -60,7 +60,7 @@ def post_register():
         docID = data['docID']
         password = data['password']
         
-        response = system.register(patientName, email, phoneNumber, dob, docID, password)
+        response = system.create_patient_account(patientName, email, phoneNumber, dob, docID, password)
         
         if response is None:
             return jsonify({'error': 'Registration failed. Please check your details and try again.'}), 400
@@ -94,43 +94,61 @@ def get_doctors():
 # <><><><><><><> COMMON <><><><><><><><><>
 
 # view patient profile
-@app.route('/profile/patient', methods=['GET'])
+@app.route('/profile/patient/view', methods=['GET'])
 def get_patient_profile():
-    patient_id = request.args.get('id')  # Extract patient ID from query string
+    # GET PATIENT ID DEOM GET REQUEST
+    patient_id =0
     if not patient_id:
         return jsonify({'error': 'Patient ID is required'}), 400
 
     patient = system.view_patient(patient_id)
     
     if patient:
-        return jsonify(patient)
+        return patient
     else:
         return jsonify({'error': 'Patient not found'}), 404
 
+@app.route('/profile/patient/edit', methods=['PATCH'])
+def patch_patient_profile():
+    system.modify_patient_account()
+    return jsonify({''})
+
+
 # view worker profile
-@app.route('/profile/worker', methods=['GET'])
+@app.route('/profile/worker/view', methods=['GET'])
 def get_worker_profile():
-    worker_id = request.args.get('id')  # Extract worker ID from query string
+    print("I WAS CALLED")
+    # GET PATIENT ID DEOM GET REQUEST
+    worker_id = 0
+    print(worker_id)
     if not worker_id:
         return jsonify({'error': 'Worker ID is required'}), 400
 
     worker = system.view_worker(worker_id)
 
     if worker:
-        return jsonify(worker)
+        return worker
     else:
         return jsonify({'error': 'Worker not found'}), 404
+
+@app.route('/profile/worker/edit', methods=['PATCH'])
+def patch_worker_profile():
+    system.modify_worker_account()
+    return jsonify({''})
+
 
 # <><><><><><><> EXAMS <><><><><><><><><>
 
 # display Exams
 @app.route('/exam/fetch', methods=['GET'])
 def get_exams():
+    system.view_exam()
     pass
 
 # add Exams
 @app.route('/exam/new', methods=['POST'])
 def post_exams():
+    system.prescribe_exam()
     pass
 
 # <><><><><><><> EXAMS <><><><><><><><><>
@@ -140,16 +158,19 @@ def post_exams():
 # display Results 
 @app.route('/results/fetch', methods=['GET'])
 def get_results():
+    system.view_results()
     pass
 
 # add Results
 @app.route('/results/new', methods=['POST'])
 def post_result():
+    system.create_results()
     pass
 
 # delete Results
 @app.route('/results/del', methods=['DELETE'])
 def delete_result():
+    system.delete_results()
     pass
 
 # <><><><><><><> RESULTS <><><><><><><><><>
@@ -159,11 +180,13 @@ def delete_result():
 # display Reports
 @app.route('/reports/fetch', methods=['GET'])
 def get_reports():
+    system.view_reports()
     pass
 
 # add Reports
 @app.route('/reports/new', methods=['POST'])
 def post_report():
+    system.create_reports()
     pass
 
 # <><><><><><><> REPORTS <><><><><><><><><>
@@ -173,21 +196,25 @@ def post_report():
 # display Monitor
 @app.route('/monitor/fetch', methods=['GET'])
 def get_monitors():
+    system.view_smart_monitor()
     pass
 
 # add Monitor
 @app.route('/monitor/new', methods=['POST'])
 def post_monitor():
+    system.create_smart_monitor()
     pass
 
 # delete Monitor
 @app.route('/monitor/del', methods=['DELETE'])
 def delete_monitor():
+    system.delete_smart_monitor()
     pass
 
 # edit Monitor
 @app.route('/monitor/update', methods=['PATCH'])
 def patch_monitor():
+    system.change_smart_monitor()
     pass
 
 

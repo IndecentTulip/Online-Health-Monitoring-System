@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MainContence = () => {
+const MainContence = ({ userId }) => {
   return (
     <div>
       <h2>MainContence Content</h2>

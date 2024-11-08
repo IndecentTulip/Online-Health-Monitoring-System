@@ -5,7 +5,6 @@ from os import walk
 from repositories import user
 from repositories.patient import Patient;
 from typing import List
-import psycopg2
 
 from flask import Flask, request, jsonify
 from repositories.session_manager import SessionManager
@@ -22,7 +21,7 @@ class System:
         # self.exams_list: List[Exam] = []
         # self.results_list: List[Result] = []
 
-    def register(self,patientName: str, email: str, phoneNumber: str, dob: str, docID: int, password: str):
+    def create_patient_account(self,patientName: str, email: str, phoneNumber: str, dob: str, docID: int, password: str):
 
         date_object = datetime.strptime(dob, "%Y-%m-%d").date()
         newPatient = Patient(patientName, email, phoneNumber, date_object, docID, password)
@@ -31,18 +30,6 @@ class System:
         return jsonify({
                 'confirm': status.name
             })
-
-
-
-
-    def manage_accounts(self):
-        pass
-
-    def create_worker_account(self):
-        pass
-
-    def delete_worker_account(self):
-        pass
 
     def log_in(self, userType: str, email: str, password: str):
         if userType == "patient":  # Patient
@@ -63,8 +50,13 @@ class System:
                 }
             })
         return None 
+
+            # NOT IN USE
             #token = SessionManager.generate_token(user_info.email)
             #SessionManager.create_session(token, user_info.email, user_info.user_type.value)
+            # NOT IN USE
+
+    # NOT IN USE
 
     #def token_required(self, token: str):
     #    user_info: UserInfo
@@ -79,6 +71,18 @@ class System:
     #        # return conformation
     #    else:
     #        return "error"
+
+    # NOT IN USE
+
+    def get_doc_list_form(self):
+        result = Worker.get_doctors_list()
+
+        doctor_list = [{
+            'id': info.id,
+            'email': info.email,
+        } for info in result]
+
+        return jsonify(doctor_list)
 
     def view_patient(self, id:int):
         out = Patient.get_user_record_profile(id)
@@ -96,53 +100,97 @@ class System:
             ""
         })
 
+    def create_worker_account(self):
+        return jsonify({
+            ""
+        })
+            
+    def modify_patient_account(self):
+        return jsonify({
+            ""
+        })
 
+    def modify_worker_account(self):
+        return jsonify({
+            ""
+        })
 
-    def modify_account(self, user_type: str, ui_input: List[str]):
-        pass
+    def delete_worker_account(self):
+        return jsonify({
+            ""
+        })
+
+    def delete_patient_account(self):
+        return jsonify({
+            ""
+        })
 
     def view_exam(self):
-        pass
+        return jsonify({
+            ""
+        })
 
-    def get_doc_list_form(self):
-        result = Worker.get_doctors_list()
+    def prescribe_exam(self):
+        return jsonify({
+            ""
+        })
+    
+    def view_results(self):
+        return jsonify({
+            ""
+        })
 
-        doctor_list = [{
-            'id': info.id,
-            'email': info.email,
-        } for info in result]
+    def create_results(self):
+    #def create_results(self, staff: Worker, patient: Patient):
+        return jsonify({
+            ""
+        })
+    
+    def delete_results(self):
+    # def delete_results(self, result_id: int):
+        return jsonify({
+            ""
+        })
+    
+    def view_reports(self):
+        return jsonify({
+            ""
+        })
+    
+    def create_reports(self):
+    #def create_reports(self, admin: Worker):
+        return jsonify({
+            ""
+        })
 
-        return jsonify(doctor_list)
-            
-
-    #def prescribe_exam(self, doctor: Doctor, patient: Patient):
-    #    pass
-    #
-    #def view_results(self):
-    #    pass
-    #
-    #def create_results(self, staff: Staff, patient: Patient):
-    #    pass
-    #
-    #def delete_results(self, result_id: int):
-    #    pass
-    #
-    #def filter_results(self, results: List[Result], result_type: str):
-    #    pass
-    #
-    #def create_reports(self, admin: Admin):
-    #    pass
-    #
+    def delete_report(self):
     #def delete_report(self, report_id: int):
-    #    pass
-    #
-    #def create_smart_monitor(self, doctor: Doctor, options: List[str]):
-    #    pass
-    #
-    #def change_smart_monitor(self, doctor: Doctor, options: List[str]):
-    #    pass
-    #
+        return jsonify({
+            ""
+        })
+
+    def view_smart_monitor(self):
+        return jsonify({
+            ""
+        })
+
+    def create_smart_monitor(self):
+    #def create_smart_monitor(self, doctor: Worker, options: List[str]):
+        return jsonify({
+            ""
+        })
+ 
+    
+    def change_smart_monitor(self):
+    #def change_smart_monitor(self, doctor: Worker, options: List[str]):
+        return jsonify({
+            ""
+        })
+ 
+    def delete_smart_monitor(self):
     #def delete_smart_monitor(self, monitor_id: int):
-    #        pass
-    #
+         return jsonify({
+            ""
+        })
+    
 
