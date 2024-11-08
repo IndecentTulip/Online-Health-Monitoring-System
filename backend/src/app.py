@@ -9,6 +9,7 @@ CORS(app)
 # Create an instance of the System class
 system = System()
 
+# Used by Components/Auth/Login
 @app.route('/login', methods=['POST'])
 def login():
     data = request.json
@@ -24,6 +25,10 @@ def login():
 
     return response 
 
+# <><><><><><><> AUTH <><><><><><><><><>
+
+# Used by Components/Auth/Register
+# to register a patient
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -38,10 +43,20 @@ def register():
 
     return response
 
+# Used by Components/Auth/Register
+# to get doctors that exist(because it is required by dabatabse)
 @app.route('/register', methods=['GET'])
 def getDoctors():
     return system.get_doc_list_form()
 
+
+# <><><><><><><> AUTH <><><><><><><><><>
+
+
+# <><><><><><><> COMMON <><><><><><><><><>
+
+
+# <><><><><><><> COMMON <><><><><><><><><>
 
 if __name__ == '__main__':
     app.run(debug=True)

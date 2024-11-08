@@ -83,6 +83,9 @@ class Patient(User):
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
         checkPat = """SELECT COUNT(healthid) FROM patient WHERE email = %s AND patientpassword = %s"""
+        fetchPat = """SELECT healthid FROM patient WHERE email = %s AND patientpassword = %s"""
+
+        intID =0;
 
         db = DBService()
         conn = db.get_db_connection()
@@ -91,17 +94,24 @@ class Patient(User):
         cursor.execute(checkPat, (email, password))
         check = cursor.fetchone()
 
-        cursor.close()
-        del cursor
-
         if check:
             userRole = Role.PAT
+            cursor.execute(fetchPat, (email, password))
+            fetch= cursor.fetchone()
+
+            if fetch:
+                intID = fetch[0]
         else:  
             userRole = Role.NONE
         
+        cursor.close()
+        del cursor
+        print(check)
+
         info = UserInfo()
         info.setRole(userRole)
         info.setEmail(email)
+        info.setId(intID)
         info.setPassword(password)
         return info
 
