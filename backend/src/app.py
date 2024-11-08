@@ -169,6 +169,8 @@ def patch_worker_profile():
 @app.route('/exam/fetch', methods=['GET'])
 def get_exams():
     system.view_exam()
+    # THIS SHIT WILL RETURN NOT ONLY EXAM TYPES
+    # BUT ALSO BLOOD TEST TYPES
     return jsonify({'temp': 'Not implemented'}), 404
 
 # add Exams
@@ -215,8 +217,6 @@ def get_results_doctor():
     else:
         return jsonify({'error': 'No results found for this user'}), 404
 
-
-
 # Add new test results for a specific user
 @app.route('/results/new', methods=['POST'])
 def post_result():
@@ -232,6 +232,17 @@ def post_result():
         return jsonify({'message': 'Result inserted successfully'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/results/fetch', methods=['GET'])
+def get_results():
+    # will return different
+    results = system.view_all_results()
+    if results:
+        #return results
+        return jsonify({'temp': 'Not implemented'}), 404
+    else:
+        return jsonify({'error': 'No results found for this user'}), 404
 
 # delete Results
 @app.route('/results/del', methods=['DELETE'])

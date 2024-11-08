@@ -1,5 +1,3 @@
-TRUNCATE TABLE testResults, testTypes, examTable, presecribedtest, summaryReportEntries, summaryReport, predictReportsEntries, predictReports, smartMonitor, patient, workers, examType CASCADE;
-
 
 -- Ensure your tables are created with appropriate data types (e.g., changing examId to INTEGER if needed)
 

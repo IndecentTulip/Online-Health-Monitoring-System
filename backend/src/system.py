@@ -145,6 +145,13 @@ class System:
             'temp': 'temp'
         })
 
+    def view_all_results(self):
+        return jsonify({
+            'temp': 'temp'
+        })
+
+
+
     def create_results(self):
     #def create_results(self, staff: Worker, patient: Patient):
         return jsonify({
