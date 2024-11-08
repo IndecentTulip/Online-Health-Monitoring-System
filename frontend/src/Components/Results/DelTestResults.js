@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DelTestResults = () => {
+const DelTestResults = ({ userId }) => {
   return (
     <div>
       <h2>DelTestResults Content</h2>

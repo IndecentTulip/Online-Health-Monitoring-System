@@ -8,7 +8,7 @@ import './PrescExam.css';
 //retrieving info from the database
 import axios from 'axios';
 
-const PrescExam = () =>{
+const PrescExam = ({ userId }) =>{
     
     //Doctor can nvigate around the exam menu.
     const navigate = useNavigate();
