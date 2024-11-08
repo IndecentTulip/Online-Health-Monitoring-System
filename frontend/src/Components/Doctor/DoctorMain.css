@@ -1,0 +1,50 @@
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* dTab Container */
+.dtabs {
+  display: flex;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+}
+
+/* dTab Item */
+.dtab {
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+  flex-grow: 1;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* dTab Item Hover Effect */
+.dtab:hover {
+  background-color: #f0f0f0;
+}
+
+/* Active dTab Style */
+.dtab.active {
+  background-color: #6B8E23;
+  color: white;
+  border-bottom: 2px solid #6B8E23; /* Highlighting active dtab */
+}
+
+/* dTab Content */
+.dtab-content {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-top: none;
+  min-height: 200px;
+  background-color: #f9f9f9;
+  margin-top: -1px;
+}
+
+

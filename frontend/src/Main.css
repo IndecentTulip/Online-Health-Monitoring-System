@@ -1,0 +1,20 @@
+
+
+ .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh;
+   background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+
+  }
+  
+ .main button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  

@@ -25,20 +25,37 @@ New-Item -Path "./backend/src/credentials.txt" -ItemType File -Force
 Add-Content -Path "./backend/src/credentials.txt" -Value "user=$user"
 Add-Content -Path "./backend/src/credentials.txt" -Value "password=$password"
 
-python -m venv ./backend/venv
+
+cd ./backend/
+python -m venv venv
+cd .. 
 & .\backend\venv\Scripts\activate.bat
 & .\backend\venv\Scripts\Activate.ps1
 
-# jason had issues with this lines, I added new lines to force it to work
-& ./backend/venv/Scripts/pip install -r ./backend/requirements.txt
-& pip install -r ./backend/requirements.txt
-& ./backend/venv/Scripts/python ./backend/createdb.py
-& python ./backend/createdb.py
+pip install --upgrade pip setuptools wheel
 
-& npm update --prefix ./frontend
-& npm install --prefix ./frontend
+# Ensure the backend dependencies are installed
+if (-not (& ./backend/venv/Scripts/pip install -r ./backend/requirements.txt)) {
+    # If the first command fails, run the second one
+    & pip install -r ./backend/requirements.txt
+    & pip uninstall psycopg2
+    & pip install psycopg2-binary
+}
+
+# Create the database for the backend (run the createdb script)
+if (-not (& ./backend/venv/Scripts/python ./backend/createdb.py)) {
+    # If the first command fails, run the second one
+    & python ./backend/createdb.py
+}
+cd ./frontend/
+& npm update
+& npm install
+cd ..
 
 $workingDirectory = Get-Location
+
 Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "./backend/venv/Scripts/python ./backend/src/app.py" -WorkingDirectory $workingDirectory
+
+# Open another new terminal and run the frontend application
 Start-Process -FilePath "powershell.exe" -ArgumentList "-NoExit", "-Command", "npm start --prefix ./frontend" -WorkingDirectory $workingDirectory
 

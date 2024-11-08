@@ -1,24 +1,6 @@
-
--- create database jlabs
---   with
---   owner = postgres
---   encoding = 'utf8'
---   lc_collate = 'english_canada.1252'
---   lc_ctype = 'english_canada.1252'
---   locale_provider = 'libc'
---   tablespace = pg_default
---   connection limit = -1
---   is_template = false;
-
----- drop if exists
---drop database if exists jlabs;
---
----- create the database
---create database jlabs with encoding 'utf8';
-
 -- create the workers table first since it is referenced in other tables
 create table workers ( 
-  workersid INT primary key,
+  workersid SERIAL primary key,
   workersname varchar(50) not null,
   email varchar(50) not null UNIQUE,
   phonenumber varchar(10) not null, 
@@ -34,7 +16,7 @@ create table examtype (
 
 -- create the users table
 create table users (
-  id INT primary key,
+  id SERIAL primary key,
   username varchar(50) not null unique,
   email varchar(100) not null unique,
   password varchar(255) not null,
@@ -43,7 +25,7 @@ create table users (
 
 -- create the patient table
 create table patient (
-  healthid serial primary key,
+  healthid SERIAL primary key,
   patientname varchar(50) not null,
   email varchar(50) not null UNIQUE,
   dob date not null,
@@ -56,7 +38,7 @@ create table patient (
 
 -- create the posts table
 create table posts (
-  id INT primary key,
+  id SERIAL primary key,
   user_id int,
   title varchar(255) not null,
   content varchar(355) not null,
@@ -64,9 +46,9 @@ create table posts (
   foreign key (user_id) references users(id)
 );
 
--- create the examtable
+-- Modify examTable definition to use SERIAL instead of INTEGER for examId
 create table examtable (
-  examid INT primary key,
+  examid SERIAL primary key,  -- Changed to INTEGER
   examdate date not null,
   healthid int not null,  -- ensure this matches the patient table
   workersid INT not null,
@@ -88,7 +70,7 @@ create table testtypes (
 
 -- create the prescribed test.
 create table presecribedTest(
-  examId INTEGER,
+  examId SERIAL,
   foreign key (examid) references examtable(examid),
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype)
@@ -97,7 +79,7 @@ create table presecribedTest(
 create table testresults (
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype),
-  examid INT,
+  examid SERIAL,
   foreign key (examid) references examtable(examid),
   results numeric(7, 4) not null,
   resultdate date not null
@@ -105,8 +87,8 @@ create table testresults (
 
 -- create the summaryreport table
 create table summaryreport (
-  sreportid serial(4) primary key,
-  workersid INT not null,
+  sreportid numeric(4) primary key,
+  workersid SERIAL not null,
   foreign key (workersid) references workers(workersid),
   monthoryear varchar(5) check (monthoryear in ('month', 'year')) not null,
   summarydate date not null,
@@ -117,7 +99,7 @@ create table summaryreport (
 create table summaryreportentries (
   sreportid numeric(4),
   foreign key (sreportid) references summaryreport(sreportid),
-  healthid INT,
+  healthid SERIAL,
   foreign key (healthid) references patient(healthid),
   noofexams numeric(2) not null,
   abnormalexams numeric(2) not null
@@ -125,12 +107,12 @@ create table summaryreportentries (
 
 -- create the predictreports table
 create table predictreports (
-  preportid serial(4) primary key not null,
-  workersid INT not null,
+  preportid numeric(4) primary key not null,
+  workersid SERIAL not null,
   foreign key (workersid) references workers(workersid),
-  healthid INT not null,
+  healthid SERIAL not null,
   foreign key (healthid) references patient(healthid),
-  pdate date not null
+  pdate date not null 
 );
 
 -- create the predictreportsentries table
@@ -144,12 +126,12 @@ create table predictreportsentries (
 
 -- create the smartmonitor table
 create table smartmonitor (
-  monitorid INT primary key not null,
-  workersid INT not null,
+  monitorid SERIAL primary key not null,
+  workersid SERIAL not null,
   foreign key (workersid) references workers(workersid),
-  examtype varchar(50) default 'on stand by' not null,
-  foreign key (examtype) references examtype(examtype),
+  testtype varchar(50) default 'on stand by' not null,
+  foreign key (testtype) references testtypes(testtype),
   smartstatus varchar(10) check (smartstatus in ('sent', 'not sent')) not null,
-  healthid int not null,
+  healthid SERIAL not null,
   foreign key (healthid) references patient(healthid)
 );

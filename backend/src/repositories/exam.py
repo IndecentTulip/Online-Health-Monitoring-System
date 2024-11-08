@@ -34,13 +34,19 @@ class Exam:
 
     def addExam(): #insert query for exam. 
           #insert a new exam onto the table. #user enters info. 
-        createExam = ("""Insert into examtable(examid, examdate, healthid, workersid, examtype) values (%d, %s, %d, %d, %s)""")
+        createExam = """Insert into examtable(examid, examdate, healthid, workersid, examtype) values (%d, %s, %d, %d, %s)"""
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
         cursor.execute(createExam)
         cursor.commit()
         print("exam updated.")
-
     
+    def getExams(): #select statement for getting the exams.
+        Examinfo = """select * from examtable"""
+        db = DBService
+        conn =db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(Examinfo)    
+
     
