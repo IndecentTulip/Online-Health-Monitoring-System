@@ -93,11 +93,10 @@ def get_doctors():
 
 # <><><><><><><> COMMON <><><><><><><><><>
 
-# view patient profile
+# View patient profile
 @app.route('/profile/patient/view', methods=['GET'])
 def get_patient_profile():
-    # GET PATIENT ID DEOM GET REQUEST
-    patient_id =0
+    patient_id = request.args.get('patient_id')
     if not patient_id:
         return jsonify({'error': 'Patient ID is required'}), 400
 
@@ -110,22 +109,32 @@ def get_patient_profile():
 
 @app.route('/profile/patient/edit', methods=['PATCH'])
 def patch_patient_profile():
-    system.modify_patient_account()
-    return jsonify({''})
+    patient_id = request.args.get('patient_id')
+    if not patient_id:
+        return jsonify({'error': 'Patient ID is required'}), 400
 
+    # Get the updated data from the request
+    updated_data = request.json
+    if not updated_data:
+        return jsonify({'error': 'No data provided for update'}), 400
 
-# view worker profile
+    # Call the system to modify the patient account with the provided data
+    try:
+        #system.modify_patient_account(patient_id, updated_data)
+        system.modify_patient_account()
+        return jsonify({'message': 'Patient profile updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# View worker profile
 @app.route('/profile/worker/view', methods=['GET'])
 def get_worker_profile():
-    print("I WAS CALLED")
-    # GET PATIENT ID DEOM GET REQUEST
-    worker_id = 0
-    print(worker_id)
+    worker_id = request.args.get('worker_id')
     if not worker_id:
         return jsonify({'error': 'Worker ID is required'}), 400
-
+    
     worker = system.view_worker(worker_id)
-
+    
     if worker:
         return worker
     else:
@@ -133,9 +142,23 @@ def get_worker_profile():
 
 @app.route('/profile/worker/edit', methods=['PATCH'])
 def patch_worker_profile():
-    system.modify_worker_account()
-    return jsonify({''})
+    worker_id = request.args.get('worker_id')
+    if not worker_id:
+        return jsonify({'error': 'Worker ID is required'}), 400
 
+    # Get the updated data from the request
+    updated_data = request.json
+    if not updated_data:
+        return jsonify({'error': 'No data provided for update'}), 400
+
+    # Call the system to modify the worker account with the provided data
+    try:
+        #system.modify_worker_account(worker_id, updated_data)
+        system.modify_worker_account()
+        return jsonify({'message': 'Worker profile updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+# <><><><><><><> COMMON <><><><><><><><><>
 
 # <><><><><><><> EXAMS <><><><><><><><><>
 
@@ -143,35 +166,53 @@ def patch_worker_profile():
 @app.route('/exam/fetch', methods=['GET'])
 def get_exams():
     system.view_exam()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # add Exams
 @app.route('/exam/new', methods=['POST'])
 def post_exams():
     system.prescribe_exam()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # <><><><><><><> EXAMS <><><><><><><><><>
 
 # <><><><><><><> RESULTS <><><><><><><><><>
 
-# display Results 
+# Fetch results for a specific user
 @app.route('/results/fetch', methods=['GET'])
 def get_results():
-    system.view_results()
-    pass
+    user_id = request.args.get('user_id')  # Get the user ID from query parameters
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
 
-# add Results
+    #results = system.view_results(user_id)  # Retrieve results from the system
+    results = system.view_results(user_id)
+    if results:
+        return results
+    else:
+        return jsonify({'error': 'No results found for this user'}), 404
+
+# Add new test results for a specific user
 @app.route('/results/new', methods=['POST'])
 def post_result():
-    system.create_results()
-    pass
+    user_id = request.json.get('user_id')
+    result_data = request.json.get('result_data')  # The test results to be inserted
+
+    if not user_id or not result_data:
+        return jsonify({'error': 'User ID and result data are required'}), 400
+
+    try:
+        #system.create_results(user_id, result_data)  # Insert the new result in the system
+        system.create_results()  # Insert the new result in the system
+        return jsonify({'message': 'Result inserted successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 # delete Results
 @app.route('/results/del', methods=['DELETE'])
 def delete_result():
     system.delete_results()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # <><><><><><><> RESULTS <><><><><><><><><>
 
@@ -181,13 +222,13 @@ def delete_result():
 @app.route('/reports/fetch', methods=['GET'])
 def get_reports():
     system.view_reports()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # add Reports
 @app.route('/reports/new', methods=['POST'])
 def post_report():
     system.create_reports()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # <><><><><><><> REPORTS <><><><><><><><><>
 
@@ -197,25 +238,25 @@ def post_report():
 @app.route('/monitor/fetch', methods=['GET'])
 def get_monitors():
     system.view_smart_monitor()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # add Monitor
 @app.route('/monitor/new', methods=['POST'])
 def post_monitor():
     system.create_smart_monitor()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # delete Monitor
 @app.route('/monitor/del', methods=['DELETE'])
 def delete_monitor():
     system.delete_smart_monitor()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 # edit Monitor
 @app.route('/monitor/update', methods=['PATCH'])
 def patch_monitor():
     system.change_smart_monitor()
-    pass
+    return jsonify({'temp': 'Not implemented'}), 404
 
 
 # <><><><><><><> MONITOR <><><><><><><><><>
