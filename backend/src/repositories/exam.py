@@ -1,7 +1,7 @@
 
 from sqlite3 import connect
 from backend.src.repositories.db_service import DBService
-
+import datetime
 class Exam:
     def __init__(self, exam_id: int, patient_id: int, content: str):
         self.exam_id = exam_id
@@ -52,7 +52,7 @@ class Exam:
         cursor.execute(getnewExamID)
         newID = cursor.fetchone
 
-        cursor.execute(createExam)
+        cursor.execute(createExam, (datetime.today(), health_id, doc_id, examtype))
 
         if examtype == 'Blood':
             for value in bloodtests:

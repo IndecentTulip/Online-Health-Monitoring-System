@@ -58,14 +58,14 @@ class ReportManager:
             entry.type = value
             results = cursor.execute(getTestResults, (patient, year))
             if results.count() == 1:
-                break
-            
-            for row in results:
-                if not (row[0] < row[1] < row[2]):
-                    entry.concern += (25 * multiplier)
-                else:
-                    entry.concern -= 25
-                    multiplier = (multiplier / 2)
+                continue
+            if results[0][0] < results[0][1] < results[0][1]:
+                for row in results:
+                    if not (row[0] < row[1] < row[2]):
+                     entry.concern += (25 * multiplier)
+                    else:
+                        entry.concern -= 25
+                        multiplier = (multiplier / 2)
 
         cursor.close()
         del cursor
