@@ -7,7 +7,9 @@ class ReportType(Enum):
     YEARLY = "yearly"
     PREDICTION = "prediction"
 class PredictEntry:
-    pass
+    def _init_(self, concern: int, type: str):
+        self.concern = concern
+        self.type = type
 class SumEntry:
     pass
 class ReportManager:
@@ -40,7 +42,7 @@ class ReportManager:
         findTestTypes = """SELECT UNIQUE testypes FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
                             LEFT JOIN examtable ON testresults.examid = examtable.examid
                             WHERE examtable.healthid = %s AND NOT (testtypes.lowerbound < testresulsts.results < testtypes.upperbound) AND YEAR (testresults.resultdate) =%s"""
-        getTestResults = """"SELECT results, upperbound, lowerbound () AS abnormal FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+        getTestResults = """"SELECT results, upperbound, lowerbound FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
                              WHERE examtable.healthid = %s AND YEAR (testresults.resultdate) =%s ORDER BY testresults.resultdate DESC"""
         db = DBService()
         conn = db.get_db_connection()
@@ -48,6 +50,22 @@ class ReportManager:
         cursor = conn.cursor()
         cursor.execute (findTestTypes, (patient, year))
         testtypes = cursor.fetachall
+        entryList = []
+        for value in testtypes:
+            entry = SumEntry
+            multiplier = 1.0
+            entry.concern = 100
+            entry.type = value
+            results = cursor.execute(getTestResults, (patient, year))
+            if results.count() == 1:
+                break
+            
+            for row in results:
+                if not (row[0] < row[1] < row[2]):
+                    entry.concern += (25 * multiplier)
+                else:
+                    entry.concern -= 25
+                    multiplier = (multiplier / 2)
 
         cursor.close()
         del cursor
