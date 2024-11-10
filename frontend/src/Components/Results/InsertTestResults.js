@@ -5,7 +5,7 @@ const InsertTestResults = ({ userId }) => {
   const [exams, setExams] = useState([]);
   const [selectedExam, setSelectedExam] = useState('');
   const [testTypes, setTestTypes] = useState([]);
-  const [newResult, setNewResult] = useState('');
+  const [results, setResults] = useState({});
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -26,10 +26,6 @@ const InsertTestResults = ({ userId }) => {
     }
   }, [userId]);
 
-  const handleInputChange = (e) => {
-    setNewResult(e.target.value);
-  };
-
   const handleExamChange = async (e) => {
     const examId = e.target.value;
     setSelectedExam(examId);
@@ -38,9 +34,17 @@ const InsertTestResults = ({ userId }) => {
     try {
       const response = await axios.get(`http://localhost:5000/results/testtypes/${examId}`);
       setTestTypes(response.data);
+      setResults({}); // Reset the results when a new exam is selected
     } catch (err) {
       setError('Failed to fetch test types for selected exam');
     }
+  };
+
+  const handleResultChange = (testType, e) => {
+    setResults({
+      ...results,
+      [testType]: e.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -49,17 +53,24 @@ const InsertTestResults = ({ userId }) => {
     setSuccessMessage(null);
     setError(null);
 
+    // Ensure all results are entered
+    if (Object.keys(results).length !== testTypes.length) {
+      setError('Please provide results for all test types.');
+      setLoading(false);
+      return;
+    }
+
     try {
       await axios.post('http://localhost:5000/results/new', {
         user_id: userId,
         exam_id: selectedExam,
-        result_data: newResult,
+        result_data: results,
       });
 
-      setSuccessMessage('Result added successfully!');
-      setNewResult('');
+      setSuccessMessage('Results added successfully!');
+      setResults({}); // Clear the results after successful submission
     } catch (err) {
-      setError('Failed to insert result');
+      setError('Failed to insert results');
     } finally {
       setLoading(false);
     }
@@ -73,7 +84,7 @@ const InsertTestResults = ({ userId }) => {
       {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
       {error && <div style={{ color: 'red' }}>{error}</div>}
 
-      {/* Form to add new test result */}
+      {/* Form to add new test results */}
       <form onSubmit={handleSubmit}>
         <div>
           <label>
@@ -93,21 +104,29 @@ const InsertTestResults = ({ userId }) => {
           </label>
         </div>
 
-        <div>
-          <label>
-            <strong>Test Result:</strong>
-            <input
-              type="number"
-              value={newResult}
-              onChange={handleInputChange}
-              placeholder="Enter test result"
-              required
-            />
-          </label>
-        </div>
+        {/* Input for each test type */}
+        {testTypes.length > 0 && (
+          <>
+            <h3>Test Results</h3>
+            {testTypes.map((testType) => (
+              <div key={testType}>
+                <label>
+                  <strong>{testType} Result:</strong>
+                  <input
+                    type="number"
+                    value={results[testType] || ''}
+                    onChange={(e) => handleResultChange(testType, e)}
+                    placeholder={`Enter result for ${testType}`}
+                    required
+                  />
+                </label>
+              </div>
+            ))}
+          </>
+        )}
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Submitting...' : 'Add Result'}
+          {loading ? 'Submitting...' : 'Add Results'}
         </button>
       </form>
     </div>

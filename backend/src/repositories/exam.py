@@ -1,6 +1,21 @@
 from repositories.db_service import DBService
 
 class Exam:
+    @staticmethod
+    def fetch_test_types(exam_id):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT testtype FROM presecribedTest WHERE examId = %s
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return [test_type[0] for test_type in test_types]
 
     @staticmethod
     def fetch_exams_with_patient_info():
@@ -65,22 +80,22 @@ class Exam:
         return exam_types_list
 
 
-    @staticmethod
-    def fetch_test_types():
-        db = DBService()
-        conn = db.get_db_connection()
-        cursor = conn.cursor()
-
-        # Fetch all test types related to blood tests, filtering based on the 'Blood Test' exam type
-        cursor.execute("SELECT * FROM testtypes;")
-        test_types = cursor.fetchall()
-
-        # Return test types as a list
-        test_types_list = [test[0] for test in test_types]
-
-        cursor.close()
-        conn.close()
-        return test_types_list
+    #@staticmethod
+    #def fetch_test_types():
+    #    db = DBService()
+    #    conn = db.get_db_connection()
+    #    cursor = conn.cursor()
+    #
+    #    # Fetch all test types related to blood tests, filtering based on the 'Blood Test' exam type
+    #    cursor.execute("SELECT * FROM testtypes;")
+    #    test_types = cursor.fetchall()
+    #
+    #    # Return test types as a list
+    #    test_types_list = [test[0] for test in test_types]
+    #
+    #    cursor.close()
+    #    conn.close()
+    #    return test_types_list
 
 
     @staticmethod

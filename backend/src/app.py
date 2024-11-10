@@ -329,27 +329,26 @@ def get_exams_for_results():
 @app.route('/results/testtypes/<int:exam_id>', methods=['GET'])
 def get_test_types_for_exam(exam_id):
     try:
-        # Fetch test types from the prescribedTest table based on selected exam ID
         test_types = system.get_test_types_for_exam(exam_id)
-        return jsonify(test_types), 200
+        return jsonify(test_types)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Add new test results for a specific exam
 @app.route('/results/new', methods=['POST'])
 def post_result():
     user_id = request.json.get('user_id')
-    result_data = request.json.get('result_data')  # The test results to be inserted
-    exam_id = request.json.get('exam_id')  # The selected exam ID
+    exam_id = request.json.get('exam_id')  # Exam ID for the test
+    result_data = request.json.get('result_data')  # The results data for each test type
 
-    if not user_id or not result_data or not exam_id:
-        return jsonify({'error': 'User ID, result data, and exam ID are required'}), 400
+    if not user_id or not exam_id or not result_data:
+        return jsonify({'error': 'User ID, Exam ID, and result data are required'}), 400
 
     try:
-        system.create_results(user_id, exam_id, result_data)  # Insert the new result
-        return jsonify({'message': 'Result inserted successfully'}), 201
+        # Call the system to create results for the selected exam and test types
+        system.create_results(user_id, exam_id, result_data)  # Insert the new results into the system
+        return jsonify({'message': 'Results inserted successfully'}), 201
     except Exception as e:
-        return jsonify({'error': str(e)}), 500# WhY did I make this???
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/results/fetch', methods=['GET'])
 def get_results():

@@ -1,6 +1,7 @@
 from collections import namedtuple
 from contextlib import nullcontext
 from os import walk
+from repositories.db_service import DBService
 
 from repositories import user
 from repositories.exam import Exam
@@ -263,17 +264,33 @@ class System:
         except Exception as e:
             raise Exception(f"Error fetching test types for exam {exam_id}: {str(e)}")
 
+
     def create_results(self, user_id, exam_id, result_data):
-        try:
-            # Insert the new result into the database
-            Results.new_result(exam_id, result_data)
-        except Exception as e:
-            raise Exception(f"Error inserting result: {str(e)}")
-        def view_results(self, id: int, userType: str):
-            return jsonify({
-                'temp': 'temp'
-            })
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
     
+        # Get associated test types for the selected exam
+        cursor.execute("""
+            SELECT testtype FROM presecribedTest WHERE examId = %s
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+    
+        # Loop through each test type and insert the result data
+        for test_type in test_types:
+            # Assume `result_data` contains results for each test type, possibly in an array or dictionary format
+            test_result = result_data.get(test_type[0])
+    
+            if test_result is not None:  # Only insert if there's a result for this test type
+                cursor.execute("""
+                    INSERT INTO testresults (examid, testtype, results, resultdate)
+                    VALUES (%s, %s, %s, CURRENT_DATE)
+                """, (exam_id, test_type[0], test_result))
+    
+        conn.commit()
+        cursor.close()
+        conn.close()
+       
         def view_all_results(self):
             return jsonify({
                 'temp': 'temp'
