@@ -87,14 +87,85 @@ class Worker(User):
         info.setRole(Role.NONE)
         return info
 
+
+
     @staticmethod
     def get_user_record_profile(id: int) -> UserInfo:
-        pass
+        # Query the database to retrieve worker's profile information
+        query = """
+        SELECT workersid, workersname, email, phonenumber, image, usertype 
+        FROM workers
+        WHERE workersid = %s;
+        """
+    
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+    
+        cursor.close()
+        conn.close()
 
+        worker_info = UserInfo()
+    
+        if result:
+            # Return a UserInfo object for the worker
+            worker_info.setId(result[0])
+            worker_info.setName(result[1])
+            worker_info.setEmail(result[2])
+            worker_info.setPhone(result[3])
+            worker_info.setImage(result[4])  # You can decide to return the image as base64 or URL
+            worker_info.setUserType(result[5])
+            return worker_info
+
+        else:
+            return worker_info
+    
     @staticmethod
-    def modify_user_record_profile(id: int) -> UserInfo:
-       pass
+    def update_user_record_profile(id: int, data: dict) -> UserInfo:
+        # Update worker profile in the database with provided data
+        update_query = """
+        UPDATE workers
+        SET workersname = %s, email = %s, phonenumber = %s, image = %s
+        WHERE workersid = %s
+        RETURNING workersid, workersname, email, phonenumber, image, usertype;
+        """
+    
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        # Assuming the image is passed as a bytea type (e.g., as base64 string or a path)
+        cursor.execute(update_query, (
+            data.get('name'),
+            data.get('email'),
+            data.get('phone'),
+            data.get('image'),  # You can modify how you handle image (base64 or binary)
+            id
+        ))
+    
+        result = cursor.fetchone()
+    
+        conn.commit()
+        cursor.close()
+        conn.close()
 
+        worker_info = UserInfo()
+    
+        if result:
+            # Return updated worker profile data as a UserInfo object
+            worker_info.setId(result[0])
+            worker_info.setName(result[1])
+            worker_info.setEmail(result[2])
+            worker_info.setPhone(result[3])
+            worker_info.setImage(result[4])
+            worker_info.setUserType(result[5])
+    
+            return worker_info
+        else:
+            return worker_info
 
 
     @staticmethod

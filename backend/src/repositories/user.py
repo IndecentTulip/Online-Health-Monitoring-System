@@ -33,10 +33,15 @@ class UserInfo:
         self.dob = dob
     def setStatus(self, status: bool):
         self.status = status
-    def setDoctorId(self, doctor_id: int):
-        self.doctor_id = doctor_id
+    def setDoctorId(self, id: int):
+        self.id = id
     def setPhone(self, phone: int):
         self.phone = phone
+    def setImage(self, image: str):
+        self.image = image
+    def setUserType(self, user_type: str):
+        self.user_type = user_type
+
 
 
 
