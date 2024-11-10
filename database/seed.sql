@@ -48,27 +48,28 @@ INSERT INTO examTable (examId, examDate, healthID, workersID, examType) VALUES
 INSERT INTO testTypes(testType, lowerBound, upperBound, unit, examType) VALUES
   ('Blood Test Iron', 0.5, 1.1, 'mg/dl', 'Blood'),
   ('Blood Test WCC', 100, 160, 'mg/dl', 'Blood'),
-  ('Ultrasound D', 30, 140, 'U/L', 'Ultrasound'),
-  ('X-Ray X', 7, 20, 'mmHG', 'X-Ray'),
-  ('CT-Scan C', 90, 100, '%', 'CT-Scan'),
+  ('Ultrasound', 30, 140, 'U/L', 'Ultrasound'),
+  ('X-Ray', 7, 20, 'mmHG', 'X-Ray'),
+  ('CT-Scan', 90, 100, '%', 'CT-Scan'),
   ('MRI', 7, 55, 'U/L', 'MRI'),
   ('Urine Test', 11, 44, 'ng/mL', 'Urine Test'),
   ('Routine Hematology', 0.9, 1.2, 'mg/dl', 'Blood'),
-  ('Coagulation', 130, 1.2, 'mg/dl', 'Blood'),
-  ('Routine Chemistry', 60, 20, 'mg/dl', 'Blood'),
-  ('Renal Function', 150, 30, 'mg/dl', 'Blood'),
-  ('Liver Function', 90, 25, 'mg/dl', 'Blood'),
-  ('Pancreas Function', 100, 50, 'mg/dl', 'Blood'),
-  ('Endocrinology', 170, 90, 'mg/dl', 'Blood'),
-  ('Tumor Markers', 230, 100, 'mg/dl','Blood');
+  ('Coagulation', 130, 180, 'mg/dl', 'Blood'),
+  ('Routine Chemistry', 20, 60, 'mg/dl', 'Blood'),
+  ('Renal Function', 30, 150, 'mg/dl', 'Blood'),
+  ('Liver Function', 25, 90, 'mg/dl', 'Blood'),
+  ('Pancreas Function', 50, 100, 'mg/dl', 'Blood'),
+  ('Endocrinology', 90, 170, 'mg/dl', 'Blood'),
+  ('Tumor Markers', 50, 100, 'mg/dl','Blood'),
+  ('ECG', 10, 200, 'wh/dl', 'ECG');
 
 -- Insert into prescribed test (Ensure these examIds exist in examTable)
 INSERT INTO presecribedTest (examId, testtype) VALUES
   (33025, 'Blood Test Iron'),
   (33025, 'Blood Test WCC'),
   (33026, 'Blood Test Iron'),
-  (33027, 'Ultrasound D'),
-  (33028, 'CT-Scan C'),
+  (33027, 'Ultrasound'),
+  (33028, 'CT-Scan'),
   (33028, 'MRI');
 
 -- Insert into summaryReport
@@ -102,22 +103,22 @@ INSERT INTO predictReports(pReportID, workersID, healthID, pDate) VALUES
   (5514, 21007, 10037, '2024-11-23');
 
 -- Insert into predictReportsEntries
-INSERT INTO predictReportsEntries(pReportID, examType, concernValue) VALUES
-  (5508, 'Blood', 100),
+INSERT INTO predictReportsEntries(pReportID, testtype, concernValue) VALUES
+  (5508, 'Blood Test Iron', 100),
   (5509, 'Ultrasound', 150),
   (5510, 'Urine Test', 25),
   (5511, 'Urine Test', 200),
-  (5512, 'Blood', 50),
+  (5512, 'Blood Test Iron', 50),
   (5513, 'Ultrasound', 75),
-  (5514, 'Blood', 120);
+  (5514, 'Blood Test Iron', 120);
 
 -- Insert into smartMonitor
-INSERT INTO smartMonitor (monitorID, workersID, examType, smartStatus, healthID) VALUES
-  (60001, 21004, 'Blood', 'sent', 10031),
+INSERT INTO smartMonitor (monitorID, workersID, testtype, smartStatus, healthID) VALUES
+  (60001, 21004, 'Blood Test Iron', 'sent', 10031),
   (60002, 21007, 'Urine Test', 'not sent', 10032),
   (60003, 21004, 'CT-Scan', 'not sent', 10033),
   (60004, 21004, 'CT-Scan', 'sent', 10034),
-  (60005, 21005, 'Blood', 'sent', 10035),
+  (60005, 21005, 'Blood Test Iron', 'sent', 10035),
   (60006, 21004, 'X-Ray', 'sent', 10036),
   (60007, 21004, 'ECG', 'not sent', 10037),
   (60008, 21003, 'MRI', 'not sent', 10031);
