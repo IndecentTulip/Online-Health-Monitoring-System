@@ -92,6 +92,12 @@ class Worker(User):
         pass
 
     @staticmethod
+    def modify_user_record_profile(id: int) -> UserInfo:
+       pass
+
+
+
+    @staticmethod
     def get_doctors_list() -> List:
         fetchEmailNId = """SELECT workersID, email FROM workers WHERE userType = 'Doctor';"""
         

@@ -19,6 +19,8 @@ class UserInfo:
     #    # WE might not need the password
     #    self.password = password
     #    self.id = id 
+    def setName(self, name: str):
+        self.name = name
     def setRole(self, user_type: Role):
         self.user_type = user_type
     def setEmail(self, email: str):
@@ -27,6 +29,16 @@ class UserInfo:
         self.password = password
     def setId(self, id: int):
         self.id = id
+    def setDob(self, dob: str):
+        self.dob = dob
+    def setStatus(self, status: bool):
+        self.status = status
+    def setDoctorId(self, doctor_id: int):
+        self.doctor_id = doctor_id
+    def setPhone(self, phone: int):
+        self.phone = phone
+
+
 
 
 

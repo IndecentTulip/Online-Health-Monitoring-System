@@ -12,9 +12,6 @@ system = System()
 # <><><><><><><> AUTH <><><><><><><><><>
 
 # Used by Components/Auth/Login
-
-
-# Used by Components/Auth/Login
 @app.route('/login', methods=['POST'])
 def post_login():
     try:
@@ -94,40 +91,39 @@ def get_doctors():
 
 # <><><><><><><> PROFILE <><><><><><><><><>
 
-# View patient profile
+# Route for viewing the patient profile
 @app.route('/profile/patient/view', methods=['GET'])
 def get_patient_profile():
     patient_id = request.args.get('patient_id')
     if not patient_id:
         return jsonify({'error': 'Patient ID is required'}), 400
 
-    patient = system.view_patient(patient_id)
+    patient = system.view_patient(int(patient_id))
     
     if patient:
         return patient
-        #return jsonify({'temp': 'Not implemented'}), 404
     else:
         return jsonify({'error': 'Patient not found'}), 404
 
+# Route for updating the patient profile
 @app.route('/profile/patient/edit', methods=['PATCH'])
-def patch_patient_profile():
+def edit_patient_profile():
     patient_id = request.args.get('patient_id')
     if not patient_id:
         return jsonify({'error': 'Patient ID is required'}), 400
 
-    # Get the updated data from the request
-    updated_data = request.json
-    if not updated_data:
-        return jsonify({'error': 'No data provided for update'}), 400
-
-    # Call the system to modify the patient account with the provided data
     try:
-        #system.modify_patient_account(patient_id, updated_data)
-        system.modify_patient_account(patient_id)
-        return jsonify({'message': 'Patient profile updated successfully'}), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        data = request.get_json()
+        # Process the update logic (you can expand this to validate each field)
+        patient = system.update_patient_profile(int(patient_id), data)
 
+        if patient:
+            return jsonify({'success': 'Patient profile updated successfully'}), 200
+        else:
+            return jsonify({'error': 'Patient not found'}), 404
+
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 # View worker profile
 @app.route('/profile/worker/view', methods=['GET'])
 def get_worker_profile():

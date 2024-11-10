@@ -116,7 +116,64 @@ class Patient(User):
         info.setRole(userRole)
         return info        # Assuming user is approved
 
+
     @staticmethod
     def get_user_record_profile(id: int) -> UserInfo:
-        pass
+        # Database query to fetch patient information
+        query = """
+        SELECT healthid, patientname, email, dob, status, doctorid, phonenumber
+        FROM patient
+        WHERE healthid = %s;
+        """
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        patient_info = UserInfo()
+
+        if result:
+            # Create and return a UserInfo object
+            patient_info.setId(result[0])
+            patient_info.setName(result[1])
+            patient_info.setEmail(result[2])
+            patient_info.setDob(result[3])
+            patient_info.setStatus(result[4])
+            patient_info.setDoctorId(result[5])
+            patient_info.setPhone(result[6])
+
+            return patient_info
+        else:
+            return patient_info
+
+
+    @staticmethod
+    def update_user_record_profile(id: int, data: dict):
+        # Database query to update patient information
+        update_query = """
+        UPDATE patient
+        SET patientname = %s, email = %s, phonenumber = %s
+        WHERE healthid = %s;
+        """
+    
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        # Assuming we are only updating the name, email, and phone for simplicity
+        cursor.execute(update_query, (data.get('name'), data.get('email'), data.get('phone'), id))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+    
+        # Fetch the updated patient to return
+        return Patient.get_user_record_profile(id)
+
 

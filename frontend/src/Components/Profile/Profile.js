@@ -115,8 +115,6 @@ const Profile = ({ userId }) => {
             </label>
           </div>
 
-          {/* Add other fields as necessary */}
-          
           <button type="submit" disabled={loading}>
             {loading ? 'Updating...' : 'Update Profile'}
           </button>
