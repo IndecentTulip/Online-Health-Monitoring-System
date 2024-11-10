@@ -80,6 +80,7 @@ create table presecribedTest(
 );
 -- create the testresults table
 create table testresults (
+  testresultsid SERIAL primary key,
   testtype varchar(50),
   foreign key (testtype) references testtypes(testtype),
   examid INT,

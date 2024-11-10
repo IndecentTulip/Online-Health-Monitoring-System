@@ -290,19 +290,21 @@ class System:
         conn.commit()
         cursor.close()
         conn.close()
-       
-        def view_all_results(self):
-            return jsonify({
-                'temp': 'temp'
-            })
 
-   
-    def delete_results(self):
-    # def delete_results(self, result_id: int):
-        return jsonify({
-            'temp': 'temp'
-        })
+
+    def view_all_results(self):
+        try:
+            return Results.return_list_of_results()
+        except Exception as e:
+            raise Exception(f"Error fetching results for user  {str(e)}")
     
+    def delete_results(self, result_id):
+        try:
+            Results.remove_result(result_id)
+        except Exception as e:
+            raise Exception(f"Error deleting result with ID {result_id}: {str(e)}")
+       
+   
     def view_year_n_month_reports(self):
         return jsonify({
             'temp': 'temp'
