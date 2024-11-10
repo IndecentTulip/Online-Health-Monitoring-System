@@ -19,7 +19,9 @@ class Patient(User):
     #    return Patient(0, "", "", 0, datetime.date(2024, 11, 2), 8, "")  # Placeholder, replace with actual logic
 
     # REQUIRED TO RUN AFTER using Patient() constractor
-    def create_patient(self):
+
+    @staticmethod
+    def create_patient():
         """
         Creates a new patient record.
         """
