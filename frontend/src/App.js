@@ -8,6 +8,7 @@ import PatientMain from './Components/Patient/PatientMain';
 import DoctorMain from './Components/Doctor/DoctorMain';
 import StaffMain from './Components/Staff/StaffMain';
 import AdminMain from './Components/Admin/AdminMain';
+import RegisterOptions from './Components/Auth/RegisterOptions';
 import { RoleProvider, useRole } from './Utils/RoleContext'; // Import your context
 
 
@@ -41,7 +42,7 @@ const App = () => {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LogIn />} />
-
+          <Route path="/register-options" element={<RegisterOptions />} />
           <Route path="/patient/main" element={<PatientMain />} />
           <Route path="/doctor/main" element={<DoctorMain />} />
           <Route path="/staff/main" element={<StaffMain />} />
