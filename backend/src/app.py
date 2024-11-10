@@ -169,13 +169,6 @@ def get_workers():
     return workers
     #return jsonify({'temp': 'Not implemented'}), 404
 
-# Fetch all patients (No filtering on the backend)
-@app.route('/accounts/patient/fetch', methods=['GET'])
-def get_patients():
-    patients = system.view_all_patients()  # Assuming this method returns a list of patients
-    return patients
-    #return jsonify({'temp': 'Not implemented'}), 404
-
 # Add a new worker (POST request)
 @app.route('/accounts/workers/add', methods=['POST'])
 def add_workers():
@@ -214,16 +207,35 @@ def delete_workers():
     #system.delete_worker_account(worker_id)  # Assuming this method exists
     system.delete_worker_account()  # Assuming this method exists
     return jsonify({'message': 'Worker deleted successfully'}), 200
-@app.route('/accounts/workers/update', methods=['PATCH'])
-def patch_workers():
-    id =0
-    system.modify_worker_account(id)
-    return jsonify({'temp': 'Not implemented'}), 404
+
+
+@app.route('/accounts/patient/fetch', methods=['GET'])
+def get_patients():
+    try:
+        patients = system.view_all_patients()  # Call the system to get all pending patients
+        return patients
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+
 
 @app.route('/accounts/patient/update', methods=['PATCH'])
 def patch_patients():
+    patient_id = request.json.get('patient_id')  # Extract patient_id from the request body
+
+    if not patient_id:
+        return jsonify({'error': 'Patient ID is required'}), 400
+
+    try:
+        # Call the system to approve the patient
+        system.update_patient_account_status(patient_id)
+        return jsonify({'message': 'Patient account approved successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+
+@app.route('/accounts/workers/update', methods=['PATCH'])
+def patch_workers():
     id =0
-    system.modify_patient_account(id)
+    system.update_worker_account(id, data)
     return jsonify({'temp': 'Not implemented'}), 404
 
 

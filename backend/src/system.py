@@ -126,11 +126,32 @@ class System:
             raise Exception(f"Error updating patient profile: {str(e)}")
 
     def view_all_patients(self):
-
-        # ...
-        return jsonify({
-            'temp': 'temp'
-        })
+        try:
+            # Fetch list of pending patients from Patient class
+            patients = Patient.give_list_of_pending()
+            
+            if patients:
+                # Format the patient data for frontend
+                patient_list = [{
+                    'healthid': patient[0],  # Patient ID from the DB
+                    'patientname': patient[1],
+                    'email': patient[2],
+                    'status': patient[3]
+                } for patient in patients]
+                
+                return jsonify(patient_list)
+            else:
+                return jsonify({'message': 'No pending patients found'}), 404
+        except Exception as e:
+            return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+    
+    def update_patient_account_status(self, patient_id: int):
+        try:
+            # Approve the patient by updating the status to True
+            Patient.approve_patient(patient_id)
+            return jsonify({'message': 'Patient approved successfully'}), 200
+        except Exception as e:
+            return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
     def view_worker(self, id: int):
         try:
