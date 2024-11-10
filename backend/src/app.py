@@ -350,23 +350,32 @@ def post_result():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
 @app.route('/results/fetch', methods=['GET'])
 def get_results():
-    # will return different
-    #results = system.view_all_results()
-    pass
-    #if results:
-    #    #return results
-    #    return jsonify({'temp': 'Not implemented'}), 404
-    #else:
-    #    return jsonify({'error': 'No results found for this user'}), 404
+    try:
+        # Fetch all test results (no user_id needed)
+        results = system.view_all_results()
+        if results:
+            return jsonify(results), 200
+        else:
+            return jsonify({'error': 'No results found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
-# delete Results
 @app.route('/results/del', methods=['DELETE'])
 def delete_result():
-    system.delete_results()
-    return jsonify({'temp': 'Not implemented'}), 404
+    result_id = request.json.get('result_id')
+    
+    if not result_id:
+        return jsonify({'error': 'Result ID is required'}), 400
 
+    try:
+        # Delete the test result by its ID
+        system.delete_results(result_id)
+        return jsonify({'message': 'Test result deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 # <><><><><><><> RESULTS <><><><><><><><><>
 
 # <><><><><><><> REPORTS <><><><><><><><><>

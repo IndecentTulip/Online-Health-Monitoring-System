@@ -14,12 +14,49 @@ class Results:
         self.test_date = test_date
         self.status = status
 
-    def return_list_of_results(self, user_type: str, email: str) -> List['Results']:
+    @staticmethod
+    def return_list_of_results():
         """
-        Returns a list of results based on the user type (Patient or Doctor) and email.
+        Fetch all results from the testresults table.
         """
-        # Implementation for returning results
-        pass
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        # Query to fetch all test results from the testresults table
+        print("TEST 1")
+        cursor.execute("""
+            SELECT testresultsid, testtype, results, resultdate 
+            FROM testresults;
+        """)
+        rows = cursor.fetchall()
+
+        results = []
+        for row in rows:
+            results.append({
+                'result_id': row[0],
+                'test_name': row[1],
+                'results': row[2],
+                'test_date': row[3]
+            })
+        
+        cursor.close()
+        conn.close()
+
+        return results
+
+    @staticmethod
+    def remove_result(result_id: int):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        # Delete the result with the given result_id
+        cursor.execute("DELETE FROM testresults WHERE testresultsid = %s", (result_id,))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
 
     @staticmethod
     def new_result(exam_id, result_data):
@@ -42,13 +79,6 @@ class Results:
         conn.commit()
         cursor.close()
         conn.close()
-
-    def remove_result(self, result_id: int):
-        """
-        Removes a result by its ID.
-        """
-        # Implementation for removing a result
-        pass
 
     def modify_results(self, result_id: int):
         """

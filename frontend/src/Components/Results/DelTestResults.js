@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const DelTestResults = ({ userId }) => {
+const DelTestResults = () => {
   const [testResults, setTestResults] = useState([]);  // List of all test results
   const [error, setError] = useState(null);  // Error handling
   const [successMessage, setSuccessMessage] = useState('');  // Success message
@@ -9,9 +9,7 @@ const DelTestResults = ({ userId }) => {
   // Fetch test results
   const fetchTestResults = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/results/fetch', {
-        params: { user_id: userId },
-      });
+      const response = await axios.get('http://localhost:5000/results/fetch');
       setTestResults(response.data);  // Store the fetched test results
     } catch (err) {
       setError('Failed to fetch test results');
@@ -34,7 +32,7 @@ const DelTestResults = ({ userId }) => {
   // Fetch test results on component mount
   useEffect(() => {
     fetchTestResults();
-  }, [userId]);
+  }, []);
 
   return (
     <div>
@@ -54,6 +52,7 @@ const DelTestResults = ({ userId }) => {
               <p><strong>Test Name:</strong> {result.test_name}</p>
               <p><strong>Test Date:</strong> {new Date(result.test_date).toLocaleDateString()}</p>
               <p><strong>Result ID:</strong> {result.result_id}</p>
+              <p><strong>Result:</strong> {result.results}</p>
               <button onClick={() => handleDeleteTestResult(result.result_id)}>
                 Delete Test Result
               </button>
