@@ -238,31 +238,48 @@ def patch_workers():
     system.update_worker_account(id, data)
     return jsonify({'temp': 'Not implemented'}), 404
 
-
 # <><><><><><><> ACCOUNT <><><><><><><><><>
 
 # <><><><><><><> EXAMS <><><><><><><><><>
 
-# display Exams
-@app.route('/exam/fetch', methods=['GET'])
-def get_exams_1():
-    system.view_exam()
-    # THIS SHIT WILL RETURN NOT ONLY EXAM TYPES
-    # BUT ALSO BLOOD TEST TYPES
-    return jsonify({'temp': 'Not implemented'}), 404
+@app.route('/exam/fetch_exam_types', methods=['GET'])
+def get_exam_types():
+    try:
+        exam_types = system.get_exam_types()  # Fetch the list of exam types from system
+        return jsonify(exam_types), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
-# add Exams
+
+@app.route('/exam/fetch_test_types', methods=['GET'])
+def get_test_types():
+    try:
+        test_types = system.get_test_types()  # Fetch the list of test types (including blood tests) from system
+        return jsonify(test_types), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+
+
 @app.route('/exam/new', methods=['POST'])
 def post_exams():
-    system.prescribe_exam()
-    return jsonify({'temp': 'Not implemented'}), 404
+    try:
+        data = request.json
+        # Only one exam type should be passed at a time, process each exam type individually
+        system.prescribe_exam(data)  # Pass the data to the system layer for processing
+        return jsonify({'message': 'Exam prescribed successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
-# get Patients of the Doctor (IS NEEDED TO ADD EXAM) 
 @app.route('/exam/doc', methods=['GET'])
-def get_pat_for_doc_1():
-    system.doctors_patients()
-    return jsonify({'temp': 'Not implemented'}), 404
-
+def get_pat_for_doc_for_exam():
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+    try:
+        patients = system.doctors_patients(user_id)
+        return jsonify(patients), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 # <><><><><><><> EXAMS <><><><><><><><><>
 
 # <><><><><><><> RESULTS <><><><><><><><><>
@@ -357,7 +374,7 @@ def post_yearreport():
 
 # Get patients for a doctor (used for selecting patients for reports)
 @app.route('/predict/doc', methods=['GET'])
-def get_pat_for_doc_3():
+def get_pat_for_doc_for_predict():
     patients = system.doctors_patients()  # Assuming this method returns a list of patients assigned to the doctor
     return patients
     #return jsonify({'temp': 'Not implemented'}), 404
@@ -391,7 +408,7 @@ def get_pat_for_doc():
 
 # Fetch all exam types
 @app.route('/predict/exam/fetch', methods=['GET'])
-def get_exams():
+def get_exams_for_predict():
     exams = system.view_exam()  # Assuming this method returns exam types
     return exams
     #return jsonify({'temp': 'Not implemented'}), 404

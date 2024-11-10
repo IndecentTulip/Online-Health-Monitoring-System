@@ -1,107 +1,153 @@
-import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './PrescExam.css';  // Assuming this file contains CSS for the form
+import './PrescExam.css';
 
 const PrescExam = ({ userId }) => {
-  const navigate = useNavigate();
 
-  const [patients, setPatients] = useState([]);  // List of patients for the doctor
-  const [patientId, setPatientId] = useState('');  // Selected patient ID
-  const [content, setContent] = useState('');  // Content (e.g., exam notes)
-  const [error, setError] = useState(null);  // Error handling
+  const [patients, setPatients] = useState([]);
+  const [patientId, setPatientId] = useState('');
+  const [testTypes, setTestTypes] = useState([]);
+  const [selectedTestTypes, setSelectedTestTypes] = useState([]);
+  const [examTypeByTestType, setExamTypeByTestType] = useState({}); // Mapping of test types to exam types
+  const [content, setContent] = useState('');
+  const [error, setError] = useState(null);
+  const [confirmationMessage, setConfirmationMessage] = useState(''); // Confirmation message
 
-  // Fetch the list of patients assigned to the doctor
+  // Fetch patients assigned to the doctor
   const fetchPatients = async () => {
     try {
       const response = await axios.get('http://localhost:5000/exam/doc', {
         params: { user_id: userId },
       });
-
-      // Assuming response.data is an array of patient objects {id, name}
-      if (Array.isArray(response.data)) {
-        setPatients(response.data);  // Store the fetched patients in the state
-      } else {
-        setError('Invalid data format for patients');
-      }
+      setPatients(response.data);
     } catch (err) {
       setError('Failed to fetch patients');
     }
   };
 
-  // Handle form field changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'patientId') {
-      setPatientId(value);  // Set selected patient ID
-    } else if (name === 'content') {
-      setContent(value);  // Set exam content
+  // Fetch test types and their associated exam types
+  const fetchTestTypes = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/exam/fetch_test_types');
+      setTestTypes(response.data);
+
+      // Generate mapping for test types to exam types
+      const testTypeExamMap = {};
+      response.data.forEach((test) => {
+        testTypeExamMap[test.testtype] = test.examtype;
+      });
+      setExamTypeByTestType(testTypeExamMap);
+    } catch (err) {
+      setError('Failed to fetch test types');
     }
   };
 
-  // Submit the form to create a new exam
+  useEffect(() => {
+    if (userId) {
+      fetchPatients();
+      fetchTestTypes();
+    }
+  }, [userId]);
+
+  // Handle changes in form fields
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+
+    if (name === 'patientId') {
+      setPatientId(value);
+    } else if (name === 'content') {
+      setContent(value);
+    } else if (name === 'testTypes') {
+      if (checked) {
+        setSelectedTestTypes([...selectedTestTypes, value]);
+      } else {
+        setSelectedTestTypes(selectedTestTypes.filter((test) => test !== value));
+      }
+    }
+  };
+
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (selectedTestTypes.length === 0) {
+      setError('At least one test type must be selected.');
+      return;
+    }
+
     try {
-      const examData = { patientId, content };
-      const response = await axios.post('http://localhost:5000/exam/new', examData);
-      if (response.status === 200) {
-        // Redirect to another page (e.g., exam details page or dashboard)
-        navigate('/exams');
-      } else {
-        setError('Failed to create exam');
+      // Loop through selected test types and send separate requests for each
+      for (let testType of selectedTestTypes) {
+        const examType = examTypeByTestType[testType];
+
+        // Prepare exam data for each test type
+        const examData = {
+          patientId,
+          content,
+          examType: examType,  // Corresponding exam type based on test type
+          testTypes: [testType],  // Only send the selected test type
+          doctorId: userId,
+        };
+
+        const response = await axios.post('http://localhost:5000/exam/new', examData);
+        if (response.status === 200) {
+          setConfirmationMessage('Exam prescribed successfully!');
+        } else {
+          setError('Failed to create exam');
+          return;
+        }
       }
+
     } catch (err) {
       setError('Error submitting the exam');
     }
   };
 
-  // Fetch patients on component mount
-  useEffect(() => {
-    if (userId) {
-      fetchPatients();  // Fetch the patients when the component mounts
-    }
-  }, [userId]);
-
   return (
     <div className="presc-exam">
       <h2>Prescribe Exam</h2>
-
-      {/* Display error if exists */}
       {error && <div style={{ color: 'red' }}>{error}</div>}
+      {confirmationMessage && <div style={{ color: 'green' }}>{confirmationMessage}</div>}
 
-      {/* Exam prescription form */}
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
-            Select Patient:
-            <select
-              name="patientId"
-              value={patientId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select a patient</option>
-              {patients.map((patient) => (
-                <option key={patient.id} value={patient.id}>
-                  {patient.name}
-                </option>
-              ))}
-            </select>
-          </label>
+          <label>Select Patient:</label>
+          <select name="patientId" value={patientId} onChange={handleChange} required>
+            <option value="">Select a patient</option>
+            {patients.map((patient) => (
+              <option key={patient.id} value={patient.id}>
+                {patient.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>
-          <label>
-            Exam Content (Notes):
-            <textarea
-              name="content"
-              value={content}
-              onChange={handleChange}
-              required
-              placeholder="Enter exam instructions or notes"
-            />
-          </label>
+          <label>Select Test Types:</label>
+          {testTypes.map((test) => (
+            <div key={test.testtype}>
+              <label>
+                <input
+                  type="checkbox"
+                  name="testTypes"
+                  value={test.testtype}
+                  onChange={handleChange}
+                />
+                {test.testtype} (Associated Exam Type: {test.examtype})
+              </label>
+            </div>
+          ))}
+        </div>
+
+        <div>
+          <label>Exam Content (Notes):</label>
+          <textarea
+            name="content"
+            value={content}
+            onChange={handleChange}
+            required
+            placeholder="Enter exam instructions or notes"
+          />
         </div>
 
         <button type="submit">Submit Exam</button>

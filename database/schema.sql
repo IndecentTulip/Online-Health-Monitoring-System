@@ -46,6 +46,7 @@ create table posts (
   foreign key (user_id) references users(id)
 );
 
+
 -- Modify examTable definition to use SERIAL instead of INTEGER for examId
 create table examtable (
   examid SERIAL primary key,  -- Changed to INTEGER
@@ -53,6 +54,7 @@ create table examtable (
   healthid int not null,  -- ensure this matches the patient table
   workersid INT not null,
   examtype varchar(50) not null,
+  notes varchar(300),
   foreign key (healthid) references patient(healthid),
   foreign key (workersid) references workers(workersid),
   foreign key (examtype) references examtype(examtype)
@@ -67,6 +69,7 @@ create table testtypes (
   examtype varchar(50),
   foreign key (examtype) references examtype(examtype)
 );
+
 
 -- create the prescribed test.
 create table presecribedTest(

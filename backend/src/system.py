@@ -3,6 +3,7 @@ from contextlib import nullcontext
 from os import walk
 
 from repositories import user
+from repositories.exam import Exam
 from repositories.patient import Patient;
 from typing import List
 
@@ -216,21 +217,38 @@ class System:
             'temp': 'temp'
         })
 
-    def view_exam(self):
-        return jsonify({
-            'temp': 'temp'
-        })
 
-    def doctors_patients(self):
-        return jsonify({
-            'temp': 'temp'
-        })
-
-    def prescribe_exam(self):
-        return jsonify({
-            'temp': 'temp'
-        })
+    def get_exam_types(self):
+        try:
+            exam_types = Exam.fetch_exam_types()
+            return exam_types
+        except Exception as e:
+            raise Exception(f'Error fetching exam types: {str(e)}')
     
+    
+
+    def get_test_types(self):
+        try:
+            # Fetch test types and their associated exam types
+            test_types = Exam.return_test_types_with_examtype()
+            return test_types
+        except Exception as e:
+            raise Exception(f'Error fetching test types: {str(e)}')
+    
+    def prescribe_exam(self, data):
+        try:
+            exam_id = Exam.prescribe_exam(data)
+            return exam_id
+        except Exception as e:
+            raise Exception(f'Error prescribing exam: {str(e)}')
+  
+    def doctors_patients(self, user_id):
+        try:
+            patients = Worker.get_doctors_patients(user_id)
+            return patients
+        except Exception as e:
+            raise Exception(f'Error fetching patients: {str(e)}')
+
     def view_results(self, id: int, userType: str):
         return jsonify({
             'temp': 'temp'

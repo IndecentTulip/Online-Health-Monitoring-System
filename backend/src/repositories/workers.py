@@ -38,12 +38,12 @@ class Worker(User):
             conn.close()  # Close the connection to free resources
 
 
-    def create_worker_instance(self) -> 'Worker':
+    def create_worker_instance(self):
         """
         Creates and returns a new instance of Worker.
         """
         # Implementation for creating a new Worker instance
-        return Worker(0, 0, "", "", 0, Role.STAF)  # Placeholder, replace with actual logic
+        #return Worker(0, 0, "", "", 0, Role.STAF)  # Placeholder, replace with actual logic
     
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
@@ -195,5 +195,24 @@ class Worker(User):
         return doctors_info_list
 
         
+    @staticmethod
+    def get_doctors_patients(user_id):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
 
+        cursor.execute("""
+            SELECT patient.healthid, patient.patientname
+            FROM patient
+            WHERE patient.doctorid = %s
+        """, (user_id,))
+
+        patients = cursor.fetchall()
+        
+        # Map the results to a dictionary with healthid and name
+        patients_list = [{'id': patient[0], 'name': patient[1]} for patient in patients]
+
+        cursor.close()
+        conn.close()
+        return patients_list
 
