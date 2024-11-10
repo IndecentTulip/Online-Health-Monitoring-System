@@ -9,7 +9,7 @@ const SignIn = () => {
   };
 
   const handleRedirectToRegister = () => {
-    navigate('/register-options'); // Adjust the path as needed
+    navigate('/register'); // Adjust the path as needed
   };
 
   return (
