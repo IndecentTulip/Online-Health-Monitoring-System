@@ -44,6 +44,7 @@ def post_login():
 
 # Used by Components/Auth/Register (to register a patient)
 @app.route('/register', methods=['POST'])
+# maybe move it to /accounts/patient/add instead of /register
 def post_register():
     try:
         data = request.json
@@ -91,7 +92,7 @@ def get_doctors():
 # <><><><><><><> AUTH <><><><><><><><><>
 
 
-# <><><><><><><> COMMON <><><><><><><><><>
+# <><><><><><><> PROFILE <><><><><><><><><>
 
 # View patient profile
 @app.route('/profile/patient/view', methods=['GET'])
@@ -122,7 +123,7 @@ def patch_patient_profile():
     # Call the system to modify the patient account with the provided data
     try:
         #system.modify_patient_account(patient_id, updated_data)
-        system.modify_patient_account()
+        system.modify_patient_account(patient_id)
         return jsonify({'message': 'Patient profile updated successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -156,18 +157,87 @@ def patch_worker_profile():
     # Call the system to modify the worker account with the provided data
     try:
         #system.modify_worker_account(worker_id, updated_data)
-        system.modify_worker_account()
+        system.modify_worker_account(worker_id)
         return jsonify({'message': 'Worker profile updated successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# <><><><><><><> COMMON <><><><><><><><><>
+# <><><><><><><> PROFILE <><><><><><><><><>
+
+# <><><><><><><> ACCOUNT <><><><><><><><><>
+
+# Fetch all workers (No filtering on the backend)
+@app.route('/accounts/workers/fetch', methods=['GET'])
+def get_workers():
+    workers = system.view_all_workers()  # Assuming this method returns a list of workers
+    return workers
+    #return jsonify({'temp': 'Not implemented'}), 404
+
+# Fetch all patients (No filtering on the backend)
+@app.route('/accounts/patient/fetch', methods=['GET'])
+def get_patients():
+    patients = system.view_all_patients()  # Assuming this method returns a list of patients
+    return patients
+    #return jsonify({'temp': 'Not implemented'}), 404
+
+# Add a new worker (POST request)
+@app.route('/accounts/workers/add', methods=['POST'])
+def add_workers():
+    data = request.get_json()
+    worker_name = data.get('worker_name')
+    worker_email = data.get('worker_email')
+    worker_role = data.get('worker_role')
+    
+    if not worker_name or not worker_email or not worker_role:
+        return jsonify({'error': 'Worker data is incomplete'}), 400
+
+    #system.add_worker(worker_name, worker_email, worker_role)  # Add worker to the system
+    return jsonify({'message': 'Worker added successfully'}), 201
+
+# Delete a patient (DELETE request)
+@app.route('/accounts/patient/del', methods=['DELETE'])
+def delete_patients():
+    data = request.get_json()
+    patient_id = data.get('patient_id')
+    
+    if not patient_id:
+        return jsonify({'error': 'Patient ID is required'}), 400
+
+    system.create_worker_account(patient_id)  # Assuming this method exists
+    return jsonify({'message': 'Patient deleted successfully'}), 200
+
+# Delete a worker (DELETE request)
+@app.route('/accounts/workers/del', methods=['DELETE'])
+def delete_workers():
+    data = request.get_json()
+    worker_id = data.get('worker_id')
+    
+    if not worker_id:
+        return jsonify({'error': 'Worker ID is required'}), 400
+
+    #system.delete_worker_account(worker_id)  # Assuming this method exists
+    system.delete_worker_account()  # Assuming this method exists
+    return jsonify({'message': 'Worker deleted successfully'}), 200
+@app.route('/accounts/workers/update', methods=['PATCH'])
+def patch_workers():
+    id =0
+    system.modify_worker_account(id)
+    return jsonify({'temp': 'Not implemented'}), 404
+
+@app.route('/accounts/patient/update', methods=['PATCH'])
+def patch_patients():
+    id =0
+    system.modify_patient_account(id)
+    return jsonify({'temp': 'Not implemented'}), 404
+
+
+# <><><><><><><> ACCOUNT <><><><><><><><><>
 
 # <><><><><><><> EXAMS <><><><><><><><><>
 
 # display Exams
 @app.route('/exam/fetch', methods=['GET'])
-def get_exams():
+def get_exams_1():
     system.view_exam()
     # THIS SHIT WILL RETURN NOT ONLY EXAM TYPES
     # BUT ALSO BLOOD TEST TYPES
@@ -181,7 +251,7 @@ def post_exams():
 
 # get Patients of the Doctor (IS NEEDED TO ADD EXAM) 
 @app.route('/exam/doc', methods=['GET'])
-def post_pat_for_doc():
+def get_pat_for_doc_1():
     system.doctors_patients()
     return jsonify({'temp': 'Not implemented'}), 404
 
@@ -254,17 +324,69 @@ def delete_result():
 
 # <><><><><><><> REPORTS <><><><><><><><><>
 
-# display Reports
-@app.route('/reports/fetch', methods=['GET'])
-def get_reports():
-    system.view_reports()
-    return jsonify({'temp': 'Not implemented'}), 404
+# Fetch year and month reports
+@app.route('/yearreports/fetch', methods=['GET'])
+def get_yearreports():
+    reports = system.view_year_n_month_reports()  # Assuming this method fetches the reports from DB
+    return reports
+    #return jsonify({'temp': 'Not implemented'}), 404
 
-# add Reports
-@app.route('/reports/new', methods=['POST'])
-def post_report():
-    system.create_reports()
-    return jsonify({'temp': 'Not implemented'}), 404
+# Add new year and month report
+@app.route('/yearreports/new', methods=['POST'])
+def post_yearreport():
+    data = request.get_json()
+    workersid = data.get('workersid')
+    monthoryear = data.get('monthoryear')
+    summarydate = data.get('summarydate')
+    timeperiod = data.get('timeperiod')
+    
+    if not workersid or not monthoryear or not summarydate or not timeperiod:
+        return jsonify({'error': 'Missing data'}), 400
+
+    #system.create_year_n_month_reports(workersid, monthoryear, summarydate, timeperiod)  # Assuming this method exists
+    system.create_year_n_month_reports()  # Assuming this method exists
+    return jsonify({'message': 'Year and month report created successfully'}), 201
+
+# Get patients for a doctor (used for selecting patients for reports)
+@app.route('/predict/doc', methods=['GET'])
+def get_pat_for_doc_3():
+    patients = system.doctors_patients()  # Assuming this method returns a list of patients assigned to the doctor
+    return patients
+    #return jsonify({'temp': 'Not implemented'}), 404
+
+@app.route('/predict/fetch', methods=['GET'])
+def get_predict():
+    reports = system.view_predict_reports()  # Assuming this returns a list of prediction reports
+    return reports
+    #return jsonify({'temp': 'Not implemented'}), 404
+
+# Add a new prediction report
+@app.route('/predict/new', methods=['POST'])
+def post_predict():
+    data = request.get_json()
+    workersid = data.get('workersid')
+    healthid = data.get('healthid')
+    pdate = data.get('pdate')
+    
+    if not workersid or not healthid or not pdate:
+        return jsonify({'error': 'Missing data'}), 400
+
+    system.create_predict_reports()  # Assuming this method exists
+    return jsonify({'message': 'Prediction report created successfully'}), 201
+
+# Get patients for a doctor
+@app.route('/predict/doc', methods=['GET'])
+def get_pat_for_doc():
+    patients = system.doctors_patients()  # Assuming this method fetches patients for the doctor
+    return  patients
+    #return jsonify({'temp': 'Not implemented'}), 404
+
+# Fetch all exam types
+@app.route('/predict/exam/fetch', methods=['GET'])
+def get_exams():
+    exams = system.view_exam()  # Assuming this method returns exam types
+    return exams
+    #return jsonify({'temp': 'Not implemented'}), 404
 
 # <><><><><><><> REPORTS <><><><><><><><><>
 

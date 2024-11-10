@@ -92,6 +92,13 @@ class System:
             'temp': 'temp'
         })
 
+    def view_all_patients(self):
+
+        # ...
+        return jsonify({
+            'temp': 'temp'
+        })
+
     def view_worker(self, id:int):
         out = Worker.get_user_record_profile(id)
 
@@ -100,17 +107,24 @@ class System:
             'temp': 'temp'
         })
 
-    def create_worker_account(self):
-        return jsonify({
-            'temp': 'temp'
-        })
-            
-    def modify_patient_account(self):
+    def view_all_workers(self):
+
+        # ...
         return jsonify({
             'temp': 'temp'
         })
 
-    def modify_worker_account(self):
+    def create_worker_account(self, id: int):
+        return jsonify({
+            'temp': 'temp'
+        })
+            
+    def modify_patient_account(self, id: int):
+        return jsonify({
+            'temp': 'temp'
+        })
+
+    def modify_worker_account(self, id: int):
         return jsonify({
             'temp': 'temp'
         })
@@ -150,8 +164,6 @@ class System:
             'temp': 'temp'
         })
 
-
-
     def create_results(self):
     #def create_results(self, staff: Worker, patient: Patient):
         return jsonify({
@@ -164,22 +176,34 @@ class System:
             'temp': 'temp'
         })
     
-    def view_reports(self):
+    def view_year_n_month_reports(self):
         return jsonify({
             'temp': 'temp'
         })
     
-    def create_reports(self):
+    def create_year_n_month_reports(self):
     #def create_reports(self, admin: Worker):
         return jsonify({
             'temp': 'temp'
         })
 
-    def delete_report(self):
-    #def delete_report(self, report_id: int):
+    def view_predict_reports(self):
         return jsonify({
             'temp': 'temp'
         })
+    
+    def create_predict_reports(self):
+    #def create_reports(self, admin: Worker):
+        return jsonify({
+            'temp': 'temp'
+        })
+
+#
+#    def delete_report(self):
+#    #def delete_report(self, report_id: int):
+#        return jsonify({
+#            'temp': 'temp'
+#        })
 
     def view_smart_monitor(self):
         return jsonify({
