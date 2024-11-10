@@ -89,13 +89,41 @@ class System:
 
         return jsonify(doctor_list)
 
-    def view_patient(self, id:int):
-        out = Patient.get_user_record_profile(id)
 
-        # ...
-        return jsonify({
-            'temp': 'temp'
-        })
+    def view_patient(self, id: int):
+        try:
+            # Get the patient record from the Patient class
+            patient = Patient.get_user_record_profile(id)
+    
+            if patient:
+                # Return the formatted response in JSON format
+                return jsonify({
+                    'id': patient.id,
+                    'name': patient.name,
+                    'email': patient.email,
+                    'dob': patient.dob,
+                    'status': patient.status,
+                    'doctor_id': patient.id,
+                    'phone': patient.phone,
+                })
+            else:
+                return jsonify({'error': 'Patient not found'}), 404
+    
+        except Exception as e:
+            return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+
+
+    def update_patient_profile(self, id: int, data: dict):
+        try:
+            # Assuming `Patient` has a method to update profile
+            updated_patient = Patient.update_user_record_profile(id, data)
+    
+            if updated_patient:
+                return updated_patient
+            else:
+                return None
+        except Exception as e:
+            raise Exception(f"Error updating patient profile: {str(e)}")
 
     def view_all_patients(self):
 
@@ -104,13 +132,46 @@ class System:
             'temp': 'temp'
         })
 
-    def view_worker(self, id:int):
-        out = Worker.get_user_record_profile(id)
-
-        # ...
-        return jsonify({
-            'temp': 'temp'
-        })
+    def view_worker(self, id: int):
+        try:
+            # Get worker record from Worker class
+            worker = Worker.get_user_record_profile(id)
+    
+            if worker:
+                # Return the worker data as JSON
+                return jsonify({
+                    'id': worker.id,
+                    'name': worker.name,
+                    'email': worker.email,
+                    'phone': worker.phone,
+                    'image': worker.image,  # You may choose to encode the image
+                    'user_type': worker.user_type
+                })
+            else:
+                return jsonify({'error': 'Worker not found'}), 404
+        except Exception as e:
+            return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+    
+    def update_worker_account(self, id: int, data: dict):
+        try:
+            # Update the worker's information through the Worker class
+            updated_worker = Worker.update_user_record_profile(id, data)
+    
+            if updated_worker:
+                return jsonify({
+                    'message': 'Worker profile updated successfully',
+                    'worker': {
+                        'id': updated_worker.id,
+                        'name': updated_worker.name,
+                        'email': updated_worker.email,
+                        'phone': updated_worker.phone,
+                        'user_type': updated_worker.user_type
+                    }
+                }), 200
+            else:
+                return jsonify({'error': 'Worker not found'}), 404
+        except Exception as e:
+            return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
     def view_all_workers(self):
 
@@ -124,16 +185,6 @@ class System:
             'temp': 'temp'
         })
             
-    def modify_patient_account(self, id: int):
-        return jsonify({
-            'temp': 'temp'
-        })
-
-    def modify_worker_account(self, id: int):
-        return jsonify({
-            'temp': 'temp'
-        })
-
     def delete_worker_account(self):
         return jsonify({
             'temp': 'temp'

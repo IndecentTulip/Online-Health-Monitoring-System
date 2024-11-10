@@ -115,8 +115,17 @@ const Profile = ({ userId }) => {
             </label>
           </div>
 
-          {/* Add other fields as necessary */}
-          
+          <div>
+            <label>
+              <strong>Image:</strong>
+              <input
+                type="file"
+                name="image"
+                onChange={(e) => handleChange({ target: { name: 'image', value: e.target.files[0] } })}
+              />
+            </label>
+          </div>
+
           <button type="submit" disabled={loading}>
             {loading ? 'Updating...' : 'Update Profile'}
           </button>
