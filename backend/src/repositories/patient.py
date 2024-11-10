@@ -47,38 +47,41 @@ class Patient(User):
 
         return out 
 
-    def give_list_of_pending(self):
+    @staticmethod
+    def give_list_of_pending():
         """
         Returns a list of patients with pending status.
         """
-         # Implementation for returning a list of pending patients
         db = DBService()
         conn = db.get_db_connection()
-
         cursor = conn.cursor()
-       
-        findPending = """SELECT patientID FROM patient WHERE status = FALSE"""
-
+    
+        findPending = """SELECT healthid, patientname, email, status 
+                         FROM patient WHERE status = FALSE"""
+    
         cursor.execute(findPending)
-
         result = cursor.fetchall()
-        
+    
         cursor.close()
-        del cursor
+        conn.close()
+    
         return result
     
-    def approve_patient(self, email: str):
+    @staticmethod
+    def approve_patient(patient_id: int):
         """
-        Approves a patient based on their email.
+        Approves a patient by updating their status to TRUE based on their healthid.
         """
-        # Implementation for approving a patient
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        approve = "UPDATE patient SET status = TRUE WHERE email = %s"
-        cursor.execute(approve, (email))
+    
+        approve = """UPDATE patient SET status = TRUE WHERE healthid = %s"""
+        cursor.execute(approve, (patient_id,))
+    
+        conn.commit()
         cursor.close()
-        del cursor
+        conn.close()
 
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
