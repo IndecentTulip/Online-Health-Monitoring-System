@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import List
+from repositories.db_service import DBService
 
 class Status(Enum):
     NORMAL = "normal"
@@ -20,12 +21,27 @@ class Results:
         # Implementation for returning results
         pass
 
-    def new_result(self, result: 'Results'):
-        """
-        Adds a new result to the system.
-        """
-        # Implementation for adding a new result
-        pass
+    @staticmethod
+    def new_result(exam_id, result_data):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        # Get associated test types from prescribedTest
+        cursor.execute("""
+            SELECT testtype FROM presecribedTest WHERE examId = %s
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+
+        for test_type in test_types:
+            cursor.execute("""
+                INSERT INTO testresults (examid, testtype, results, resultdate)
+                VALUES (%s, %s, %s, CURRENT_DATE)
+            """, (exam_id, test_type[0], result_data))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
 
     def remove_result(self, result_id: int):
         """
