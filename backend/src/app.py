@@ -32,7 +32,7 @@ def post_login():
         response = system.log_in(userType, email, password)
         
         if response is None:
-            return jsonify({'error': 'Invalid login credentials'}), 400  # Return an error response if None
+            return jsonify({'error': 'Your account is not approved yet. Please contact support.'}), 400  # Return an error response if None
 
         return response 
 

@@ -82,38 +82,39 @@ class Patient(User):
 
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
-        checkPat = """SELECT COUNT(healthid) FROM patient WHERE email = %s AND patientpassword = %s"""
-        fetchPat = """SELECT healthid FROM patient WHERE email = %s AND patientpassword = %s"""
-
-        intID =0;
-
+        # Modify the query to directly select healthid and status without COUNT
+        fetchPat = """SELECT healthid, status FROM patient WHERE email = %s AND patientpassword = %s"""
+    
+        intID = 0
+        patientStatus = None
+    
         db = DBService()
         conn = db.get_db_connection()
-
+    
         cursor = conn.cursor()
-        cursor.execute(checkPat, (email, password))
-        check = cursor.fetchone()
-
-        if check:
-            userRole = Role.PAT
-            cursor.execute(fetchPat, (email, password))
-            fetch= cursor.fetchone()
-
-            if fetch:
-                intID = fetch[0]
-        else:  
-            userRole = Role.NONE
-        
+        cursor.execute(fetchPat, (email, password))
+        fetch = cursor.fetchone()
+    
+        if fetch:
+            intID = fetch[0]
+            patientStatus = fetch[1]  # The patient's status field
+    
         cursor.close()
         del cursor
-        print(check)
-
+    
         info = UserInfo()
-        info.setRole(userRole)
         info.setEmail(email)
         info.setId(intID)
         info.setPassword(password)
-        return info
+    
+        if patientStatus is False:  # If the patient is not approved
+            info.setRole(Role.NONE)  # Set the role to NONE or another indication of not approved
+            return info  # We can return None or a specific error message here if status is False.
+    
+        # Assuming user is approved
+        userRole = Role.PAT if patientStatus is True else Role.NONE
+        info.setRole(userRole)
+        return info        # Assuming user is approved
 
     @staticmethod
     def get_user_record_profile(id: int) -> UserInfo:

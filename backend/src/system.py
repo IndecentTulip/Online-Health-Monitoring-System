@@ -31,6 +31,7 @@ class System:
                 'confirm': status.name
             })
 
+
     def log_in(self, userType: str, email: str, password: str):
         if userType == "patient":  # Patient
             user_info = Patient.get_user_record(email, password)
@@ -41,7 +42,12 @@ class System:
                 'error': 'Invalid user type'
             }), 400  # Return an error response for invalid user type
 
-        if user_info and user_info.user_type.value != "Error":
+        if user_info is None:  # If the patient is not approved
+            return jsonify({
+                'error': 'Your account is not approved yet. Please contact support.'
+            }), 403  # 403 Forbidden: The patient is not approved.
+
+        if user_info.user_type.value != "Error":
             return jsonify({
                 'login': {
                     'routeTo': user_info.user_type.value,
@@ -49,8 +55,7 @@ class System:
                     'id': user_info.id,
                 }
             })
-        return None 
-
+        return None
             # NOT IN USE
             #token = SessionManager.generate_token(user_info.email)
             #SessionManager.create_session(token, user_info.email, user_info.user_type.value)
