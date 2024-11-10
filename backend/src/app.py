@@ -312,32 +312,55 @@ def get_results_doctor():
     else:
         return jsonify({'error': 'No results found for this user'}), 404
 
-# Add new test results for a specific user
-@app.route('/results/new', methods=['POST'])
-def post_result():
-    user_id = request.json.get('user_id')
-    result_data = request.json.get('result_data')  # The test results to be inserted
-
-    if not user_id or not result_data:
-        return jsonify({'error': 'User ID and result data are required'}), 400
-
+# Fetch available exams for a user (to select an exam)
+@app.route('/results/exams/fetch', methods=['GET'])
+def get_exams_for_results():
     try:
-        #system.create_results(user_id, result_data)  # Insert the new result in the system
-        system.create_results()  # Insert the new result in the system
-        return jsonify({'message': 'Result inserted successfully'}), 201
+        # Fetch all exams along with associated patient info
+        exams = system.get_all_exams()
+        if exams:
+            return jsonify(exams), 200
+        else:
+            return jsonify({'error': 'No exams found for this user'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/results/testtypes/<int:exam_id>', methods=['GET'])
+def get_test_types_for_exam(exam_id):
+    try:
+        # Fetch test types from the prescribedTest table based on selected exam ID
+        test_types = system.get_test_types_for_exam(exam_id)
+        return jsonify(test_types), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# Add new test results for a specific exam
+@app.route('/results/new', methods=['POST'])
+def post_result():
+    user_id = request.json.get('user_id')
+    result_data = request.json.get('result_data')  # The test results to be inserted
+    exam_id = request.json.get('exam_id')  # The selected exam ID
+
+    if not user_id or not result_data or not exam_id:
+        return jsonify({'error': 'User ID, result data, and exam ID are required'}), 400
+
+    try:
+        system.create_results(user_id, exam_id, result_data)  # Insert the new result
+        return jsonify({'message': 'Result inserted successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500# WhY did I make this???
+
 @app.route('/results/fetch', methods=['GET'])
 def get_results():
     # will return different
-    results = system.view_all_results()
-    if results:
-        #return results
-        return jsonify({'temp': 'Not implemented'}), 404
-    else:
-        return jsonify({'error': 'No results found for this user'}), 404
+    #results = system.view_all_results()
+    pass
+    #if results:
+    #    #return results
+    #    return jsonify({'temp': 'Not implemented'}), 404
+    #else:
+    #    return jsonify({'error': 'No results found for this user'}), 404
 
 # delete Results
 @app.route('/results/del', methods=['DELETE'])
@@ -402,16 +425,18 @@ def post_predict():
 # Get patients for a doctor
 @app.route('/predict/doc', methods=['GET'])
 def get_pat_for_doc():
-    patients = system.doctors_patients()  # Assuming this method fetches patients for the doctor
+    id =0
+    patients = system.doctors_patients(id)  # Assuming this method fetches patients for the doctor
     return  patients
     #return jsonify({'temp': 'Not implemented'}), 404
 
 # Fetch all exam types
 @app.route('/predict/exam/fetch', methods=['GET'])
 def get_exams_for_predict():
-    exams = system.view_exam()  # Assuming this method returns exam types
-    return exams
+    #exams = system.view_exam(
+#return exams
     #return jsonify({'temp': 'Not implemented'}), 404
+    pass
 
 # <><><><><><><> REPORTS <><><><><><><><><>
 

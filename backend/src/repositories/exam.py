@@ -1,6 +1,53 @@
 from repositories.db_service import DBService
 
 class Exam:
+
+    @staticmethod
+    def fetch_exams_with_patient_info():
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT e.examid, e.examtype, p.patientname, p.email 
+            FROM examtable e
+            JOIN patient p ON e.healthid = p.healthid
+        """)  # Fetch exam details along with patient info
+        exams = cursor.fetchall()
+
+        exams_list = [{
+            'examid': exam[0],
+            'examtype': exam[1],
+            'patient_name': exam[2],
+            'patient_email': exam[3]
+        } for exam in exams]
+
+        cursor.close()
+        conn.close()
+
+        return exams_list
+
+    @staticmethod
+    def fetch_exams():
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT * FROM examtable")  # Fetch all exams
+        exams = cursor.fetchall()
+
+        # Format the results in a more usable form
+        exams_list = [{
+            'examid': exam[0],
+            'examtype': exam[4],  # Assuming the exam type is in the 5th column (index 4)
+            'notes': exam[5]  # Assuming there are notes available
+        } for exam in exams]
+
+        cursor.close()
+        conn.close()
+
+        return exams_list
+
     @staticmethod
     def fetch_exam_types():
         db = DBService()
@@ -67,6 +114,7 @@ class Exam:
         conn.close()
         
         return exam_id
+
     @staticmethod
     def return_test_types_with_examtype():
         db = DBService()
@@ -85,4 +133,20 @@ class Exam:
         conn.close()
     
         return test_type_list
+
+    @staticmethod
+    def fetch_test_types(exam_id):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT testtype FROM presecribedTest WHERE examId = %s
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return [test_type[0] for test_type in test_types]
 

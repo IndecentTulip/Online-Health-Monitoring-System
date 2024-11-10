@@ -8,6 +8,7 @@ from repositories.patient import Patient;
 from typing import List
 
 from flask import Flask, request, jsonify
+from repositories.results import Results
 from repositories.session_manager import SessionManager
 from repositories.workers import Worker
 from repositories.user import UserInfo
@@ -224,8 +225,6 @@ class System:
             return exam_types
         except Exception as e:
             raise Exception(f'Error fetching exam types: {str(e)}')
-    
-    
 
     def get_test_types(self):
         try:
@@ -249,22 +248,38 @@ class System:
         except Exception as e:
             raise Exception(f'Error fetching patients: {str(e)}')
 
-    def view_results(self, id: int, userType: str):
-        return jsonify({
-            'temp': 'temp'
-        })
 
-    def view_all_results(self):
-        return jsonify({
-            'temp': 'temp'
-        })
+    def get_all_exams(self):
+        try:
+            exams = Exam.fetch_exams_with_patient_info()  # Fetch exams with patient info
+            return exams
+        except Exception as e:
+            raise Exception(f"Error fetching exams: {str(e)}")
 
-    def create_results(self):
-    #def create_results(self, staff: Worker, patient: Patient):
-        return jsonify({
-            'temp': 'temp'
-        })
+    def get_test_types_for_exam(self, exam_id):
+        try:
+            test_types = Exam.fetch_test_types(exam_id)  # Fetch test types associated with the selected exam
+            return test_types
+        except Exception as e:
+            raise Exception(f"Error fetching test types for exam {exam_id}: {str(e)}")
+
+    def create_results(self, user_id, exam_id, result_data):
+        try:
+            # Insert the new result into the database
+            Results.new_result(exam_id, result_data)
+        except Exception as e:
+            raise Exception(f"Error inserting result: {str(e)}")
+        def view_results(self, id: int, userType: str):
+            return jsonify({
+                'temp': 'temp'
+            })
     
+        def view_all_results(self):
+            return jsonify({
+                'temp': 'temp'
+            })
+
+   
     def delete_results(self):
     # def delete_results(self, result_id: int):
         return jsonify({
