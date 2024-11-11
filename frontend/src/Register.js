@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 
+
+
+
+
+
+
 const Register = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
