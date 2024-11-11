@@ -1,4 +1,4 @@
-# Jlabszzzzzz
+# Jlabs
 ```
 .
 ├── backend/
