@@ -13,3 +13,16 @@ label{
     font-size: 20px;
     
 }
+input[type = text]{
+    width: 20%;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 12px 40px; 
+
+}
+
+input[type = textarea]{
+    width: 80%;
+    padding-right: 12px 60px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
