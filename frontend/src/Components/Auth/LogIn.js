@@ -18,6 +18,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -26,18 +28,29 @@ const Login = () => {
         email,
         password,
       });
-      setError(''); 
-      let route = response.data.login.routeTo;
-      let id = response.data.login.id;
+      setError(''); // Clear any previous errors
+
+      const { user_type, routeTo, id } = response.data.login;
+
+      if (user_type === "Error") {
+        setError('Your account is not approved yet. Please contact support.');
+        return; // Exit early if the account is not approved
+      }
+
+      let route = routeTo;
       console.log(route);
       setRole(route);
-      navigate(`/${route.toLowerCase()}/main`, {state: { id }});
+      navigate(`/${route.toLowerCase()}/main`, { state: { id } });
+
     } catch (err) {
-      setError('Login failed. Please check your credentials and try again.');
+      if (err.response && err.response.data.error) {
+        // Handle error messages returned from the backend
+        setError(err.response.data.error);
+      } else {
+        setError('Login failed. Please check your credentials and try again.');
+      }
     }
   };
-
-
   return (
     <div>
       <h1>{userType === 'patient' ? 'Patient Login' : 'Worker Login'}</h1>

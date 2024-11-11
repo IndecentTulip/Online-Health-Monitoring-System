@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import List
-from backend.src.repositories.db_service import DBService
+from repositories.db_service import DBService
 
 class Status(Enum):
     NORMAL = "normal"
@@ -15,46 +15,69 @@ class Results:
         self.status = status
         self.value = value
 
-    def return_list_of_results(self, user_type: str, email: str) -> List['Results']:
+    @staticmethod
+    def return_list_of_results():
         """
-        Returns a list of results based on the user type (Patient or Doctor) and email.
-        """
-        # Implementation for returning results
-        pass
-
-    def new_result(self, result: 'Results'):
-        """
-        Adds a new result to the system.
+        Fetch all results from the testresults table.
         """
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        # Implementation for adding a new result
-        addRes = "INSERT INTO testresults (testtype, examid, result) VALUES (%s, %s, %s)"
 
-        cursor.execute(addRes, (result.test_type, result.exam_id, result.value))
+        # Query to fetch all test results from the testresults table
+        print("TEST 1")
+        cursor.execute("""
+            SELECT testresultsid, testtype, results, resultdate 
+            FROM testresults;
+        """)
+        rows = cursor.fetchall()
 
-        cursor.commit()
-
+        results = []
+        for row in rows:
+            results.append({
+                'result_id': row[0],
+                'test_name': row[1],
+                'results': row[2],
+                'test_date': row[3]
+            })
+        
         cursor.close()
         conn.close()
-       
 
-    def remove_result(self, result: 'Results'):
-        """
-        Removes a result by its ID.
-        """
-        # Implementation for removing a result
+        return results
+
+    @staticmethod
+    def remove_result(result_id: int):
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        # Implementation for adding a new result
-        delRes = "DELETE FROM WHERE testtype = %s AND examid = %s)"
 
-        cursor.execute(delRes, ( result.test_type, result.exam_id,))
+        # Delete the result with the given result_id
+        cursor.execute("DELETE FROM testresults WHERE testresultsid = %s", (result_id,))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
 
-        cursor.commit()
+    @staticmethod
+    def new_result(exam_id, result_data):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
 
+        # Get associated test types from prescribedTest
+        cursor.execute("""
+            SELECT testtype FROM presecribedTest WHERE examId = %s
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+
+        for test_type in test_types:
+            cursor.execute("""
+                INSERT INTO testresults (examid, testtype, results, resultdate)
+                VALUES (%s, %s, %s, CURRENT_DATE)
+            """, (exam_id, test_type[0], result_data))
+
+        conn.commit()
         cursor.close()
         conn.close()
 

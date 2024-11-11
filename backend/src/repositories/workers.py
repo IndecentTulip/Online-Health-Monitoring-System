@@ -38,12 +38,12 @@ class Worker(User):
             conn.close()  # Close the connection to free resources
 
 
-    def create_worker_instance(self) -> 'Worker':
+    def create_worker_instance(self):
         """
         Creates and returns a new instance of Worker.
         """
         # Implementation for creating a new Worker instance
-        return Worker(0, 0, "", "", 0, Role.STAF)  # Placeholder, replace with actual logic
+        #return Worker(0, 0, "", "", 0, Role.STAF)  # Placeholder, replace with actual logic
     
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
@@ -87,9 +87,86 @@ class Worker(User):
         info.setRole(Role.NONE)
         return info
 
+
+
     @staticmethod
     def get_user_record_profile(id: int) -> UserInfo:
-        pass
+        # Query the database to retrieve worker's profile information
+        query = """
+        SELECT workersid, workersname, email, phonenumber, image, usertype 
+        FROM workers
+        WHERE workersid = %s;
+        """
+    
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+    
+        cursor.close()
+        conn.close()
+
+        worker_info = UserInfo()
+    
+        if result:
+            # Return a UserInfo object for the worker
+            worker_info.setId(result[0])
+            worker_info.setName(result[1])
+            worker_info.setEmail(result[2])
+            worker_info.setPhone(result[3])
+            worker_info.setImage(result[4])  # You can decide to return the image as base64 or URL
+            worker_info.setUserType(result[5])
+            return worker_info
+
+        else:
+            return worker_info
+    
+    @staticmethod
+    def update_user_record_profile(id: int, data: dict) -> UserInfo:
+        # Update worker profile in the database with provided data
+        update_query = """
+        UPDATE workers
+        SET workersname = %s, email = %s, phonenumber = %s, image = %s
+        WHERE workersid = %s
+        RETURNING workersid, workersname, email, phonenumber, image, usertype;
+        """
+    
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        # Assuming the image is passed as a bytea type (e.g., as base64 string or a path)
+        cursor.execute(update_query, (
+            data.get('name'),
+            data.get('email'),
+            data.get('phone'),
+            data.get('image'),  # You can modify how you handle image (base64 or binary)
+            id
+        ))
+    
+        result = cursor.fetchone()
+    
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        worker_info = UserInfo()
+    
+        if result:
+            # Return updated worker profile data as a UserInfo object
+            worker_info.setId(result[0])
+            worker_info.setName(result[1])
+            worker_info.setEmail(result[2])
+            worker_info.setPhone(result[3])
+            worker_info.setImage(result[4])
+            worker_info.setUserType(result[5])
+    
+            return worker_info
+        else:
+            return worker_info
+
 
     @staticmethod
     def get_doctors_list() -> List:
@@ -118,5 +195,24 @@ class Worker(User):
         return doctors_info_list
 
         
+    @staticmethod
+    def get_doctors_patients(user_id):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
 
+        cursor.execute("""
+            SELECT patient.healthid, patient.patientname
+            FROM patient
+            WHERE patient.doctorid = %s
+        """, (user_id,))
+
+        patients = cursor.fetchall()
+        
+        # Map the results to a dictionary with healthid and name
+        patients_list = [{'id': patient[0], 'name': patient[1]} for patient in patients]
+
+        cursor.close()
+        conn.close()
+        return patients_list
 
