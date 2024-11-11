@@ -82,10 +82,9 @@ class Patient(User):
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
-        print(delete_query)
-        print('is now deleted.')
-        cursor.execute()
-        conn.commit(delete_query)  # Commit the transaction
+        print(patient_id)
+        cursor.execute(delete_query, (patient_id,))
+        conn.commit()  # Commit the transaction
         
         cursor.close()
         conn.close()    
