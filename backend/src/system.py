@@ -50,10 +50,10 @@ class System:
                 'error': 'Your account is not approved yet. Please contact support.'
             }), 403  # 403 Forbidden: The patient is not approved.
 
-        if user_info.user_type.value != "Error":
+        if user_info.user_type != "Error":
             return jsonify({
                 'login': {
-                    'routeTo': user_info.user_type.value,
+                    'routeTo': user_info.user_type,
                     'email': user_info.email,
                     'id': user_info.id,
                 }

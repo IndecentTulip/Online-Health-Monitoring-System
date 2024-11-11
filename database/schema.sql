@@ -29,7 +29,7 @@ create table patient (
   doctorid int not null,
   patientpassword varchar(250) not null,
   phonenumber varchar(10),
-  foreign key (doctorid) references workers(workersid) ON DELETE CASCADE ON UPDATE CASCADE
+  foreign key (doctorid) references workers(workersid)
 );
 
 create table examtable (
