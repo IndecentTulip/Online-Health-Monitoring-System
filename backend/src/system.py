@@ -184,6 +184,7 @@ class System:
             if updated_worker:
                 return jsonify({
                     'message': 'Worker profile updated successfully',
+
                     'worker': {
                         'id': updated_worker.id,
                         'name': updated_worker.name,
@@ -197,28 +198,43 @@ class System:
         except Exception as e:
             return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
-    def view_all_workers(self):
 
-        # ...
-        return jsonify({
-            'temp': 'temp'
-        })
+    # Fetch all workers
+    def view_every_worker(self):
+        try:
+            workers = Worker.get_user_record_account()  # Fetch all workers
+            return workers
+        except Exception as e:
+            raise Exception(f"Error fetching workers: {str(e)}")
 
-    def create_worker_account(self, id: int):
-        return jsonify({
-            'temp': 'temp'
-        })
-            
-    def delete_worker_account(self):
-        return jsonify({
-            'temp': 'temp'
-        })
+    # Fetch all patients
+    def view_every_patient(self):
+        try:
+            patients = Patient.get_user_record_account()  # Fetch all patients
+            return patients
+        except Exception as e:
+            raise Exception(f"Error fetching patients: {str(e)}")
 
-    def delete_patient_account(self):
-        return jsonify({
-            'temp': 'temp'
-        })
+    # Add a new worker account
+    def create_worker_account(self, worker_name, worker_email, worker_role, worker_phone, worker_password):
+        try:
+            Worker.create_worker(worker_name, worker_email, worker_role, worker_phone, worker_password)  # Pass the data to Worker class
+        except Exception as e:
+            raise Exception(f"Error creating worker: {str(e)}")
 
+    # Delete a worker account
+    def delete_worker_account(self, worker_id):
+        try:
+            Worker.delete_account(worker_id)  # Call Worker method to delete the account
+        except Exception as e:
+            raise Exception(f"Error deleting worker: {str(e)}")
+
+    # Delete a patient account
+    def delete_patient_account(self, patient_id):
+        try:
+            Patient.delete_account(patient_id)  # Call Patient method to delete the account
+        except Exception as e:
+            raise Exception(f"Error deleting patient: {str(e)}")
 
     def get_exam_types(self):
         try:

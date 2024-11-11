@@ -4,9 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useRole } from '../../Utils/RoleContext';
 
-// TODO: Store user email and Type somewhere
-// TODO: use userType to RESTRIC going into urls reserved to other userTypes
-
 const Login = () => {
   const { setRole } = useRole();
   const navigate = useNavigate();
@@ -18,8 +15,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -28,6 +23,7 @@ const Login = () => {
         email,
         password,
       });
+
       setError(''); // Clear any previous errors
 
       const { user_type, routeTo, id } = response.data.login;
@@ -38,7 +34,6 @@ const Login = () => {
       }
 
       let route = routeTo;
-      console.log(route);
       setRole(route);
       navigate(`/${route.toLowerCase()}/main`, { state: { id } });
 
@@ -51,6 +46,7 @@ const Login = () => {
       }
     }
   };
+
   return (
     <div>
       <h1>{userType === 'patient' ? 'Patient Login' : 'Worker Login'}</h1>
@@ -71,7 +67,7 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };

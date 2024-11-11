@@ -16,15 +16,11 @@ class Results:
 
     @staticmethod
     def return_list_of_results():
-        """
-        Fetch all results from the testresults table.
-        """
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
         # Query to fetch all test results from the testresults table
-        print("TEST 1")
         cursor.execute("""
             SELECT testresultsid, testtype, results, resultdate 
             FROM testresults;
