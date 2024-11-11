@@ -70,7 +70,13 @@ class Monitor:
         Removes a monitor by its ID.
         """
         # Implementation for removing a monitor
-        
+        deleteMonitor = """delete from smartmonitor where monitorid = %d"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(deleteMonitor)
+        #commit te change.
+        cursor.commit(deleteMonitor)
         pass
 
     def update_monitor_status(self, monitor_id: int):
@@ -78,5 +84,12 @@ class Monitor:
         Updates the status of a monitor by its ID.
         """
         # Implementation for updating monitor status
+        updateMonitor = """update smartmonitor set smartstatus = %s where monitorid = %d """
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(updateMonitor)
+        #commit te change.
+        cursor.commit(updateMonitor)
         pass
 

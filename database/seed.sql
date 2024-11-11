@@ -1,4 +1,6 @@
 
+-- Ensure your tables are created with appropriate data types (e.g., changing examId to INTEGER if needed)
+
 -- Insert into workers first
 INSERT INTO workers (workersID, workersName, email, phoneNumber, image, userType, staffPassword) VALUES
   (21001, 'Molly Hue', 'Molly.Hue@jlabemail.com', '7893364852', NULL, 'Staff', '******'),
@@ -8,19 +10,19 @@ INSERT INTO workers (workersID, workersName, email, phoneNumber, image, userType
   (21005, 'Derrick Juan', 'Derrick.Juan@jlabemail.com', '7899874356', NULL, 'Staff', '*****'),
   (21006, 'Emily Zhang', 'Emily.Zhang@jlabemail.com', '7891760986', NULL, 'Staff', '*****'),
   (21007, 'Shelly Birch', 'Shelly.Birch@jlabemail.com', '7899235981', NULL, 'Staff', '*****'),
-  (21008, 'Totaly Read Doctor', 'Total.real@jlabemail..com', '7890009777', NULL, 'Doctor', '*****');
+  (21008, 'Totaly Read Doctor', 'Total.real@jlabemail.com', '7890009777', NULL, 'Doctor', '*****');
 
--- Now insert into patients
+-- Insert into patients
 INSERT INTO patient (healthID, patientName, email, phoneNumber, DOB, status, doctorID, patientPassword) VALUES
-  (10031, 'Bob Ricky', 'Bobby13@hotmail.com', '1239654321', '1952-05-06', TRUE, 21002, '******a'),
-  (10032, 'Jenny Kim', 'Kim.jenn14@yahoo.com', '1235246352', '1999-12-20', FALSE, 21001, '******'),
-  (10033, 'Joe Gary', 'Jojo.g@outlook.com', '1236243846', '2000-10-18', TRUE, 21001, '******'),
-  (10034, 'Lisa John', 'Lisa_00@gamil.com', '1236243369', '2002-02-16', TRUE, 21002, '******'),
-  (10035, 'Barry Han', 'Han.barry50@icloud.com', '1230025282', '1978-08-11', FALSE, 21001, '******'),
-  (10036, 'Sean Curry', 'Seancurry_8@gamil.com', '1239452361', '2003-01-19', FALSE, 21003, '******'),
-  (10037, 'Bella Jay', 'Jay.jayb@hotmail.com', '1237779056', '2005-11-09', TRUE, 21001, '******');
+  (10031, 'Bob Ricky', 'Bobby13@hotmail.com', '1239654321', '1952-05-06', TRUE, 21004, '******a'),
+  (10032, 'Jenny Kim', 'Kim.jenn14@yahoo.com', '1235246352', '1999-12-20', FALSE, 21008, '******'),
+  (10033, 'Joe Gary', 'Jojo.g@outlook.com', '1236243846', '2000-10-18', TRUE, 21004, '******'),
+  (10034, 'Lisa John', 'Lisa_00@gamil.com', '1236243369', '2002-02-16', TRUE, 21008, '******'),
+  (10035, 'Barry Han', 'Han.barry50@icloud.com', '1230025282', '1978-08-11', FALSE, 21004, '******'),
+  (10036, 'Sean Curry', 'Seancurry_8@gamil.com', '1239452361', '2003-01-19', FALSE, 21008, '******'),
+  (10037, 'Bella Jay', 'Jay.jayb@hotmail.com', '1237779056', '2005-11-09', TRUE, 21004, '******');
 
--- Insert into examType before examTable
+-- Insert into examType first
 INSERT INTO examType(examType) VALUES
   ('Blood'),
   ('ECG'),
@@ -29,8 +31,9 @@ INSERT INTO examType(examType) VALUES
   ('CT-Scan'),
   ('MRI'),
   ('Urine Test');
+  
 
--- Now insert into examTable
+-- Insert into examTable after examType
 INSERT INTO examTable (examId, examDate, healthID, workersID, examType) VALUES
   (33025, '2024-10-18', 10031, 21004, 'Blood'),
   (33026, '2024-08-01', 10031, 21001, 'ECG'),
@@ -45,28 +48,28 @@ INSERT INTO examTable (examId, examDate, healthID, workersID, examType) VALUES
 INSERT INTO testTypes(testType, lowerBound, upperBound, unit, examType) VALUES
   ('Blood Test Iron', 0.5, 1.1, 'mg/dl', 'Blood'),
   ('Blood Test WCC', 100, 160, 'mg/dl', 'Blood'),
-  ('Ultrasound D', 30, 140, 'U/L', 'Ultrasound'),
-  ('X-Ray X', 7, 20, 'mmHG', 'X-Ray'),
-  ('CT-Scan C', 90, 100, '%', 'CT-Scan'),
+  ('Ultrasound', 30, 140, 'U/L', 'Ultrasound'),
+  ('X-Ray', 7, 20, 'mmHG', 'X-Ray'),
+  ('CT-Scan', 90, 100, '%', 'CT-Scan'),
   ('MRI', 7, 55, 'U/L', 'MRI'),
-  ('Urine Test', 11, 44, 'ng/mL', 'Urine Test');
+  ('Urine Test', 11, 44, 'ng/mL', 'Urine Test'),
+  ('Routine Hematology', 0.9, 1.2, 'mg/dl', 'Blood'),
+  ('Coagulation', 130, 180, 'mg/dl', 'Blood'),
+  ('Routine Chemistry', 20, 60, 'mg/dl', 'Blood'),
+  ('Renal Function', 30, 150, 'mg/dl', 'Blood'),
+  ('Liver Function', 25, 90, 'mg/dl', 'Blood'),
+  ('Pancreas Function', 50, 100, 'mg/dl', 'Blood'),
+  ('Endocrinology', 90, 170, 'mg/dl', 'Blood'),
+  ('Tumor Markers', 50, 100, 'mg/dl','Blood'),
+  ('ECG', 10, 200, 'wh/dl', 'ECG');
 
-
--- Insert into testResults
-INSERT INTO testResults (testType, examId, results, resultDate) VALUES 
-  ('Blood Test Iron', 33025, 120, '2024-10-20'),
-  ('Blood Test WCC', 33025, 12.1313, '2023-11-30'),
-  ('MRI', 33027, 0.009, '2023-11-18'),
-  ('Urine Test', 33028, 0.0005, '2023-05-22'), 
-  ('Urine Test', 33029, 5.5, '2024-08-13');
-
--- insert values for presecribedtest. 
-INSERT into presecribedtest (examId, testtype) VALUES
+-- Insert into prescribed test (Ensure these examIds exist in examTable)
+INSERT INTO presecribedTest (examId, testtype) VALUES
   (33025, 'Blood Test Iron'),
   (33025, 'Blood Test WCC'),
   (33026, 'Blood Test Iron'),
-  (33027, 'Ultrasound D'),
-  (33028, 'CT-Scan C'),
+  (33027, 'Ultrasound'),
+  (33028, 'CT-Scan'),
   (33028, 'MRI');
 
 -- Insert into summaryReport
@@ -100,22 +103,22 @@ INSERT INTO predictReports(pReportID, workersID, healthID, pDate) VALUES
   (5514, 21007, 10037, '2024-11-23');
 
 -- Insert into predictReportsEntries
-INSERT INTO predictReportsEntries(pReportID, examType, concernValue) VALUES
-  (5508, 'Blood', 100),
+INSERT INTO predictReportsEntries(pReportID, testtype, concernValue) VALUES
+  (5508, 'Blood Test Iron', 100),
   (5509, 'Ultrasound', 150),
   (5510, 'Urine Test', 25),
   (5511, 'Urine Test', 200),
-  (5512, 'Blood', 50),
+  (5512, 'Blood Test Iron', 50),
   (5513, 'Ultrasound', 75),
-  (5514, 'Blood', 120);
+  (5514, 'Blood Test Iron', 120);
 
 -- Insert into smartMonitor
-INSERT INTO smartMonitor (monitorID, workersID, examType, smartStatus, healthID) VALUES
-  (60001, 21004, 'Blood', 'sent', 10031),
+INSERT INTO smartMonitor (monitorID, workersID, testtype, smartStatus, healthID) VALUES
+  (60001, 21004, 'Blood Test Iron', 'sent', 10031),
   (60002, 21007, 'Urine Test', 'not sent', 10032),
   (60003, 21004, 'CT-Scan', 'not sent', 10033),
   (60004, 21004, 'CT-Scan', 'sent', 10034),
-  (60005, 21005, 'Blood', 'sent', 10035),
+  (60005, 21005, 'Blood Test Iron', 'sent', 10035),
   (60006, 21004, 'X-Ray', 'sent', 10036),
   (60007, 21004, 'ECG', 'not sent', 10037),
   (60008, 21003, 'MRI', 'not sent', 10031);

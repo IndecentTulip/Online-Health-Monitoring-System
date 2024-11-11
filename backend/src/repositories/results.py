@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import List
+from repositories.db_service import DBService
 
 class Status(Enum):
     NORMAL = "normal"
@@ -13,26 +14,67 @@ class Results:
         self.test_date = test_date
         self.status = status
 
-    def return_list_of_results(self, user_type: str, email: str) -> List['Results']:
-        """
-        Returns a list of results based on the user type (Patient or Doctor) and email.
-        """
-        # Implementation for returning results
-        pass
+    @staticmethod
+    def return_list_of_results():
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
 
-    def new_result(self, result: 'Results'):
-        """
-        Adds a new result to the system.
-        """
-        # Implementation for adding a new result
-        pass
+        # Query to fetch all test results from the testresults table
+        cursor.execute("""
+            SELECT testresultsid, testtype, results, resultdate 
+            FROM testresults;
+        """)
+        rows = cursor.fetchall()
 
-    def remove_result(self, result_id: int):
-        """
-        Removes a result by its ID.
-        """
-        # Implementation for removing a result
-        pass
+        results = []
+        for row in rows:
+            results.append({
+                'result_id': row[0],
+                'test_name': row[1],
+                'results': row[2],
+                'test_date': row[3]
+            })
+        
+        cursor.close()
+        conn.close()
+
+        return results
+
+    @staticmethod
+    def remove_result(result_id: int):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        # Delete the result with the given result_id
+        cursor.execute("DELETE FROM testresults WHERE testresultsid = %s", (result_id,))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+    @staticmethod
+    def new_result(exam_id, result_data):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        # Get associated test types from prescribedTest
+        cursor.execute("""
+            SELECT testtype FROM presecribedTest WHERE examId = %s
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+
+        for test_type in test_types:
+            cursor.execute("""
+                INSERT INTO testresults (examid, testtype, results, resultdate)
+                VALUES (%s, %s, %s, CURRENT_DATE)
+            """, (exam_id, test_type[0], result_data))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
 
     def modify_results(self, result_id: int):
         """

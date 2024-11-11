@@ -1,78 +1,72 @@
+
 div {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  height: 120vh;
- background-size: cover; 
-  background-repeat: no-repeat; 
-  background-position: center; 
-
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-}
-.background {
-  background-color: lightblue; 
-  width: 1000%;
-  height: 100vh; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-
-}
- .navbarname {
-  color: black;
-  font-size: 300px;
-  font-weight: bold;
-  padding-left: 10px; 
-}
-.navbar {
-  width: 100%;
-  background-color: black;
-  justify-content: flex-end; 
-  padding: 10px 10px; 
-  position: fixed; 
-  top: 0;  
-   }
-
-.navbar button {
-  background-color: gray; 
-  color: white; 
-  border: 10px;
-  padding: 10px 15px;
-  margin-left: 10px; 
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px; 
-}
-.navbar button:hover {
-  background-color: darkslategray; 
-}
-
-.about-section {
-  margin-top: 80px;
-  padding: 20px;
-  border: 2px solid #333;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  width: 80%;
-  max-width: 700px;
-  text-align: center;
-  margin-top: 20px; 
-  padding: 20px;            
-  border: 2px solid #333;   
-  border-radius: 8px;     
-  background-color: #f9f9f9;
-  width: 80%; 
-  height: 30%;              
-  max-width: 800px;        
-  text-align: center;
-  display: inline-block;     
-
-}
+    display: flex; 
+    justify-content: center;
+    flex-direction: column; 
+    align-items: center; 
+    height: 120vh; 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+  } 
+button { 
+    padding: 10px 20px; 
+    font-size: 16px;
+    cursor: pointer;
+     } 
+ .background { 
+    background-color: lightblue; 
+    width: 1000%;
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+      } 
+ .navbarname { 
+    color: black; 
+    font-size: 300px; 
+    font-weight: bold; 
+    padding-left: 10px; 
+      }
+ .navbar { 
+    width: 100%; 
+    background-color: black;
+    justify-content: flex-end; 
+    padding: 10px 10px;
+    position: fixed; 
+    top: 0; 
+        } 
+  .navbar button { 
+    background-color: gray;
+    color: white; 
+    border: 10px; 
+    padding: 10px 15px; 
+    margin-left: 10px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    border-radius: 5px;
+         } 
+  .navbar button:hover { 
+    background-color: darkslategray; 
+          } 
+  .about-section {
+    margin-top: 80px; 
+    padding: 20px;
+    border: 2px solid #333; 
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
+    width: 80%; 
+    max-width: 700px;
+    text-align: center; 
+    margin-top: 20px;
+    padding: 20px; 
+    border: 2px solid #333; 
+    border-radius: 8px; 
+    background-color: #f9f9f9;
+    width: 80%; 
+    height: 30%; 
+    max-width: 800px; 
+    text-align: center; 
+    display: inline-block; 
+     }

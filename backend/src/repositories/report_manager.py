@@ -6,7 +6,10 @@ class ReportType(Enum):
     MONTHLY = "monthly"
     YEARLY = "yearly"
     PREDICTION = "prediction"
-
+class PredictEntry:
+    pass
+class SumEntry:
+    pass
 class ReportManager:
     def __init__(self, report_id: int, report_type: ReportType, date_created: str, content: str):
         self.report_id = report_id
@@ -14,14 +17,40 @@ class ReportManager:
         self.date_created = date_created
         self.content = content
 
-    def return_list_of_reports(self, email: str) -> list:
+    def return_list_of_reports(self, type: int) -> list:
         """
-        Returns a list of reports associated with the given email.
+        Returns a list of reports of given type
         """
         # Implementation for returning reports
-        # Is this really something we need
-        pass
+        if type == 0:
+            getReports = "SELECT * FROM summaryreport"
+        elif type ==1:
+            getReports = "SELECT preportid FROM predictreports"
+        db = DBService()
+        conn = db.get_db_connection()
 
+        cursor = conn.cursor()
+        cursor.execute(getReports)
+        listofstuff = cursor.fetchall
+        cursor.close()
+        del cursor
+        return listofstuff
+    def generate_predict_report (self, patient: int, year: int):
+
+        findTestTypes = """SELECT UNIQUE testypes FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
+                            LEFT JOIN examtable ON testresults.examid = examtable.examid
+                            WHERE examtable.healthid = %s AND NOT (testtypes.lowerbound < testresulsts.results < testtypes.upperbound) AND YEAR (testresults.resultdate) =%s"""
+        getTestResults = """"SELECT results, upperbound, lowerbound () AS abnormal FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                             WHERE examtable.healthid = %s AND YEAR (testresults.resultdate) =%s ORDER BY testresults.resultdate DESC"""
+        db = DBService()
+        conn = db.get_db_connection()
+
+        cursor = conn.cursor()
+        cursor.execute (findTestTypes, (patient, year))
+        testtypes = cursor.fetachall
+
+        cursor.close()
+        del cursor
     def generate_summary_report(self, year: int, month: int, userID: int):
         """
         Generates a new report.

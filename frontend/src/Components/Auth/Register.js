@@ -2,7 +2,6 @@ import './Register.css';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
 
 
 
@@ -21,6 +20,7 @@ const Register = () => {
   const [docID, setDocID] = useState('');
   const [password, setPassword] = useState('');
 
+  // Fetch the doctors list from the backend
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
@@ -37,30 +37,34 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if phone number is exactly 10 characters long
+    // Validate the phone number
     if (phoneNumber.length !== 10) {
       setError('Phone number must be exactly 10 digits long.');
       return; // Prevent form submission
     }
 
-    try {
-      const salt = bcrypt.genSaltSync(10);
-      const hashedPassword = bcrypt.hashSync(password, salt);
+    // Validate password length
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
 
+    try {
+      // Send the plain password directly (no hashing)
       const response = await axios.post('http://localhost:5000/register', {
         patientName,
         email,
         phoneNumber,
         dob,
         docID,
-        password: hashedPassword
+        password // Send the plain password here
       });
 
       console.log('Registration successful:', response.data);
       if (response.data.confirm === "OK"){
         navigate('/');
-      }if (response.data.confirm === "ERROR") {
-        setError('Registration failed. Account on the same email already exist');
+      } else if (response.data.confirm === "ERROR") {
+        setError('Registration failed. Account with the same email already exists.');
       } else {
         setError('Registration failed. Something went wrong');
       }
@@ -75,7 +79,7 @@ const Register = () => {
         type="text"
         value={patientName}
         onChange={(e) => setPName(e.target.value)}
-        placeholder="name"
+        placeholder="Name"
         required
       />
       <input
@@ -89,14 +93,14 @@ const Register = () => {
         type="tel"
         value={phoneNumber}
         onChange={(e) => setPhone(e.target.value)}
-        placeholder="phone number"
+        placeholder="Phone Number"
         required
       />
       <input
         type="date"
         value={dob}
         onChange={(e) => setDOB(e.target.value)}
-        placeholder="YYYY-MM-DD"
+        placeholder="Date of Birth"
         required
       />
       <select onChange={(e) => setDocID(e.target.value)} required>
@@ -109,13 +113,14 @@ const Register = () => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="password"
+        placeholder="Password"
         required
       />
-      <button type="submit">submit</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      <button type="submit">Submit</button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
 };
 
 export default Register;
+

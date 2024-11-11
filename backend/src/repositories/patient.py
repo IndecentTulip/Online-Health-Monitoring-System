@@ -19,6 +19,7 @@ class Patient(User):
     #    return Patient(0, "", "", 0, datetime.date(2024, 11, 2), 8, "")  # Placeholder, replace with actual logic
 
     # REQUIRED TO RUN AFTER using Patient() constractor
+
     def create_patient(self):
         """
         Creates a new patient record.
@@ -47,61 +48,212 @@ class Patient(User):
 
         return out 
 
-    def give_list_of_pending(self):
+    # Fetch all patient records
+    @staticmethod
+    def get_user_record_account():
+        query = "SELECT * FROM patient;"
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        patients = []
+        for row in rows:
+            patients.append({
+                'healthid': row[0],
+                'patient_name': row[1],
+                'patient_email': row[2]
+            })
+        
+        cursor.close()
+        conn.close()
+
+        return patients
+
+    # Delete a patient account
+    @staticmethod
+    def delete_account(patient_id):
+        delete_query = "DELETE FROM patient WHERE healthid = %s;"
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        print(patient_id)
+        cursor.execute(delete_query, (patient_id,))
+        conn.commit()  # Commit the transaction
+        
+        cursor.close()
+        conn.close()    
+
+    @staticmethod
+    def give_list_of_pending():
         """
         Returns a list of patients with pending status.
         """
-         # Implementation for returning a list of pending patients
         db = DBService()
         conn = db.get_db_connection()
-
         cursor = conn.cursor()
-       
-        findPending = """SELECT patientID FROM patient WHERE status = FALSE"""
-
+    
+        findPending = """SELECT healthid, patientname, email, status 
+                         FROM patient WHERE status = FALSE"""
+    
         cursor.execute(findPending)
-
         result = cursor.fetchall()
-        
+    
         cursor.close()
-        del cursor
+        conn.close()
+    
         return result
     
-    def approve_patient(self, email: str):
+    @staticmethod
+    def approve_patient(patient_id: int):
         """
-        Approves a patient based on their email.
+        Approves a patient by updating their status to TRUE based on their healthid.
         """
-        # Implementation for approving a patient
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        approve = "UPDATE patient SET status = TRUE WHERE email = %s"
-        cursor.execute(approve, (email))
+    
+        approve = """UPDATE patient SET status = TRUE WHERE healthid = %s"""
+        cursor.execute(approve, (patient_id,))
+    
+        conn.commit()
         cursor.close()
-        del cursor
+        conn.close()
 
     @staticmethod
     def get_user_record(email: str, password: str) -> UserInfo:
-        checkPat = """SELECT COUNT(healthid) FROM patient WHERE email = %s AND patientpassword = %s"""
-
+        # Modify the query to directly select healthid and status without COUNT
+        fetchPat = """SELECT healthid, status FROM patient WHERE email = %s AND patientpassword = %s"""
+    
+        intID = 0
+        patientStatus = None
+    
         db = DBService()
         conn = db.get_db_connection()
-
+    
         cursor = conn.cursor()
-        cursor.execute(checkPat, (email, password))
-        check = cursor.fetchone()
-
+        cursor.execute(fetchPat, (email, password))
+        fetch = cursor.fetchone()
+    
+        if fetch:
+            intID = fetch[0]
+            patientStatus = fetch[1]  # The patient's status field
+    
         cursor.close()
         del cursor
-
-        if check:
-            userRole = Role.PAT
-        else:  
-            userRole = Role.NONE
-        
+    
         info = UserInfo()
-        info.setRole(userRole)
         info.setEmail(email)
+        info.setId(intID)
         info.setPassword(password)
-        return info
+    
+        if patientStatus is False:  # If the patient is not approved
+            info.setRole(Role.NONE)  # Set the role to NONE or another indication of not approved
+            return info  # We can return None or a specific error message here if status is False.
+    
+        # Assuming user is approved
+        userRole = Role.PAT if patientStatus is True else Role.NONE
+        info.setRole(userRole)
+        return info        # Assuming user is approved
+
+
+    @staticmethod
+    def get_user_record_profile() -> UserInfo:
+        # Database query to fetch patient information
+        query = """
+        SELECT *
+        FROM patient
+        WHERE healthid = %s;
+        """
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        patient_info = UserInfo()
+
+        if result:
+            # Create and return a UserInfo object
+            patient_info.setId(result[0])
+            patient_info.setName(result[1])
+            patient_info.setEmail(result[2])
+            patient_info.setDob(result[3])
+            patient_info.setStatus(result[4])
+            patient_info.setDoctorId(result[5])
+            patient_info.setPhone(result[6])
+
+            return patient_info
+        else:
+            return patient_info
+
+    @staticmethod
+    def get_user_record_profile(id: int) -> UserInfo:
+        # Database query to fetch patient information
+        query = """
+        SELECT healthid, patientname, email, dob, status, doctorid, phonenumber
+        FROM patient
+        WHERE healthid = %s;
+        """
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        patient_info = UserInfo()
+
+        if result:
+            # Create and return a UserInfo object
+            patient_info.setId(result[0])
+            patient_info.setName(result[1])
+            patient_info.setEmail(result[2])
+            patient_info.setDob(result[3])
+            patient_info.setStatus(result[4])
+            patient_info.setDoctorId(result[5])
+            patient_info.setPhone(result[6])
+
+            return patient_info
+        else:
+            return patient_info
+
+
+    @staticmethod
+    def update_user_record_profile(id: int, data: dict):
+        # Database query to update patient information
+        update_query = """
+        UPDATE patient
+        SET patientname = %s, email = %s, phonenumber = %s
+        WHERE healthid = %s;
+        """
+    
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        # Assuming we are only updating the name, email, and phone for simplicity
+        cursor.execute(update_query, (data.get('name'), data.get('email'), data.get('phone'), id))
+        
+        conn.commit()
+        cursor.close()
+        conn.close()
+    
+        # Fetch the updated patient to return
+        return Patient.get_user_record_profile(id)
+
 

@@ -19,6 +19,8 @@ class UserInfo:
     #    # WE might not need the password
     #    self.password = password
     #    self.id = id 
+    def setName(self, name: str):
+        self.name = name
     def setRole(self, user_type: Role):
         self.user_type = user_type
     def setEmail(self, email: str):
@@ -27,6 +29,22 @@ class UserInfo:
         self.password = password
     def setId(self, id: int):
         self.id = id
+    def setDob(self, dob: str):
+        self.dob = dob
+    def setStatus(self, status: bool):
+        self.status = status
+    def setDoctorId(self, id: int):
+        self.id = id
+    def setPhone(self, phone: int):
+        self.phone = phone
+    def setImage(self, image: str):
+        self.image = image
+    def setUserType(self, user_type: str):
+        self.user_type = user_type
+
+
+
+
 
 
 class User:
@@ -40,53 +58,34 @@ class User:
         self.patient = None  # Placeholder for Patient object
         self.worker = None  # Placeholder for Worker object
 
-    @staticmethod
-    def get_user_record(email: str, password: str) -> UserInfo:
-        # ...
-        # SQL
-        info = ("""select * from users""")
-        db= DBService()
-        conn = db.get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(info)
-        # ... 
-        info = UserInfo()
-        return info
-
-    def modify_account_info(self, email: str):
+    def modify_account_info(self, id: int):
         """
         Modifies the user's account information based on the provided email.
         """
         # Implementation for modifying account info
 
-        
-        pass
-
-    def return_user_record(self, email: str):
-        """
-        Returns the user's record based on the provided email.
-        """
-        # Implementation for returning user record
-        pass
-
-    def delete_account(self, user_id: int, accType: str):
-        """
-        Deletes the user's account by user ID.
-        """
-        # Implementation for deleting the account
-        if accType == "Patient":
-            delete = "DELETE FROM patient WHERE healthid = %s"
-        if accType == "Worker":
-            delete = "DELETE FROM workers WHERE workersid = %s"
-        db = DBService()
+        #connect to the database first.
+        db= DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute(delete, (user_id))
+        # use ID instead of email
+        modifyPatient = """update patient set healthid = %d, 
+        patientname = %s, email = %s, DOB = %s, doctorid = %d, patientpassword = %s, phonenumber = %s 
+        where email = %s"""
 
-        cursor.close()
-        conn.close() 
-    
+        #commit the change
+        cursor.execute(modifyPatient)
+
+        # use ID instead of email
+        modifyworkers = """update workers set workersid = %d, workersname = %s, email = %s, 
+        phonenumber = %s, ima ge = %s, usertype = %s, staffpassword = %s 
+        where email = %s"""
+
+          #commit the change
+        cursor.execute(modifyworkers)
+        
+   
 
     def _notify(self, message: str, email: str):
         """

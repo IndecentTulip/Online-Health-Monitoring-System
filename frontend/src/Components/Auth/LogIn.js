@@ -2,10 +2,7 @@ import './LogIn.css';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useRole } from './RoleContext';
-
-// TODO: Store user email and Type somewhere
-// TODO: use userType to RESTRIC going into urls reserved to other userTypes
+import { useRole } from '../../Utils/RoleContext';
 
 const Login = () => {
   const { setRole } = useRole();
@@ -26,19 +23,29 @@ const Login = () => {
         email,
         password,
       });
-      setError(''); 
-      let route = response.data.login.routeTo;
-      console.log(route);
-      //setRoutePerm(route);
+
+      setError(''); // Clear any previous errors
+
+      const { user_type, routeTo, id } = response.data.login;
+
+      if (user_type === "Error") {
+        setError('Your account is not approved yet. Please contact support.');
+        return; // Exit early if the account is not approved
+      }
+
+      let route = routeTo;
       setRole(route);
-      navigate(`/${route.toLowerCase()}/main`);
+      navigate(`/${route.toLowerCase()}/main`, { state: { id } });
+
     } catch (err) {
-      setError('Login failed. Please check your credentials and try again.');
+      if (err.response && err.response.data.error) {
+        // Handle error messages returned from the backend
+        setError(err.response.data.error);
+      } else {
+        setError('Login failed. Please check your credentials and try again.');
+      }
     }
   };
-
-
-
 
   return (
     <div>
@@ -60,7 +67,7 @@ const Login = () => {
         />
         <button type="submit">Login</button>
       </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
