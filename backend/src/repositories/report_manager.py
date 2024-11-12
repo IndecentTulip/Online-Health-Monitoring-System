@@ -38,7 +38,7 @@ class ReportManager:
 
         cursor = conn.cursor()
         cursor.execute(getReports)
-        listofstuff = cursor.fetchall
+        listofstuff = cursor.fetchall()
         cursor.close()
         del cursor
         return listofstuff
@@ -107,6 +107,7 @@ class ReportManager:
             entry = PredictEntry(0, '0')
             multiplier = 1.0
             entry.concern = 100
+            #won't this return the first letter of the string? Doesn't seem right but I'll leave it for now
             entry.type = value[0]
             cursor.execute(getTestResults, (patient, year))
             results = cursor.fetchall()
@@ -230,7 +231,7 @@ class ReportManager:
         del cursor
         conn.close()
         
-    #Liekevefore, delete report based on ID. type 0 = summary, type 1 = predict
+    #Like before, delete report based on ID. type 0 = summary, type 1 = predict
     def remove_report(self, report_id: int, report_type: int):
         """
         Removes a report by its ID.
