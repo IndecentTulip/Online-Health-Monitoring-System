@@ -423,9 +423,14 @@ def post_yearreport():
 # Get patients for a doctor (used for selecting patients for reports)
 @app.route('/predict/doc', methods=['GET'])
 def get_pat_for_doc_for_predict():
-    patients = system.doctors_patients()  # Assuming this method returns a list of patients assigned to the doctor
-    return patients
-    #return jsonify({'temp': 'Not implemented'}), 404
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+    try:
+        patients = system.doctors_patients(user_id)
+        return jsonify(patients), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
 @app.route('/predict/fetch', methods=['GET'])
 def get_predict():

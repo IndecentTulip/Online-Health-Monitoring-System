@@ -129,6 +129,7 @@ class Patient(User):
     def get_user_record(email: str, password: str) -> UserInfo:
         # Modify the query to directly select healthid and status without COUNT
         fetchPat = """SELECT healthid, status FROM patient WHERE email = %s AND patientpassword = %s"""
+
     
         intID = 0
         patientStatus = None
@@ -138,7 +139,9 @@ class Patient(User):
     
         cursor = conn.cursor()
         cursor.execute(fetchPat, (email, password))
+
         fetch = cursor.fetchone()
+
     
         if fetch:
             intID = fetch[0]
@@ -255,5 +258,6 @@ class Patient(User):
     
         # Fetch the updated patient to return
         return Patient.get_user_record_profile(id)
+
 
 
