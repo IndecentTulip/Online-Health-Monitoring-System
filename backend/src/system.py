@@ -312,8 +312,8 @@ class System:
         try:
             return Results.return_list_of_results()
         except Exception as e:
-            raise Exception(f"Error fetching results for user  {str(e)}")
-    
+            raise Exception(f"Error fetching results for user  {str(e)}")   
+
     def delete_results(self, result_id):
         try:
             Results.remove_result(result_id)

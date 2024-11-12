@@ -57,37 +57,45 @@ class Results:
         elif search_type == 1:
             cursor.execute(query_1, (patient_ID, test_type))
         elif search_type == 2:
-            cursor.execute(query_2, (patient_ID))
+            cursor.execute(query_2, (patient_ID,))
         elif search_type == 3:
-            cursor.execute(query_3, (pat_name))
+            cursor.execute(query_3, (pat_name,))
         elif search_type == 4:
             cursor.execute(query_4, (pat_name, date))
         elif search_type == 5:
             cursor.execute(query_5, (pat_name, test_type))
         elif search_type == 6:
             cursor.execute(query_6)
-        results = cursor.fetchall
+
         for row in results:
             returnlist.append(Results(row[0], row[1], row[2], row[3], row[4]))
         return returnlist
 
+
     @staticmethod
     def return_list_of_results():
+        # Initialize DBService and establish a connection
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
         # Query to fetch all test results from the testresults table
+        print("TEST 1")
         cursor.execute("""
-            SELECT testresultsid, testtype, examid, results, resultdate
+            SELECT testresultsid, testtype, results, resultdate 
             FROM testresults;
         """)
         rows = cursor.fetchall()
 
         results = []
         for row in rows:
-            results.append(Results(Results(row[0], row[1], row[2], row[3], row[4])))
-        
+            results.append({
+                'result_id': row[0],
+                'test_name': row[1],
+                'results': row[2],
+                'test_date': row[3]
+            })
+
         cursor.close()
         conn.close()
 
@@ -98,7 +106,6 @@ class Results:
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-
         # Delete the result with the given result_id
         cursor.execute("DELETE FROM testresults WHERE testresultsid = %s", (result_id,))
         

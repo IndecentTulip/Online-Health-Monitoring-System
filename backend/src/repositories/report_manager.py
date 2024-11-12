@@ -2,6 +2,7 @@ from enum import Enum
 from datetime import date, datetime
 from repositories.db_service import DBService
 
+import datetime
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -12,7 +13,7 @@ class ReportType(Enum):
     PREDICTION = "prediction"
 
 class PredictEntry:
-    def _init_(self, concern: int, type: str):
+    def __init__(self, concern: int, type: str):
         self.concern = int(concern)
         self.type = type
 class SumEntry:
@@ -51,7 +52,7 @@ class ReportManager:
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
-        cursor.execute(getReports, (doctorid))
+        cursor.execute(getReports, (doctorid,))
         listofstuff = cursor.fetchall()
         cursor.close()
         del cursor
@@ -72,7 +73,7 @@ class ReportManager:
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
-        cursor.execute(getEntries, (reportID))
+        cursor.execute(getEntries, (reportID,))
         listofstuff = cursor.fetchall()
         cursor.close()
         del cursor
@@ -100,7 +101,11 @@ class ReportManager:
         testtypes = cursor.fetchall()
         entryList = []
         cursor.execute(preMakeReportQry)
-        reportID = cursor.fetchone()
+        reportID: int
+        result = cursor.fetchone()
+        if result:
+            reportID: int = result[0]
+        
         #This is not checking if report exists, this is checking what id will be given to the new report
         cursor.execute(makeReportQry, (0, patient, date.today()))
         for value in testtypes:
@@ -132,7 +137,7 @@ class ReportManager:
                         multiplier = multiplier/2
             entryList.append(entry)
         for obj in entryList:
-            cursor.exectute(makeReportEntry, (reportID, obj.type, obj.concern))
+            cursor.execute(makeReportEntry, (reportID, obj.type, obj.concern))
         conn.commit()
         cursor.close()
         del cursor
@@ -148,7 +153,7 @@ class ReportManager:
         patientIDList = []
         patientTestList = []
         patientAbTestList = []
-        today = datetime.date()
+        today = datetime.date.today()
 
         db = DBService()
         conn = db.get_db_connection()
@@ -187,7 +192,10 @@ class ReportManager:
 
         #Fetch report number of new report, store it, then make report
         cursor.execute(PreMakeReportQry)
-        reportID: int = cursor.fetchone()
+        reportID: int
+        result = cursor.fetchone()
+        if result:
+            reportID: int = result[0]
         cursor.execute(MakeReportQry, (userID, mOrY, today, timeperiod))
 
         #Fetch all patients in Database, place in list
@@ -251,8 +259,8 @@ class ReportManager:
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute(deleteEnt, (report_id))
-        cursor.execute(deleteRep, (report_id))
+        cursor.execute(deleteEnt, (report_id,))
+        cursor.execute(deleteRep, (report_id,))
         conn.commit
         cursor.close()
         del cursor

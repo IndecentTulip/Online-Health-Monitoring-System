@@ -1,4 +1,59 @@
+/* <><><><><><><><><><><> */
+/* BACK UP */
+/* <><><><><><><><><><><> */
+/* 
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="password"],
+select {
+    width: 20%;
+    padding: 10px !important;
+    font-size: 16px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    box-sizing: border-box !important;
+}
 
+.registerform input[type="text"]:focus,
+.registerform input[type="email"]:focus,
+.registerform input[type="tel"]:focus,
+.registerform input[type="date"]:focus,
+.registerform input[type="password"]:focus {
+    border-color: #007bff !important;
+    outline: none !important;
+}
+
+
+button {
+    margin-top: 10px !important;
+    padding: 15px 30px !important;
+    font-size: 18px !important;
+    cursor: pointer !important;
+    background-color: #007bff !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 5px !important;
+    transition: background-color 0.3s, transform 0.3s !important;
+}
+
+button:hover {
+    background-color: #0056b3 !important;
+    transform: translateY(-2px) !important;
+}
+
+button:active {
+    background-color: #004494 !important;
+    transform: translateY(0) !important;
+}
+*/
+/* Adjust layout on larger screens */
+@media (min-width: 768px) {
+    .registerform {
+        width: 600px;
+    }
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

@@ -10,9 +10,15 @@ const DelTestResults = () => {
   const fetchTestResults = async () => {
     try {
       const response = await axios.get('http://localhost:5000/results/fetch');
-      setTestResults(response.data);  // Store the fetched test results
+      console.log(response.data)
+      if (response.data && response.data.length > 0) {
+        setTestResults(response.data);  // Store the fetched test results
+      } else{
+        setTestResults([])
+      }
     } catch (err) {
       setError('Failed to fetch test results');
+      setTestResults([])
     }
   };
 

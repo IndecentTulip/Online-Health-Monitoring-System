@@ -36,13 +36,10 @@ INSERT INTO examType(examType) VALUES
 -- Insert into examTable after examType
 INSERT INTO examTable (examId, examDate, healthID, workersID, examType) VALUES
   (33025, '2024-10-18', 10031, 21004, 'Blood'),
-  (33026, '2024-08-01', 10031, 21001, 'ECG'),
+  (33026, '2024-08-01', 10031, 21001, 'Blood'),
   (33027, '2023-11-02', 10032, 21004, 'Ultrasound'),
-  (33028, '2023-05-19', 10033, 21004, 'X-Ray'),
-  (33029, '2024-08-12', 10034, 21001, 'CT-Scan'),
-  (33030, '2023-03-26', 10035, 21004, 'MRI'),
-  (33031, '2024-02-09', 10036, 21004, 'Urine Test'),
-  (33032, '2024-10-10', 10037, 21003, 'Ultrasound');
+  (33028, '2023-05-19', 10033, 21004, 'CT-Scan'),
+  (33029, '2024-08-12', 10034, 21001, 'Urine Test');
 
 -- Insert into testTypes
 INSERT INTO testTypes(testType, lowerBound, upperBound, unit, examType) VALUES
@@ -70,7 +67,12 @@ INSERT INTO presecribedTest (examId, testtype) VALUES
   (33026, 'Blood Test Iron'),
   (33027, 'Ultrasound'),
   (33028, 'CT-Scan'),
-  (33028, 'MRI');
+  (33029, 'Urine Test');
+
+INSERT INTO testresults (testresultsid, testtype, examid, results, resultdate) VALUES
+ (1, 'Blood Test Iron', 33025, 4.0000, '2024-11-12');
+
+
 
 -- Insert into summaryReport
 INSERT INTO summaryReport (SReportID, workersID, monthOrYear, summaryDate, timePeriod) VALUES

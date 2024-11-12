@@ -1,7 +1,11 @@
+from datetime import datetime
 from os import stat
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from system import System
+import json
+from decimal import Decimal
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -378,7 +382,7 @@ def get_results():
         else:
             return jsonify({'error': 'No results found'}), 404
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 500@app.route('/results/del', methods=['DELETE'])
 
 @app.route('/results/del', methods=['DELETE'])
 def delete_result():
