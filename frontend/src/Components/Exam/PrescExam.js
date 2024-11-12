@@ -110,7 +110,7 @@ const PrescExam = ({ userId }) => {
       {confirmationMessage && <div style={{ color: 'green' }}>{confirmationMessage}</div>}
 
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className = "patient-id">
           <label>Select Patient:</label>
           <select name="patientId" value={patientId} onChange={handleChange} required>
             <option value="">Select a patient</option>
@@ -122,7 +122,7 @@ const PrescExam = ({ userId }) => {
           </select>
         </div>
 
-        <div>
+        <div className = "test-type">
           <label>Select Test Types:</label>
           {testTypes.map((test) => (
             <div key={test.testtype}>
@@ -139,7 +139,7 @@ const PrescExam = ({ userId }) => {
           ))}
         </div>
 
-        <div>
+        <div className = "exam-content">
           <label>Exam Content (Notes):</label>
           <textarea
             name="content"
