@@ -20,8 +20,7 @@ class Patient(User):
 
     # REQUIRED TO RUN AFTER using Patient() constractor
 
-    @staticmethod
-    def create_patient():
+    def create_patient(self):
         """
         Creates a new patient record.
         """
@@ -48,6 +47,47 @@ class Patient(User):
             conn.close()  # Close the connection to free resources
 
         return out 
+
+    # Fetch all patient records
+    @staticmethod
+    def get_user_record_account():
+        query = "SELECT * FROM patient;"
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        patients = []
+        for row in rows:
+            patients.append({
+                'healthid': row[0],
+                'patient_name': row[1],
+                'patient_email': row[2]
+            })
+        
+        cursor.close()
+        conn.close()
+
+        return patients
+
+    # Delete a patient account
+    @staticmethod
+    def delete_account(patient_id):
+        delete_query = "DELETE FROM patient WHERE healthid = %s;"
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        print(patient_id)
+        cursor.execute(delete_query, (patient_id,))
+        conn.commit()  # Commit the transaction
+        
+        cursor.close()
+        conn.close()    
 
     @staticmethod
     def give_list_of_pending():
@@ -89,6 +129,7 @@ class Patient(User):
     def get_user_record(email: str, password: str) -> UserInfo:
         # Modify the query to directly select healthid and status without COUNT
         fetchPat = """SELECT healthid, status FROM patient WHERE email = %s AND patientpassword = %s"""
+
     
         intID = 0
         patientStatus = None
@@ -98,7 +139,9 @@ class Patient(User):
     
         cursor = conn.cursor()
         cursor.execute(fetchPat, (email, password))
+
         fetch = cursor.fetchone()
+
     
         if fetch:
             intID = fetch[0]
@@ -121,6 +164,41 @@ class Patient(User):
         info.setRole(userRole)
         return info        # Assuming user is approved
 
+
+    @staticmethod
+    def get_user_record_profile() -> UserInfo:
+        # Database query to fetch patient information
+        query = """
+        SELECT *
+        FROM patient
+        WHERE healthid = %s;
+        """
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(query, (id,))
+        result = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        patient_info = UserInfo()
+
+        if result:
+            # Create and return a UserInfo object
+            patient_info.setId(result[0])
+            patient_info.setName(result[1])
+            patient_info.setEmail(result[2])
+            patient_info.setDob(result[3])
+            patient_info.setStatus(result[4])
+            patient_info.setDoctorId(result[5])
+            patient_info.setPhone(result[6])
+
+            return patient_info
+        else:
+            return patient_info
 
     @staticmethod
     def get_user_record_profile(id: int) -> UserInfo:
@@ -180,5 +258,6 @@ class Patient(User):
     
         # Fetch the updated patient to return
         return Patient.get_user_record_profile(id)
+
 
 

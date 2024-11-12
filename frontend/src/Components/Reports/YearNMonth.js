@@ -20,9 +20,6 @@ const YearNMonth = ({ userId }) => {
         const reportResponse = await axios.get('http://localhost:5000/yearreports/fetch');
         setReports(reportResponse.data);
 
-        // Fetch patients assigned to the doctor
-        const patientResponse = await axios.get('http://localhost:5000/predict/doc');
-        setPatients(patientResponse.data);
       } catch (err) {
         setError('Failed to fetch data');
       }

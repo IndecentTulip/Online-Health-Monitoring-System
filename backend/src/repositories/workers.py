@@ -12,30 +12,69 @@ class Worker(User):
         self.phone_number = phone_number
         self.role = role
         self._password = password
-    def create_worker(self, worker: 'Worker'):
-        """
-        Creates a new worker record.
-        """
-        # Implementation for creating a worker
+
+    # Fetch all worker records
+    @staticmethod
+    def get_user_record_account():
+        query = "SELECT * FROM workers;"
+        
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
-        createWork = """INSERT INTO workers
-        (workersname, email, phonenumber, image, usertype, staffpassword)
-        VALUES (%s, %s, %s, %s, %s, %s)"""
+        cursor.execute(query)
+        rows = cursor.fetchall()
 
-        try:
-            cursor.execute(createWork, (self.name, self.email, self.phone_number, self.image, self.role.value, self._password,))
-            conn.commit()  # Commit the transaction to save changes
-            print("Worker record created successfully.")
-        except Exception as e:
-            print(f"Failed to create worker record: {e}")
-            conn.rollback()  # Rollback the transaction in case of error
+        workers = []
+        for row in rows:
+            workers.append({
+                'workerid': row[0],
+                'worker_name': row[1],
+                'worker_email': row[2],
+                'worker_role': row[6]
+            })
+        
+        cursor.close()
+        conn.close()
 
-        finally:
-            cursor.close()
-            conn.close()  # Close the connection to free resources
+        return workers
+
+    @staticmethod
+    def create_worker(worker_name, worker_email, worker_role, worker_phone, worker_password):
+        # Insert worker into the database with phone and password
+        create_query = """
+        INSERT INTO workers (workersname, email, usertype, phonenumber, staffpassword)
+        VALUES (%s, %s, %s, %s, %s);
+        """
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        # Use hashed password here (you should hash the password before storing it in the database)
+        # If you're using bcrypt, you can do something like:
+        # hashed_password = bcrypt.hashpw(worker_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+    
+        cursor.execute(create_query, (worker_name, worker_email, worker_role, worker_phone, worker_password))
+        conn.commit()  # Commit the transaction
+        
+        cursor.close()
+        conn.close()
+
+    # Delete a worker account
+    @staticmethod
+    def delete_account(worker_id):
+        delete_query = "DELETE FROM workers WHERE workersid = %s;"
+        
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(delete_query, (worker_id,))
+        conn.commit()  # Commit the transaction
+        
+        cursor.close()
+        conn.close()
 
 
     def create_worker_instance(self):

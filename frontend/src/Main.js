@@ -5,21 +5,41 @@ const Main = () => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate('/signin'); // Adjust the path as needed
+    navigate('/signin'); 
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path); 
   };
 
   return (
-    // pls don't make css for ALL the div's use classes and set csss to them
-    <div className="main">
-      
-      <p>WHO ARE WE</p>
-      {/* use something called "Lorem Impsum" your code editor will make a dummy text for you */}
-      <p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
-      <button onClick={handleRedirect}>Go to Sign In</button>
-    </div>
+    <div>
+<div className = "background"></div>
+<div className="navbarname">
+          Jlabs
+        </div>
+<nav className="navbar">
+        <button onClick={() => handleNavigation('/Main')}>Home</button>
+        <button onClick={() => handleNavigation('/register')}>Register</button>
+        <button onClick={() => handleNavigation('/signin')}>Sign In</button>
+       </nav>
+
+       <div className="about-section"> 
+     <h1>About Us</h1>
+     <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+      Etiam porttitor bibendum massa, eget consectetur justo porttitor vel. 
+      Aliquam dictum id dui laoreet consectetur. Suspendisse non nibh vel metus varius rhoncus non at orci. 
+      Praesent non dapibus justo, et aliquam eros. Duis et lobortis neque. Curabitur sit amet tempor lectus. 
+      Quisque sollicitudin ipsum nec mi condimentum, ac eleifend ante accumsan.Praesent a leo ultrices, condimentum lectus a, viverra diam.
+      Aliquam non lorem quis dui elementum semper in vitae leo. Phasellus mattis, massa sit amet varius imperdiet, purus neque tincidunt arcu,
+      id fringilla neque tellus ac eros. Maecenas quis tempus est, in ornare augue. Vestibulum tempor velit eget aliquet efficitur. 
+      Aenean sollicitudin nulla non rutrum lacinia. Mauris lacinia augue molestie, vestibulum turpis id, porta quam. Morbi semper suscipit porta. 
+      Suspendisse at lacus commodo, pharetra augue quis, dapibus tortor. Donec non egestas quam. Nam mattis arcu lacus, id sagittis nunc molestie ut.
+      Sed condimentum libero id pellentesque condimentum.Etiam bibendum felis eget nulla posuere, vitae lacinia turpis convallis. 
+      Sed pharetra, lectus id pretium accumsan, lacus ipsum. </p>
+
+    </div> 
+  </div>
   );
-
-};
-
-export default Main;
-
+}
+export default Main;    

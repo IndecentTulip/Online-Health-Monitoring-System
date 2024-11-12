@@ -162,64 +162,81 @@ def patch_worker_profile():
 
 # <><><><><><><> ACCOUNT <><><><><><><><><>
 
-# Fetch all workers (No filtering on the backend)
-@app.route('/accounts/workers/fetch', methods=['GET'])
+@app.route('/accounts/workers/every/fetch', methods=['GET'])
 def get_workers():
-    workers = system.view_all_workers()  # Assuming this method returns a list of workers
-    return workers
-    #return jsonify({'temp': 'Not implemented'}), 404
+    try:
+        workers = system.view_every_worker()
+        # Check if workers data has the correct structure
+        if not workers:
+            return jsonify({'error': 'No workers found'}), 404
+        return jsonify(workers), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
-# Add a new worker (POST request)
+@app.route('/accounts/patient/every/fetch', methods=['GET'])
+def get_patients():
+    try:
+        patients = system.view_every_patient()  
+        return jsonify(patients), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+
 @app.route('/accounts/workers/add', methods=['POST'])
-def add_workers():
+def add_worker():
     data = request.get_json()
     worker_name = data.get('worker_name')
     worker_email = data.get('worker_email')
     worker_role = data.get('worker_role')
-    
-    if not worker_name or not worker_email or not worker_role:
+    worker_phone = data.get('worker_phone')
+    worker_password = data.get('worker_password')
+
+    if not worker_name or not worker_email or not worker_role or not worker_phone or not worker_password:
         return jsonify({'error': 'Worker data is incomplete'}), 400
 
-    #system.add_worker(worker_name, worker_email, worker_role)  # Add worker to the system
-    return jsonify({'message': 'Worker added successfully'}), 201
+    try:
+        system.create_worker_account(worker_name, worker_email, worker_role, worker_phone, worker_password)
+        return jsonify({'message': 'Worker added successfully'}), 201
+    except Exception as e:
+        return jsonify({'error': f'Error creating worker: {str(e)}'}), 500
 
-# Delete a patient (DELETE request)
-@app.route('/accounts/patient/del', methods=['DELETE'])
-def delete_patients():
-    data = request.get_json()
-    patient_id = data.get('patient_id')
-    
-    if not patient_id:
-        return jsonify({'error': 'Patient ID is required'}), 400
-
-    system.create_worker_account(patient_id)  # Assuming this method exists
-    return jsonify({'message': 'Patient deleted successfully'}), 200
-
-# Delete a worker (DELETE request)
 @app.route('/accounts/workers/del', methods=['DELETE'])
-def delete_workers():
+def delete_worker():
     data = request.get_json()
     worker_id = data.get('worker_id')
     
     if not worker_id:
         return jsonify({'error': 'Worker ID is required'}), 400
 
-    #system.delete_worker_account(worker_id)  # Assuming this method exists
-    system.delete_worker_account()  # Assuming this method exists
-    return jsonify({'message': 'Worker deleted successfully'}), 200
+    try:
+        system.delete_worker_account(worker_id)
+        return jsonify({'message': 'Worker deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'Error deleting worker: {str(e)}'}), 500
 
+@app.route('/accounts/patient/del', methods=['DELETE'])
+def delete_patient():
+    data = request.get_json()
+    patient_id = data.get('patient_id')
+    
+    if not patient_id:
+        return jsonify({'error': 'Patient ID is required'}), 400
 
+    try:
+        system.delete_patient_account(patient_id)
+        return jsonify({'message': 'Patient deleted successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'Error deleting patient: {str(e)}'}), 500# used to get list of pending
 @app.route('/accounts/patient/fetch', methods=['GET'])
-def get_patients():
+def get_patients_pending():
     try:
         patients = system.view_all_patients()  # Call the system to get all pending patients
         return patients
     except Exception as e:
         return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
-
+# uset for status
 @app.route('/accounts/patient/update', methods=['PATCH'])
-def patch_patients():
+def patch_patients_status():
     patient_id = request.json.get('patient_id')  # Extract patient_id from the request body
 
     if not patient_id:
@@ -232,11 +249,11 @@ def patch_patients():
     except Exception as e:
         return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
-@app.route('/accounts/workers/update', methods=['PATCH'])
-def patch_workers():
-    id =0
-    system.update_worker_account(id, data)
-    return jsonify({'temp': 'Not implemented'}), 404
+# @app.route('/accounts/workers/update', methods=['PATCH'])
+# def patch_workers():
+#     id =0
+#     system.update_worker_account(id, data)
+#     return jsonify({'temp': 'Not implemented'}), 404
 
 # <><><><><><><> ACCOUNT <><><><><><><><><>
 
@@ -406,9 +423,14 @@ def post_yearreport():
 # Get patients for a doctor (used for selecting patients for reports)
 @app.route('/predict/doc', methods=['GET'])
 def get_pat_for_doc_for_predict():
-    patients = system.doctors_patients()  # Assuming this method returns a list of patients assigned to the doctor
-    return patients
-    #return jsonify({'temp': 'Not implemented'}), 404
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User ID is required'}), 400
+    try:
+        patients = system.doctors_patients(user_id)
+        return jsonify(patients), 200
+    except Exception as e:
+        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
 
 @app.route('/predict/fetch', methods=['GET'])
 def get_predict():
