@@ -1,73 +1,94 @@
-/*
-div {
-    display: flex; 
-    justify-content: center;
-    flex-direction: column; 
-    align-items: center; 
-    height: 120vh; 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center; 
-  } 
-button { 
-    padding: 10px 20px; 
-    font-size: 16px;
-    cursor: pointer;
-     } 
-*/
+/* Background container */
 .background { 
-   background-color: lightblue; 
-   width: 1000%;
-   height: 100vh; 
-   display: flex; 
-   flex-direction: column; 
-   align-items: center; 
-   justify-content: center; 
-     } 
+  z-index: 1;
+  background-color: lightblue; 
+  width: 100%; /* Ensure the background covers the full width */
+  height: 100vh; /* Make sure the background spans the full height */
+  background-image: url('https://media-public.canva.com/YMuxs/MAEJnwYMuxs/1/s2.jpg'); /* Path to your PNG image */
+  background-size: cover; /* Make the background image cover the whole screen */
+  background-position: center; /* Ensure the background is centered */
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start; /* Align items to the left */
+  justify-content: flex-start; /* Align content to the top */
+  padding-left: 20px; /* Add padding to the left */
+}
+
+/* Navbar styling */
 .navbarname { 
-   color: black; 
-   font-size: 300px; 
-   font-weight: bold; 
-   padding-left: 10px; 
-     }
-.navbar { 
-   width: 100%; 
-   background-color: black;
-   justify-content: flex-end; 
-   padding: 10px 10px;
-   position: fixed; 
-   top: 0; 
-       } 
+  color: black; 
+  font-size: 80px; /* Adjust font size for readability */
+  font-weight: bold; 
+  padding-left: 10px; 
+  margin-top: 90px; /* Add margin to push navbar name down */
+}
+
+/* Navbar styling */
+.navbar {
+  width: 100%; 
+  background-color: white;
+  display: flex;
+  justify-content: flex-end; /* Align the buttons to the right side */
+  align-items: center; /* Vertically center the buttons */
+  padding: 15px 30px; /* Add some padding to the navbar */
+  position: fixed; 
+  top: 0; 
+  left: 0;
+  z-index: 10; /* Keep the navbar on top */
+  box-sizing: border-box; /* Prevent padding from affecting layout */
+  flex-wrap: wrap; /* Allow buttons to wrap to the next line if the screen is too narrow */
+}
+
+/* Navbar button styling */
 .navbar button { 
-  background-color: gray;
   color: white; 
-  border: 10px; 
+  border: 2px solid transparent;
   padding: 10px 15px; 
-  margin-left: 10px; 
+  margin-left: 10px; /* Add some space between buttons */
   cursor: pointer; 
-  font-size: 16px; 
+  font-size: 25px; 
   border-radius: 5px;
-       } 
-.navbar button:hover { 
-  background-color: darkslategray; 
-        } 
+}
+
+.navbar .register { 
+  background-color: white;
+  color: black; 
+}
+
+.navbar .signin { 
+  background-color: #00c2cb;
+  color: white; 
+}
+
+/* Hover effect for the navbar button */
+.navbar button:hover {
+  background-color: rgba(0, 194, 203, 0.8); /* Darker cyan with transparency */
+}
+
+/* About section styling */
 .about-section {
-  margin-top: 80px; 
+  position: absolute; /* Position it relative to the screen */
+  left: 20px; /* Align it to the left of the screen */
+  top: 220px; /* Adjust top to avoid overlapping with navbar */
   padding: 20px;
   border: 2px solid #333; 
   border-radius: 8px; 
   background-color: #f9f9f9; 
-  width: 80%; 
-  max-width: 700px;
-  text-align: center; 
-  margin-top: 20px;
-  padding: 20px; 
-  border: 2px solid #333; 
-  border-radius: 8px; 
-  background-color: #f9f9f9;
-  width: 80%; 
-  height: 30%; 
-  max-width: 800px; 
-  text-align: center; 
-  display: inline-block; 
-   }
+  width: 80%; /* Make it take 80% of the screen width */
+  max-width: 800px; /* Limit maximum width */
+  text-align: left; /* Align text to the left */
+  box-sizing: border-box; /* Ensure padding doesn't affect layout */
+}
+
+/* Additional styling for content */
+.about-section h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
