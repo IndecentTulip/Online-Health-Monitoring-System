@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import List
 
-from backend.src.repositories.db_service import DBService
+from repositories.db_service import DBService
 
 class Status(Enum):
     ACTIVE = "active"
@@ -81,7 +81,7 @@ class Monitor:
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(deleteMonitor, (monitor_id))
+        cursor.execute(deleteMonitor, (monitor_id,))
         conn.commit()
         cursor.close()
         del cursor
@@ -97,6 +97,6 @@ class Monitor:
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(updateMonitor)
+        cursor.execute(updateMonitor, (monitor_id,))
         pass
 

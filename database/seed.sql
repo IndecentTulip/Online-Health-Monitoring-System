@@ -69,6 +69,11 @@ INSERT INTO presecribedTest (examId, testtype) VALUES
   (33028, 'CT-Scan'),
   (33029, 'Urine Test');
 
+INSERT INTO testresults (testresultsid, testtype, examid, results, resultdate) VALUES
+ (1, 'Blood Test Iron', 33025, 4.0000, '2024-11-12');
+
+
+
 -- Insert into summaryReport
 INSERT INTO summaryReport (SReportID, workersID, monthOrYear, summaryDate, timePeriod) VALUES
   (5508, 21002, 'month', '2024-10-20', 'April 2024'),
