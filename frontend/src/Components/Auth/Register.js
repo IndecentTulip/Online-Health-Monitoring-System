@@ -68,6 +68,7 @@ const Register = () => {
   };
 
   return (
+    <div className="registerform">
     <form onSubmit={handleSubmit}>
       <div className = "name">
       <input
@@ -131,7 +132,8 @@ const Register = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       </div>
     </form>
-    
+    </div>
+
   );
 };
 
