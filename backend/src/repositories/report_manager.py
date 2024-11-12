@@ -1,5 +1,5 @@
 from enum import Enum
-import datetime
+from datetime import date
 from repositories.db_service import DBService
 
 class ReportType(Enum):
@@ -7,7 +7,9 @@ class ReportType(Enum):
     YEARLY = "yearly"
     PREDICTION = "prediction"
 class PredictEntry:
-    pass
+    def _init_(self, concern: int, type: str):
+        self.concern = int(concern)
+        self.type = type
 class SumEntry:
     pass
 class ReportManager:
@@ -21,9 +23,9 @@ class ReportManager:
         """
         Returns a list of reports of given type
         """
-        # Implementation for returning reports
+        # Implementation for returning list of reports to admin
         if type == 0:
-            getReports = "SELECT * FROM summaryreport"
+            getReports = "SELECT sreportid FROM summaryreport"
         elif type ==1:
             getReports = "SELECT preportid FROM predictreports"
         db = DBService()
@@ -35,22 +37,95 @@ class ReportManager:
         cursor.close()
         del cursor
         return listofstuff
+    def return_list_of_reports_doctor(self, doctorid: int) -> list:
+        getReports = """SELECT preportid FROM predictreports LEFT JOIN patient ON predictreports.healthid = patient.healthid
+                    WHERE patient.doctorid = %d"""
+
+        db = DBService()
+        conn = db.get_db_connection()
+
+        cursor = conn.cursor()
+        cursor.execute(getReports, (doctorid))
+        listofstuff = cursor.fetchall
+        cursor.close()
+        del cursor
+        return listofstuff
+    
+    def return_report(self, type: int, reportID: int) -> list:
+        """
+        Returns a list of report entries based on type and reportID
+        """
+        # Implementation for returning reports, 0 is summary 1 is prediction
+        if type == 0:
+            getEntries = "SELECT * FROM summaryreportentries WHERE sreportid = %d"
+        elif type ==1:
+            getEntries = "SELECT * FROM predictreportsentries WHERE preportid = %d"
+        db = DBService()
+        conn = db.get_db_connection()
+
+        cursor = conn.cursor()
+        cursor.execute(getEntries, (reportID))
+        listofstuff = cursor.fetchall
+        cursor.close()
+        del cursor
+        conn.close()
+        return listofstuff
+
     def generate_predict_report (self, patient: int, year: int):
 
         findTestTypes = """SELECT UNIQUE testypes FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
                             LEFT JOIN examtable ON testresults.examid = examtable.examid
                             WHERE examtable.healthid = %s AND NOT (testtypes.lowerbound < testresulsts.results < testtypes.upperbound) AND YEAR (testresults.resultdate) =%s"""
-        getTestResults = """"SELECT results, upperbound, lowerbound () AS abnormal FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+        getTestResults = """"SELECT results, upperbound, lowerbound FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
                              WHERE examtable.healthid = %s AND YEAR (testresults.resultdate) =%s ORDER BY testresults.resultdate DESC"""
+        preMakeReportQry = "SELECT Auto_increment FROM information_schema.tables WHERE table_name='predictreports';"
+        makeReportQry     = """INSERT into predictreports (workersid, healthid, pdate)
+                            VALUES (%s, %s, %s);"""
+        makeReportEntry = """INSERT INTO predictreportsentries (preportid, testtype, convernvalue) 
+                            VALUES (%d, %s, %d)"""
+        
         db = DBService()
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
         cursor.execute (findTestTypes, (patient, year))
-        testtypes = cursor.fetachall
-
+        testtypes = cursor.fetchall()
+        entryList = []
+        cursor.execute(preMakeReportQry)
+        reportID = cursor.fetchone()
+        cursor.execute(makeReportQry, (0, patient, date.today()))
+        for value in testtypes:
+            entry = PredictEntry(0, '0')
+            multiplier = 1.0
+            entry.concern = 100
+            entry.type = value
+            results = cursor.execute(getTestResults, (patient, year))
+            if results.count() == 1:
+                continue
+            if (results[0][0] < results[0][1] < results[0][2]):
+                for row in results:
+                    if not (row[0] < row[1] < row[2]):
+                     entry.concern += (25 * multiplier)
+                    else:
+                        entry.concern -= 25
+                        multiplier = (multiplier / 2)
+            elif not results[0][0] < results[0][1] < results[0][2]:
+                x = 0
+                for row in results:
+                    if x == 0:
+                        x += 1
+                        continue
+                    if not (row[0] < row[1] < row[2]):
+                        entry.concern +- (25 * multiplier)
+                    else:
+                        multiplier = multiplier/2
+            entryList.append(entry)
+        for obj in entryList:
+            cursor.exectute(makeReportEntry, (reportID, obj.type, obj.concern))
+        conn.commit()
         cursor.close()
         del cursor
+        conn.close()
     def generate_summary_report(self, year: int, month: int, userID: int):
         """
         Generates a new report.
@@ -86,7 +161,7 @@ class ReportManager:
                         AND NOT (testtypes.lowerbound < testresults.results < testtypes.upperbound )"""
         MakeReportQry     = """INSERT into summaryreport (workersid, monthoryear, summarydate, timeperiod)
                             VALUES (%s, %s, %s, %s);"""
-        PreMakeReportQry = "SELECT Auto_increment FROM information_schema.tables WHERE table_name='predictreports';"
+        PreMakeReportQry = "SELECT Auto_increment FROM information_schema.tables WHERE table_name='summaryreport';"
         MakeReportEntryQry  = "INSERT INTO summaryreportentries (sreportid, healthid, noofexams, abnormalexams) VALUES(%s, %s, %s, %s);"
        
         if month == 0:
@@ -132,6 +207,7 @@ class ReportManager:
             
         cursor.close()
         del cursor
+        conn.close()
         
 
     def remove_report(self, report_id: int, report_type: int):
@@ -159,6 +235,7 @@ class ReportManager:
 
         cursor.close()
         del cursor
+        conn.close()
         
       
 

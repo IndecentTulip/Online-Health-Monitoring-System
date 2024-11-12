@@ -98,7 +98,7 @@ create table predictreports (
 );
 
 create table predictreportsentries (
-  preportid INT primary key,
+  preportid INT,
   foreign key (preportid) references predictreports(preportid) ON DELETE CASCADE ON UPDATE CASCADE,
   testtype varchar(50) not null,
   foreign key (testtype) references testtypes(testtype) ON DELETE CASCADE ON UPDATE CASCADE,
