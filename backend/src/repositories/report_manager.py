@@ -193,7 +193,7 @@ class ReportManager:
         cursor.execute(patientQry)
         results = cursor.fetchall()
         for row in results:
-            patientIDList.append
+            patientIDList.append(row)
         # Count tests per patient, place count in separate list
         if month == 0:
              for val in patientIDList:
