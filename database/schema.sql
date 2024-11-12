@@ -121,7 +121,7 @@ create table predictreports (
 
 -- create the predictreportsentries table
 create table predictreportsentries (
-  preportid INT primary key,
+  preportid INT,
   foreign key (preportid) references predictreports(preportid),
   testtype varchar(50) not null,
   foreign key (testtype) references testtypes(testtype),
