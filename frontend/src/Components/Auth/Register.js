@@ -69,6 +69,7 @@ const Register = () => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <div className = "name">
       <input
         type="text"
         value={patientName}
@@ -76,6 +77,9 @@ const Register = () => {
         placeholder="Name"
         required
       />
+      </div>
+       
+       <div className='email'> 
       <input
         type="email"
         value={email}
@@ -83,6 +87,9 @@ const Register = () => {
         placeholder="Email"
         required
       />
+      </div>
+
+      <div className='tel'>
       <input
         type="tel"
         value={phoneNumber}
@@ -90,6 +97,9 @@ const Register = () => {
         placeholder="Phone Number"
         required
       />
+      </div>
+
+      <div className='date'>
       <input
         type="date"
         value={dob}
@@ -97,12 +107,19 @@ const Register = () => {
         placeholder="Date of Birth"
         required
       />
+      </div>
+
+      <div className='doctor'>
+
       <select onChange={(e) => setDocID(e.target.value)} required>
         <option value="">Select a Doctor</option>
         {Array.isArray(doctors_list) && doctors_list.map((doctor, index) => (
           <option key={index} value={doctor.id}>{doctor.email}</option>
         ))}
       </select>
+      </div>
+
+<div className='password'>
       <input
         type="password"
         value={password}
@@ -112,9 +129,12 @@ const Register = () => {
       />
       <button type="submit">Submit</button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
     </form>
+    
   );
 };
+
 
 export default Register;
 

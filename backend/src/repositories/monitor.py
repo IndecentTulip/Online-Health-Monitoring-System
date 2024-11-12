@@ -41,7 +41,6 @@ class Monitor:
         conn = db.get_db_connection()
         cursor = conn.cursor()
         results = cursor.execute(listmonitors)
-        conn.commit
 
         #output the results
         print(results)
@@ -61,8 +60,6 @@ class Monitor:
         cursor = conn.cursor()
         cursor.execute(modifiyMonitor)
 
-         #commit te change.
-        cursor.commit(modifiyMonitor)
         pass
 
     def remove_monitor(self, monitor_id: int):
@@ -70,7 +67,11 @@ class Monitor:
         Removes a monitor by its ID.
         """
         # Implementation for removing a monitor
-        
+        deleteMonitor = """delete from smartmonitor where monitorid = %d"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(deleteMonitor)
         pass
 
     def update_monitor_status(self, monitor_id: int):
@@ -78,5 +79,10 @@ class Monitor:
         Updates the status of a monitor by its ID.
         """
         # Implementation for updating monitor status
+        updateMonitor = """update smartmonitor set smartstatus = %s where monitorid = %d """
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(updateMonitor)
         pass
 
