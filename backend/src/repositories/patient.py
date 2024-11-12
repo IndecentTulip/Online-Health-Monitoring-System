@@ -165,40 +165,40 @@ class Patient(User):
         return info        # Assuming user is approved
 
 
-    @staticmethod
-    def get_user_record_profile() -> UserInfo:
-        # Database query to fetch patient information
-        query = """
-        SELECT *
-        FROM patient
-        WHERE healthid = %s;
-        """
-        
-        db = DBService()
-        conn = db.get_db_connection()
-        cursor = conn.cursor()
+ #   @staticmethod
+ #   def get_user_record_profile() -> UserInfo:
+ #       # Database query to fetch patient information
+ #       query = """
+ #       SELECT *
+ #       FROM patient
+ #       WHERE healthid = %s;
+ #       """
+ #       
+ #       db = DBService()
+ #       conn = db.get_db_connection()
+ #       cursor = conn.cursor()
 
-        cursor.execute(query, (id,))
-        result = cursor.fetchone()
+ #       cursor.execute(query, (id,))
+ #       result = cursor.fetchone()
 
-        cursor.close()
-        conn.close()
+ #       cursor.close()
+ #       conn.close()
 
-        patient_info = UserInfo()
+ #       patient_info = UserInfo()
 
-        if result:
-            # Create and return a UserInfo object
-            patient_info.setId(result[0])
-            patient_info.setName(result[1])
-            patient_info.setEmail(result[2])
-            patient_info.setDob(result[3])
-            patient_info.setStatus(result[4])
-            patient_info.setDoctorId(result[5])
-            patient_info.setPhone(result[6])
+ #       if result:
+ #           # Create and return a UserInfo object
+ #           patient_info.setId(result[0])
+ #           patient_info.setName(result[1])
+ #           patient_info.setEmail(result[2])
+ #           patient_info.setDob(result[3])
+ #           patient_info.setStatus(result[4])
+ #           patient_info.setDoctorId(result[5])
+ #           patient_info.setPhone(result[6])
 
-            return patient_info
-        else:
-            return patient_info
+ #           return patient_info
+ #       else:
+ #           return patient_info
 
     @staticmethod
     def get_user_record_profile(id: int) -> UserInfo:

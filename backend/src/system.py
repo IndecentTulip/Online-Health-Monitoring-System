@@ -327,7 +327,6 @@ class System:
         })
     
     def create_year_n_month_reports(self):
-    #def create_reports(self, admin: Worker):
         return jsonify({
             'temp': 'temp'
         })

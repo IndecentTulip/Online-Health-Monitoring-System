@@ -4,27 +4,21 @@ import { useNavigate } from 'react-router-dom';
 const Main = () => {
   const navigate = useNavigate();
 
-  const handleRedirect = () => {
-    navigate('/signin'); 
-  };
-
   const handleNavigation = (path) => {
     navigate(path); 
   };
 
   return (
-    <div>
-<div className = "background"></div>
-<div className="navbarname">
+  <div className = "background">
+    <div className="navbarname">
           Jlabs
-        </div>
-<nav className="navbar">
-        <button onClick={() => handleNavigation('/Main')}>Home</button>
-        <button onClick={() => handleNavigation('/register')}>Register</button>
-        <button onClick={() => handleNavigation('/signin')}>Sign In</button>
-       </nav>
+    </div>
+    <nav className="navbar">
+        <button className="register" onClick={() => handleNavigation('/register')}>Register</button>
+        <button className="signin" onClick={() => handleNavigation('/signin')}>Sign In</button>
+    </nav>
 
-       <div className="about-section"> 
+    <div className="about-section"> 
      <h1>About Us</h1>
      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
       Etiam porttitor bibendum massa, eget consectetur justo porttitor vel. 
@@ -38,8 +32,8 @@ const Main = () => {
       Sed condimentum libero id pellentesque condimentum.Etiam bibendum felis eget nulla posuere, vitae lacinia turpis convallis. 
       Sed pharetra, lectus id pretium accumsan, lacus ipsum. </p>
 
-    </div> 
-  </div>
+    </div>
+  </div> 
   );
 }
 export default Main;    
