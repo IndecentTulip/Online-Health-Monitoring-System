@@ -89,4 +89,3 @@ class Results:
         """
         # Implementation for downloading the result
         pass
-
