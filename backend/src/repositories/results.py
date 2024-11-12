@@ -7,25 +7,20 @@ class Status(Enum):
     ABNORMAL = "abnormal"
 
 class Results:
-    def __init__(self, exam_id: int, patient_id: int, test_type: str, test_date: str, status: Status, value: float):
-        self.exam_id = exam_id
+    def __init__(self, result_id: int, patient_id: int, test_type: str, test_date: str, status: Status):
+        self.result_id = result_id
         self._patient_id = patient_id  # Private attribute
         self.test_type = test_type
         self.test_date = test_date
         self.status = status
-        self.value = value
 
     @staticmethod
     def return_list_of_results():
-        """
-        Fetch all results from the testresults table.
-        """
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
         # Query to fetch all test results from the testresults table
-        print("TEST 1")
         cursor.execute("""
             SELECT testresultsid, testtype, results, resultdate 
             FROM testresults;
@@ -81,23 +76,12 @@ class Results:
         cursor.close()
         conn.close()
 
-    def modify_results(self, result: 'Results'):
+    def modify_results(self, result_id: int):
         """
         Modifies an existing result by its ID.
         """
         # Implementation for modifying results
-        db = DBService()
-        conn = db.get_db_connection()
-        cursor = conn.cursor()
-        # Implementation for adding a new result
-        updateRes = "UPDATE testresults SET result = %s WHERE testtype = %s AND examid = %s)"
-
-        cursor.execute(updateRes, (result.value, result.test_type, result.exam_id,))
-
-        cursor.commit()
-
-        cursor.close()
-        conn.close()
+        pass
 
     def download_result(self, result_id: int):
         """
@@ -105,4 +89,3 @@ class Results:
         """
         # Implementation for downloading the result
         pass
-
