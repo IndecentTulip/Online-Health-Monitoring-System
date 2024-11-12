@@ -8,10 +8,11 @@ class Status(Enum):
     INACTIVE = "inactive"
 
 class Monitor:
-    def __init__(self, monitor_id: int, patient_id: int, parameters: List[str], status: Status):
+    def __init__(self, monitor_id: int, doctor_id: int, test_to_monitor: str, status: Status, patient_id: int):
+        self.doctor_id = doctor_id
         self.monitor_id = monitor_id
         self.patient_id = patient_id
-        self.parameters = parameters
+        self.test_to_monitor = test_to_monitor
         self.status = status
 
     def create_monitor(self, new_monitor: 'Monitor'):
@@ -24,56 +25,69 @@ class Monitor:
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(createmonitor)
+        cursor.execute(createmonitor, (new_monitor.doctor_id, new_monitor.test_to_monitor, new_monitor.status, new_monitor.patient_id))
         conn.commit
+        cursor.close()
+        del cursor
+        conn.close()
 
-        pass
 
-    def return_list_of_monitors(self, email: str) -> List['Monitor']:
+    def return_list_of_monitors(self, doctor_id: int) -> List['Monitor']:
         """
         Returns a list of monitors associated with the given email.
         """
         # Implementation for returning monitors
-        listmonitors = ("""select * from smartmonitor where exist (select email from users where users.email = %s)""")
+        listmonitors = ("""SELECT monitorid, workersid, testtype, smartstatus, healthid FROM smartmonitor WHERE doctor_id = %d""")
         
         #search the database. 
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        results = cursor.execute(listmonitors)
-
+        cursor.execute(listmonitors, (doctor_id))
+        results = cursor.fetchall
+        list_Of_Monitors = []
+        for row in results:
+            list_monitor = Monitor(row[1], row[2], row[3], row[4], row[5])
+            list_Of_Monitors.append(list_monitor)
         #output the results
-        print(results)
-        
-        pass
+        cursor.close()
+        del cursor
+        conn.close()
+        return list_Of_Monitors
 
-    def modify_monitor(self, monitor_id: int):
+    def modify_monitor(self, monitor_id: int, new_status: Status, new_test: str, new_patient: int):
         """
         Modifies an existing monitor by its ID.
         """
         # Implementation for modifying a monitor
-        modifiyMonitor = """update smartmonitor set monitorid =%d, workersid = %d, examtype = %s,
-        smartstatus = %s, healtid = %d                  
-        where monitorid = %s"""
+        modifiyMonitor = """UPDATE smartmonitor SET examtype = %s,
+        smartstatus = %s, healtid = %d WHERE monitorid = %s"""
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(modifiyMonitor)
+        cursor.execute(modifiyMonitor, (new_test, new_status, new_patient))
+        conn.commit()
+        cursor.close()
+        del cursor
+        conn.close()
 
-        pass
 
     def remove_monitor(self, monitor_id: int):
         """
         Removes a monitor by its ID.
         """
         # Implementation for removing a monitor
-        deleteMonitor = """delete from smartmonitor where monitorid = %d"""
+        deleteMonitor = """DELETE FROM smartmonitor WHERE monitorid = %d"""
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(deleteMonitor)
-        pass
+        cursor.execute(deleteMonitor, (monitor_id))
+        conn.commit()
+        cursor.close()
+        del cursor
+        conn.close()
 
+    #Why is this separate from update method? Not implemented properly
     def update_monitor_status(self, monitor_id: int):
         """
         Updates the status of a monitor by its ID.
