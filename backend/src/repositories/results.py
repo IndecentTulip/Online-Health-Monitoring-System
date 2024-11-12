@@ -1,18 +1,75 @@
 from enum import Enum
 from typing import List
 from repositories.db_service import DBService
+from datetime import date
 
 class Status(Enum):
     NORMAL = "normal"
     ABNORMAL = "abnormal"
 
 class Results:
-    def __init__(self, result_id: int, patient_id: int, test_type: str, test_date: str, status: Status):
+    def __init__(self, result_id: int, test_type: str, exam_id: int, results: int, test_date: str):
         self.result_id = result_id
-        self._patient_id = patient_id  # Private attribute
+        self.exam_id = exam_id  
         self.test_type = test_type
         self.test_date = test_date
-        self.status = status
+        self.results = results
+
+    @staticmethod
+    def result_search(search_type: int, date: date, test_type: str, pat_name: str, patient_ID: int )-> List['Results']:
+     
+        # 0 = search by date  (patient)              4 = search by patient name + date (doctor)
+        # 1 = search by exam item (patient)          5 = search by name + exam item (doctor)
+        # 2 = search by abnormal results (patient)   6 = search by abnormal result (doctor)
+        # 3 = search by patient name (doctor)
+        query_0 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
+                    FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                    WHERE examtable.patientid = %d AND testresults.resultdate = %s"""
+        query_1 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
+                    FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                    WHERE examtable.patientid = %d AND testresults.testtype = %s"""
+        query_2 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
+                    FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                    LEFT JOIN testtypes ON testresults.test = testtypes.testtype
+                    WHERE examtable.patientid = %d AND NOT (testtype.lowerbound < testresults.result < testtype.upperbound)"""
+        query_3 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
+                    FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                    LEFT JOIN patient ON examtable.healthid = patient.healthid
+                    WHERE patient.patientname = %s"""
+        query_4 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
+                    FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                    LEFT JOIN patient ON examtable.healthid = patient.healthid
+                    WHERE patient.patientname = %s AND examtable.examdate = %s"""
+        query_5 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
+                    FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                    LEFT JOIN patient ON examtable.healthid = patient.healthid
+                    WHERE patient.patientname = %s AND testresults.testtype = %s"""
+        query_6 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
+                    FROM testresults LEFT JOIN testtypes ON testresults.test = testtypes.testtype
+                    WHERE NOT (testtype.lowerbound < testresults.result < testtype.upperbound)"""
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+        returnlist = []
+
+        if search_type == 0:
+            cursor.execute(query_0, (patient_ID, date))
+        elif search_type == 1:
+            cursor.execute(query_1, (patient_ID, test_type))
+        elif search_type == 2:
+            cursor.execute(query_2, (patient_ID))
+        elif search_type == 3:
+            cursor.execute(query_3, (pat_name))
+        elif search_type == 4:
+            cursor.execute(query_4, (pat_name, date))
+        elif search_type == 5:
+            cursor.execute(query_5, (pat_name, test_type))
+        elif search_type == 6:
+            cursor.execute(query_6)
+        results = cursor.fetchall
+        for row in results:
+            returnlist.append(Results(row[0], row[1], row[2], row[3], row[4]))
+        return returnlist
 
     @staticmethod
     def return_list_of_results():
@@ -22,19 +79,14 @@ class Results:
 
         # Query to fetch all test results from the testresults table
         cursor.execute("""
-            SELECT testresultsid, testtype, results, resultdate 
+            SELECT testresultsid, testtype, examid, results, resultdate
             FROM testresults;
         """)
         rows = cursor.fetchall()
 
         results = []
         for row in rows:
-            results.append({
-                'result_id': row[0],
-                'test_name': row[1],
-                'results': row[2],
-                'test_date': row[3]
-            })
+            results.append(Results(Results(row[0], row[1], row[2], row[3], row[4])))
         
         cursor.close()
         conn.close()
