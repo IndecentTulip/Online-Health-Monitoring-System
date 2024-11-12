@@ -6,31 +6,28 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-
-
 class ReportType(Enum):
     MONTHLY = "monthly"
     YEARLY = "yearly"
     PREDICTION = "prediction"
 
 class PredictEntry:
-    def __init__(self, concern: int, type: str):
+    def _init_(self, concern: int, type: str):
         self.concern = int(concern)
         self.type = type
-
 class SumEntry:
     pass
-
 class ReportManager:
-   
     def __init__(self, report_id: int, report_type: ReportType, date_created: str, content: str):
         self.report_id = report_id
         self.report_type = report_type
         self.date_created = date_created
         self.content = content
-
+    #returns list of report id's for indicated type. type=0 is summary, type=1 is predict
     def return_list_of_reports(self, type: int) -> list:
-        getReports = ""
+        """
+        Returns a list of reports of given type
+        """
         # Implementation for returning list of reports to admin
         if type == 0:
             getReports = "SELECT sreportid FROM summaryreport"
@@ -41,25 +38,30 @@ class ReportManager:
 
         cursor = conn.cursor()
         cursor.execute(getReports)
-        listofstuff = cursor.fetchall()
+        listofstuff = cursor.fetchall
         cursor.close()
         del cursor
         return listofstuff
+    #doctors can only view predict reports and only for patients assigned to them, this gives a list of reports a given doctor can access
     def return_list_of_reports_doctor(self, doctorid: int) -> list:
         getReports = """SELECT preportid FROM predictreports LEFT JOIN patient ON predictreports.healthid = patient.healthid
-                    WHERE patient.doctorid = %s"""
+                    WHERE patient.doctorid = %d"""
 
         db = DBService()
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
-        cursor.execute(getReports, (doctorid,))
+        cursor.execute(getReports, (doctorid))
         listofstuff = cursor.fetchall()
         cursor.close()
         del cursor
         return listofstuff
-    
+    #This returns a list of tuples based on report ID and type. Each tuple is just the datas stored in the respective report entries table
+    #Front-end will need to display the contents appropriately
     def return_report(self, type: int, reportID: int) -> list:
+        """
+        Returns a list of report entries based on type and reportID
+        """
         # Implementation for returning reports, 0 is summary 1 is prediction
         getEntries = ""
         if type == 0:
@@ -70,18 +72,16 @@ class ReportManager:
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
-        cursor.execute(getEntries, (reportID,))
+        cursor.execute(getEntries, (reportID))
         listofstuff = cursor.fetchall()
         cursor.close()
         del cursor
         conn.close()
         return listofstuff
-
+    #Method to generate a prediction report. patient ID and year are needed as arguments.
     def generate_predict_report (self, patient: int, year: int):
 
-        # I tired to run it, it faaild it may be becase of the syntax of a query
-        # you possible would need to use "DISTINCT testtypes.testtype" instead of "UNIQUE testypes" 
-        findTestTypes = """SELECT UNIQUE testypes FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
+        findTestTypes = """SELECT DISTINCT testypes FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
                             LEFT JOIN examtable ON testresults.examid = examtable.examid
                             WHERE examtable.healthid = %s AND NOT (testtypes.lowerbound < testresulsts.results < testtypes.upperbound) AND YEAR (testresults.resultdate) =%s"""
         getTestResults = """"SELECT results, upperbound, lowerbound FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
@@ -100,11 +100,8 @@ class ReportManager:
         testtypes = cursor.fetchall()
         entryList = []
         cursor.execute(preMakeReportQry)
-        result = cursor.fetchone()
-        if result:
-            reportID: int = result[0]
-        else:
-            raise ValueError("No report ID returned from the query.")
+        reportID = cursor.fetchone()
+        #This is not checking if report exists, this is checking what id will be given to the new report
         cursor.execute(makeReportQry, (0, patient, date.today()))
         for value in testtypes:
             entry = PredictEntry(0, '0')
@@ -118,7 +115,7 @@ class ReportManager:
             if (results[0][0] < results[0][1] < results[0][2]):
                 for row in results:
                     if not (row[0] < row[1] < row[2]):
-                        entry.concern += round((25 * multiplier))
+                        entry.concern += round(25 * multiplier)
                     else:
                         entry.concern -= 25
                         multiplier = (multiplier / 2)
@@ -129,16 +126,19 @@ class ReportManager:
                         x += 1
                         continue
                     if not (row[0] < row[1] < row[2]):
-                        entry.concern +- round((25 * multiplier))
+                        entry.concern +- round(25 * multiplier)
                     else:
                         multiplier = multiplier/2
             entryList.append(entry)
         for obj in entryList:
-            cursor.execute(makeReportEntry, (reportID, obj.type, obj.concern))
+            cursor.exectute(makeReportEntry, (reportID, obj.type, obj.concern))
         conn.commit()
         cursor.close()
         del cursor
         conn.close()
+    #method to generate a summary report. Year, month, and id of admin used as arguments.
+    #For month, 0 means it is a yearly report.
+    #Otherwise 1 indicates January, 2 February, and so on.
     def generate_summary_report(self, year: int, month: int, userID: int):
         """
         Generates a new report.
@@ -147,7 +147,7 @@ class ReportManager:
         patientIDList = []
         patientTestList = []
         patientAbTestList = []
-        today = datetime.date
+        today = datetime.date()
 
         db = DBService()
         conn = db.get_db_connection()
@@ -186,11 +186,7 @@ class ReportManager:
 
         #Fetch report number of new report, store it, then make report
         cursor.execute(PreMakeReportQry)
-        result = cursor.fetchone()
-        if result:
-            reportID: int = result[0]
-        else:
-            raise ValueError("No report ID returned from the query.")
+        reportID: int = cursor.fetchone()
         cursor.execute(MakeReportQry, (userID, mOrY, today, timeperiod))
 
         #Fetch all patients in Database, place in list
@@ -202,41 +198,39 @@ class ReportManager:
         if month == 0:
              for val in patientIDList:
                  cursor.execute(resultQryY, (val, year))
-                 result = cursor.fetchone()
-                 if result:
-                     patientTestList.append = result[0] 
+                 count = cursor.fetchone
+                 if count:
+                    patientTestList.append(count)
         else:
             for val in patientIDList:
                  cursor.execute(resultQryM, (val, month, year))
-                 result = cursor.fetchone()
-                 if result:
-                     patientTestList.append = result[0]
+                 count = cursor.fetchone
+                 if count:
+                     patientTestList.append(count)
         # Count unusual tests per patient, place in list
         if month == 0:
              for val in patientIDList:
                  cursor.execute(countQryY2, (val, year, month))
-                 result = cursor.fetchone()
-                 if result:
-                     patientTestList.append = result[0]
+                 abcount = cursor.fetchone()
+                 if abcount:
+                     patientAbTestList.append(abcount)
         else:
             for val in patientIDList:
                  cursor.execute(countQryM2, (val, year, month))
-                 result = cursor.fetchone()
-                 if result:
-                     patientTestList.append = result[0]
-
-
+                 abcount = cursor.fetchone()
+                 if abcount:
+                    patientAbTestList.append(abcount)
         #Now make individual report entries
         i = 0
         for val in patientIDList:
-            cursor.execute(MakeReportEntryQry, (reportID, val,patientTestList[i], patientAbTestList[i] ))
+            cursor.execute(MakeReportEntryQry, (reportID, val, patientTestList[i], patientAbTestList[i] ))
             i += 1
-            
+        conn.commit()
         cursor.close()
         del cursor
         conn.close()
         
-
+    #Liekevefore, delete report based on ID. type 0 = summary, type 1 = predict
     def remove_report(self, report_id: int, report_type: int):
         """
         Removes a report by its ID.
@@ -248,23 +242,23 @@ class ReportManager:
         if report_type == 0:
             deleteEnt = "DELETE FROM summaryreportentries WHERE sreportid = %s"
             deleteRep = "DELETE FROM summaryreport WHERE sreportid = %s"
-        else:
-            if report_type == 1:
-                deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = %s"
-                deleteRep = "DELETE FROM predictreports WHERE sreportid = %s"
+        elif report_type == 1:
+            deleteEnt = "DELETE FROM predictreportsentries WHERE sreportid = %s"
+            deleteRep = "DELETE FROM predictreports WHERE sreportid = %s"
 
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute(deleteEnt, (report_id,))
-        cursor.execute(deleteRep, (report_id,))
-
+        cursor.execute(deleteEnt, (report_id))
+        cursor.execute(deleteRep, (report_id))
+        conn.commit
         cursor.close()
         del cursor
         conn.close()
         
       
+
 # <><><><><><><><><><><><> EMAIL RELATED <><><><><><><><><><><><> 
 
     def send_report(self, receiver_email: str):
