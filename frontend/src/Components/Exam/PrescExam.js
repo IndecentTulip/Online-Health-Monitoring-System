@@ -105,7 +105,7 @@ const PrescExam = ({ userId }) => {
 
   return (
     <div className="presc-exam">
-      <h2 className = "PrescribeHeader">Prescribe Exam</h2>
+      <h2>Prescribe Exam</h2>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       {confirmationMessage && <div style={{ color: 'green' }}>{confirmationMessage}</div>}
 
