@@ -105,13 +105,13 @@ const PrescExam = ({ userId }) => {
 
   return (
     <div className="presc-exam">
-      <h2>Prescribe Exam</h2>
+      <h2 className = "PrescribeHeader">Prescribe Exam</h2>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       {confirmationMessage && <div style={{ color: 'green' }}>{confirmationMessage}</div>}
 
       <form onSubmit={handleSubmit}>
         <div className = "patient-id">
-          <label>Select Patient:</label>
+          <label className= "SelectPatient">Select Patient:</label>
           <select name="patientId" value={patientId} onChange={handleChange} required>
             <option value="">Select a patient</option>
             {patients.map((patient) => (
@@ -140,7 +140,7 @@ const PrescExam = ({ userId }) => {
         </div>
 
         <div className = "exam-content">
-          <label>Exam Content (Notes):</label>
+          <label classNmae = "Notes">Exam Content (Notes):</label>
           <textarea
             name="content"
             value={content}
