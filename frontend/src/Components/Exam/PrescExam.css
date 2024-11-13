@@ -8,40 +8,73 @@
 }
 .div{ 
     background-color: white;
-}
-
-.label{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    
+    float: left;
 }
 
 
 .presc-exam{
-    color: aqua;
+    color: black;
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
 }
+/*Prescribe exam header */
+.PrescribeHeader.h2{
+    color: black;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    padding: 10px 100px;
+    margin: auto;
+}
+/*Select patient label*/
+.selectPatient.label{
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+.patient-id{
+    color:black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
+
 .input[type = text]{
     width: 20%;
     font-family: Arial, Helvetica, sans-serif;
     padding-left: 12px 40px; 
+    text-align: left;
 
 }
-.patient-id{
-    color: aqua;
+
+/*Check box */
+.test-type .div{
+    color:black;
     font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    font-size: 20px;
 }
 
-.test-type{
-    color: aqua;
+/* Exam content stuff*/
+.exam-content .div{
+    color:black;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    font-size: 20px;
+}
+/*Header for the notes */
+.Notes .label{
+    color: black;
+    position: relative; 
+    text-align: justify;
 }
 
-
-.exam-content{
-    color: aqua;
-}
-
+/*Notes Area */
 .input[type = content]{
     width: 80%;
-    padding-right: 12px 60px;
+    padding: 50px 60px 75px 100px;
     font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    font-size: 20px;
 }
