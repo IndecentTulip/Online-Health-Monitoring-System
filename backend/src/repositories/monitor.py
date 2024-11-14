@@ -15,7 +15,7 @@ class Monitor:
         self.test_to_monitor = test_to_monitor
         self.status = status
     @staticmethod
-    def create_monitor(self, new_monitor: 'Monitor'):
+    def create_monitor(new_monitor: 'Monitor'):
         """
         Creates a new monitor instance.
         """
