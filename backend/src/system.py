@@ -339,7 +339,7 @@ class System:
     def get_report_content(self, reportType: int, reportID: int):
         return ReportManager.return_report(reportType, reportID)
     def create_year_n_month_reports(self):
-        ReportManager.generate_summary_report(2023, 0, 21002)
+        ReportManager.generate_summary_report(2024, 0, 21002)
         return jsonify({
             'temp': 'temp'
         })

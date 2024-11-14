@@ -183,11 +183,11 @@ class ReportManager:
         #query to get all patients
         patientQry = "SELECT HealthID FROM patient"
         # queries to count tests for patient within given timeframe.
-        resultQryY = """SELECT COUNT(results) FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+        resultQryY = """SELECT COUNT(testresults.results) FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
                          WHERE examtable.healthID = %s AND DATE_PART('year', examtable.examdate) = %s"""
         resultQryM = """SELECT COUNT(results) FROM testresults WHERE healthID = %s AND MONTH(date) = %s AND YEAR (date) = %s"""
         # queries to count abnormal tests for patient within given timeframe
-        countQryY2 = """SELECT COUNT(results) FROM testresults 
+        countQryY2 = """SELECT COUNT(testresults.results) FROM testresults 
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
                         WHERE examtable.healthid = %s AND DATE_PART ('year', examtable.examdate) = %s
@@ -229,7 +229,7 @@ class ReportManager:
         if month == 0:
              for val in patientIDList:
                  cursor.execute(resultQryY, (val, year))
-                 count = cursor.fetchone
+                 count:int  = cursor.fetchone()
                  if count:
                     patientTestList.append(count)
         else:
@@ -242,7 +242,7 @@ class ReportManager:
         if month == 0:
              for val in patientIDList:
                  cursor.execute(countQryY2, (val, year))
-                 abcount = cursor.fetchone()
+                 abcount: int = cursor.fetchone()
                  if abcount:
                      patientAbTestList.append(abcount)
         else:
@@ -257,7 +257,7 @@ class ReportManager:
             testcount: int = patientTestList[i]
             abtestcount: int = patientAbTestList[i]
             value: int = val
-            cursor.execute(MakeReportEntryQry, (reportID, value, 9, 9))
+            cursor.execute(MakeReportEntryQry, (reportID, value, patientTestList[i], patientAbTestList[i]))
             i += 1
         conn.commit()
         cursor.close()
