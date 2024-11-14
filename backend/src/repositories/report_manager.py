@@ -185,20 +185,20 @@ class ReportManager:
         # queries to count tests for patient within given timeframe.
         resultQryY = """SELECT COUNT(testresults.results) FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
                          WHERE examtable.healthID = %s AND DATE_PART('year', examtable.examdate) = %s"""
-        resultQryM = """SELECT COUNT(results) FROM testresults WHERE healthID = %s AND MONTH(date) = %s AND YEAR (date) = %s"""
+        resultQryM = """SELECT COUNT(testresults.results) FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
+                        WHERE examtable.healthID = %s AND DATE_PART('month', examtable.examdate) = %s AND DATE_PART('year', examtable.examdate) = %s"""
         # queries to count abnormal tests for patient within given timeframe
         countQryY2 = """SELECT COUNT(testresults.results) FROM testresults 
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
                         WHERE examtable.healthid = %s AND DATE_PART ('year', examtable.examdate) = %s
-                        AND NOT ((testtypes.lowerbound < testresults.results) AND (testresults.results < testtypes.upperbound ))"""
+                        AND ((testtypes.lowerbound < testresults.results) AND (testresults.results < testtypes.upperbound ))"""
         
-        countQryM2 = """SELECT COUNT(results)
-                        FROM testresults 
+        countQryM2 = """SELECT COUNT(testresults.results)FROM testresults 
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
-                        WHERE examtable.healthid =%s AND YEAR (testresults.resultdate) =%s AND MONTH(testresults.resultdate) =%s
-                        AND NOT (testtypes.lowerbound < testresults.results < testtypes.upperbound )"""
+                        WHERE examtable.healthid =%s AND DATE_PART ('year', examtable.examdate) =%s AND DATE_PART('month', examtable.examdate) =%s
+                        AND ((testtypes.lowerbound < testresults.results) AND (testresults.results < testtypes.upperbound ))"""
         MakeReportQry     = """INSERT into summaryreport (sreportid, workersid, monthoryear, summarydate, timeperiod)
                             VALUES (%s, %s, %s, %s, %s);"""
         PreMakeReportQry = "        Select nextval(pg_get_serial_sequence('summaryreport', 'sreportid')) as new_id;"
@@ -229,13 +229,13 @@ class ReportManager:
         if month == 0:
              for val in patientIDList:
                  cursor.execute(resultQryY, (val, year))
-                 count:int  = cursor.fetchone()
+                 count: int  = cursor.fetchone()
                  if count:
                     patientTestList.append(count)
         else:
             for val in patientIDList:
                  cursor.execute(resultQryM, (val, month, year))
-                 count = cursor.fetchone
+                 count: int = cursor.fetchone()
                  if count:
                      patientTestList.append(count)
         # Count unusual tests per patient, place in list
@@ -248,7 +248,7 @@ class ReportManager:
         else:
             for val in patientIDList:
                  cursor.execute(countQryM2, (val, year, month))
-                 abcount = cursor.fetchone()
+                 abcount: int = cursor.fetchone()
                  if abcount:
                     patientAbTestList.append(abcount)
         #Now make individual report entries
