@@ -57,7 +57,7 @@ class ReportManager:
     @staticmethod
     def return_list_of_reports_doctor(doctorid: int) -> list:
         getReports = """SELECT preportid FROM predictreports LEFT JOIN patient ON predictreports.healthid = patient.healthid
-                    WHERE patient.doctorid = %d"""
+                    WHERE patient.doctorid = %s"""
 
         db = DBService()
         conn = db.get_db_connection()
