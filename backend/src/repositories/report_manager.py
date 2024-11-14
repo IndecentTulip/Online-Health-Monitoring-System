@@ -104,15 +104,15 @@ class ReportManager:
 
         findTestTypes = """SELECT DISTINCT testypes FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
                             LEFT JOIN examtable ON testresults.examid = examtable.examid
-                            WHERE examtable.healthid = %s AND NOT (testtypes.lowerbound < testresulsts.results < testtypes.upperbound) AND YEAR (testresults.resultdate) =%s"""
+                            WHERE examtable.healthid = %s AND NOT (testtypes.lowerbound < testresulsts.results < testtypes.upperbound) AND DATE_PART ('year', examtable.examdate) = %s"""
         getTestResults = """"SELECT results, upperbound, lowerbound FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
-                             WHERE examtable.healthid = %s AND YEAR (testresults.resultdate) =%s ORDER BY testresults.resultdate DESC"""
-        preMakeReportQry = "SELECT Auto_increment FROM information_schema.tables WHERE table_name='predictreports';"
+                             WHERE examtable.healthid = %s AND DATE_PART ('year', examtable.examdate) = %s ORDER BY examtable.examdate DESC"""
+        preMakeReportQry = "SELECT nextval(pg_get_serial_squence('predictreports', 'preportid')) as new_id"
         makeReportQry     = """INSERT into predictreports (workersid, healthid, pdate)
                             VALUES (%s, %s, %s);"""
         makeReportEntry = """INSERT INTO predictreportsentries (preportid, testtype, convernvalue) 
-                            VALUES (%d, %s, %d)"""
-        
+                            VALUES (%s, %s, %s)"""
+
         db = DBService()
         conn = db.get_db_connection()
 
