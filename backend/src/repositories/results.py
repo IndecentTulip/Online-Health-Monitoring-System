@@ -66,7 +66,7 @@ class Results:
             cursor.execute(query_5, (pat_name, test_type))
         elif search_type == 6:
             cursor.execute(query_6)
-
+        results = cursor.fetchall()
         for row in results:
             returnlist.append(Results(row[0], row[1], row[2], row[3], row[4]))
         return returnlist
