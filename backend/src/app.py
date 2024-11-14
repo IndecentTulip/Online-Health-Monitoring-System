@@ -207,7 +207,7 @@ def add_worker():
 def delete_worker():
     data = request.get_json()
     worker_id = data.get('worker_id')
-    
+
     if not worker_id:
         return jsonify({'error': 'Worker ID is required'}), 400
 
@@ -405,12 +405,30 @@ def delete_result():
 @app.route('/yearreports/fetch', methods=['GET'])
 def get_yearreports():
     reports = system.view_year_n_month_reports()  # Assuming this method fetches the reports from DB
-    return reports
-    #return jsonify({'temp': 'Not implemented'}), 404
+    #return reports
+    return jsonify(reports)
+
+@app.route('/yearreports/fetchcontent', methods=['GET'])
+def get_yearreport_content():
+    report_id = request.args.get('ReportID')
+    reports = system.get_report_content(0, report_id)
+    return jsonify(reports)
+
+@app.route('/yearreports/delete', methods=['DELETE'])
+def delete_report():
+    
+    report_id = request.json.get('ReportId')
+    #try:
+    system.delete_report(report_id, 0)
+    return jsonify ({'message': 'Report deleted'}), 200
+    #except Exception as e:
+    #return jsonify ({'error': str(e)}), 500
 
 # Add new year and month report
 @app.route('/yearreports/new', methods=['POST'])
 def post_yearreport():
+    system.create_year_n_month_reports()
+    return jsonify({'message': 'report added'})
     data = request.get_json()
     workersid = data.get('workersid')
     monthoryear = data.get('monthoryear')
@@ -439,7 +457,7 @@ def get_pat_for_doc_for_predict():
 @app.route('/predict/fetch', methods=['GET'])
 def get_predict():
     reports = system.view_predict_reports()  # Assuming this returns a list of prediction reports
-    return reports
+    #return reports
     #return jsonify({'temp': 'Not implemented'}), 404
 
 # Add a new prediction report

@@ -1,115 +1,155 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const YearNMonth = ({ userId }) => {
-  const [reports, setReports] = useState([]);
-  const [patients, setPatients] = useState([]);
+const SumReport = ({ userId }) => {
+  const [reports, setreports] = useState([]);
+  const [currentReport, setCurrentReport] = useState({
+  monthoryear: 'test',
+  sreportid: 1,
+  summarydate:'hello',
+  timeperiod:'today',
+  workersid:'99',  
+  });
+  const [reportContent, setReportContent] = useState([{
+    abnormalexams:	5,
+    healthid:	10031,
+    noofexams:	5
+  }]);
   const [newReport, setNewReport] = useState({
-    workersid: '',
-    monthoryear: 'month', // default to 'month'
-    summarydate: '',
-    timeperiod: '',
+    year: '',
+    month: '',
+
   });
   const [error, setError] = useState('');
 
-  // Fetch year/month reports and patients assigned to the doctor
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch year/month reports
-        const reportResponse = await axios.get('http://localhost:5000/yearreports/fetch');
-        setReports(reportResponse.data);
-
-      } catch (err) {
-        setError('Failed to fetch data');
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // Handle creating a new year/month report
-  const handleCreateReport = async () => {
+  // Function to fetch reports and patients data from the backend
+  const fetchReports = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/yearreports/new', newReport);
-      if (response.status === 201) {
-        setReports([...reports, response.data.report]);
-        setNewReport({ workersid: '', monthoryear: 'month', summarydate: '', timeperiod: '' });
-      }
+      const Response = await axios.get('http://localhost:5000//yearreports/fetch');
+      setreports(Response.data);
+      setError("SUCCESS!")
+
     } catch (err) {
-      setError('Failed to create year/month report');
+
+      setError('Failed to fetch reports and patients');
     }
   };
 
+  // Fetch data when the component mounts
+  useEffect(() => {
+    fetchReports();
+  }, []);
+
+  const handleViewReport = async (input) => {
+    setCurrentReport(input)
+    fetchReportContent(input.sreportid)
+    setError('work dammit')
+  }
+
+  const handleCreateReport = async () => {
+
+      const Response = await axios.post('http://localhost:5000/yearreports/new')
+    
+
+  }
+  const fetchReportContent = async (input) => {
+    try{
+      const Response = await axios.get('http://localhost:5000/yearreports/fetchcontent', {
+        params: {ReportID: input}
+      });
+      setReportContent(Response.data)
+    } catch (err) {
+      setError('oops')
+    }
+  }
+  const handleDeleteReport = async (ReportId) => {
+    try {
+      const response = await axios.delete('http://localhost:5000/yearreports/delete', {
+        data: { ReportId: ReportId},
+      });
+
+      if (response.status === 200) {
+        fetchReports(); // Refetch workers after deletion
+        setError('Hmmmm')
+      }
+    } catch (err) {
+      setError('Failed to delete Report');
+    }
+  };
+
+
+
   return (
     <div>
-      <h2>Year and Month Reports</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <h2>Manage Summary Reports</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      <h3>Add Report</h3>
+        <form onSubmit={handleCreateReport()}>
+          <input
+            type="number"
+            value={newReport.year}
+            onChange={(e) => setNewReport({ ...newReport, year: e.target.value })}
+            placeholder="year"
+            required
+          />
 
-      <h3>Year/Month Reports</h3>
-      <ul>
-{/*
-        {reports.length > 0 ? (
-          reports.map((report) => (
-            <li key={report.sreportid}>
-              <p>Report ID: {report.sreportid}</p>
-              <p>Doctor ID: {report.workersid}</p>
-              <p>Month/Year: {report.monthoryear}</p>
-              <p>Summary Date: {report.summarydate}</p>
-              <p>Time Period: {report.timeperiod}</p>
-            </li>
-          ))
-        ) : (
-          <p>No year/month reports available</p>
-        )}
-*/}
-      </ul>
+          <select
+            value={newReport.month}
+            onChange={(e) => setNewReport({ ...newReport, month: e.target.value })}
+            required
+          >
+            <option value ="0">Whole Year</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+            </select>
+          <button type="submit">Generate Report</button>
+        </form>
+      <p>{currentReport.monthoryear}, {currentReport.sreportid}, {currentReport.summarydate}, {currentReport.timeperiod}</p>
+      {reportContent.length > 0 ? (
+            reportContent.map((Entry) => (
+              <li key={Entry.healthid}>
+                <p>{Entry.healthid}, {Entry.noofexams}, {Entry.abnormalexams}</p>
 
-      <h3>Create New Year/Month Report</h3>
+
+              </li>
+            ))
+          ) : (
+            <p>No entries available</p>
+          )}
       <div>
-        <label>Doctor:</label>
-        <select
-          value={newReport.workersid}
-          onChange={(e) => setNewReport({ ...newReport, workersid: e.target.value })}
-        >
-          <option value="">Select Doctor</option>
-{/*
-          {patients.map((patient) => (
-            <option key={patient.healthid} value={patient.workersid}>
-              {patient.worker_name}
-            </option>
-          ))}
-*/}
-        </select>
+        <h3>Existing reports</h3>
+        <ul>
+          {reports.length > 0 ? (
+            reports.map((Report) => (
+              <li key={Report.sreportid}>
+                <p>{Report.sreportid}, {Report.monthoryear}, </p>
 
-        <label>Month or Year:</label>
-        <select
-          value={newReport.monthoryear}
-          onChange={(e) => setNewReport({ ...newReport, monthoryear: e.target.value })}
-        >
-          <option value="month">Month</option>
-          <option value="year">Year</option>
-        </select>
+                <button onClick={() => handleDeleteReport(Report.sreportid)}>Delete Report</button>
+                <button onClick={() => handleViewReport(Report)}>View Report</button>
+              </li>
+            ))
+          ) : (
+            <p>No reports available</p>
+          )}
+        </ul>
 
-        <label>Summary Date:</label>
-        <input
-          type="date"
-          value={newReport.summarydate}
-          onChange={(e) => setNewReport({ ...newReport, summarydate: e.target.value })}
-        />
-
-        <label>Time Period:</label>
-        <input
-          type="text"
-          value={newReport.timeperiod}
-          onChange={(e) => setNewReport({ ...newReport, timeperiod: e.target.value })}
-        />
-
-        <button onClick={handleCreateReport}>Create Report</button>
+        
       </div>
+
+
     </div>
   );
 };
 
-export default YearNMonth;
+export default SumReport;
 

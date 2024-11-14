@@ -14,6 +14,7 @@ from repositories.session_manager import SessionManager
 from repositories.workers import Worker
 from repositories.user import UserInfo
 from datetime import datetime
+from repositories.report_manager import ReportManager
 
 class System:
     # def __init__(self):
@@ -322,11 +323,23 @@ class System:
        
    
     def view_year_n_month_reports(self):
+        try:
+            return ReportManager.return_list_of_reports(0)
+        except Exception as e:
+            raise Exception(f"Error fetching reports for  {str(e)}")   
         return jsonify({
-            'temp': 'temp'
+            report_manager.return_list_of_reports(0)
         })
-    
+    def delete_report(self, reportID: int, reportType: int):
+       # try:
+            ReportManager.remove_report(reportID, reportType)
+        #except Exception as e:
+           # raise Exception("Error deleting report")
+        
+    def get_report_content(self, reportType: int, reportID: int):
+        return ReportManager.return_report(reportType, reportID)
     def create_year_n_month_reports(self):
+        ReportManager.generate_summary_report(2024, 0, 21002)
         return jsonify({
             'temp': 'temp'
         })
