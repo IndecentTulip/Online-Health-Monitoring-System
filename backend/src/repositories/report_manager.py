@@ -191,7 +191,7 @@ class ReportManager:
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
                         WHERE examtable.healthid = %s AND DATE_PART ('year', examtable.examdate) = %s
-                        AND NOT ((testtypes.lowerbound < testresults.results) AND (testresults.results < testtypes.upperbound ))"""
+                        AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))"""
         
         countQryM2 = """SELECT COUNT(results)
                         FROM testresults 
