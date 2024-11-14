@@ -207,7 +207,7 @@ def add_worker():
 def delete_worker():
     data = request.get_json()
     worker_id = data.get('worker_id')
-    return jsonify(), 200
+
     if not worker_id:
         return jsonify({'error': 'Worker ID is required'}), 400
 
