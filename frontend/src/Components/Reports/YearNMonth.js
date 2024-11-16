@@ -16,9 +16,8 @@ const SumReport = ({ userId }) => {
     noofexams:	5
   }]);
   const [newReport, setNewReport] = useState({
-    year: '',
-    month: '',
-
+    year: 0,
+    month: 0
   });
   const [error, setError] = useState('');
 
@@ -43,13 +42,19 @@ const SumReport = ({ userId }) => {
   const handleViewReport = async (input) => {
     setCurrentReport(input)
     fetchReportContent(input.sreportid)
-    setError('work dammit')
+    setError('working')
   }
 
   const handleCreateReport = async () => {
+      const newData = {
+        month: newReport.month,
+        year: newReport.year,
+        userID: userId
+      };
 
-      const Response = await axios.post('http://localhost:5000/yearreports/new')
-    
+      const Response = await axios.post('http://localhost:5000/yearreports/new', newData)
+     
+      fetchReports()
 
   }
   const fetchReportContent = async (input) => {
@@ -57,7 +62,10 @@ const SumReport = ({ userId }) => {
       const Response = await axios.get('http://localhost:5000/yearreports/fetchcontent', {
         params: {ReportID: input}
       });
+      
       setReportContent(Response.data)
+
+      
     } catch (err) {
       setError('oops')
     }
@@ -84,7 +92,7 @@ const SumReport = ({ userId }) => {
       <h2>Manage Summary Reports</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
       <h3>Add Report</h3>
-        <form onSubmit={handleCreateReport()}>
+        
           <input
             type="number"
             value={newReport.year}
@@ -112,13 +120,16 @@ const SumReport = ({ userId }) => {
             <option value="11">November</option>
             <option value="12">December</option>
             </select>
-          <button type="submit">Generate Report</button>
-        </form>
-      <p>{currentReport.monthoryear}, {currentReport.sreportid}, {currentReport.summarydate}, {currentReport.timeperiod}</p>
+          <button onClick={() => handleCreateReport()}>
+            Generate Report
+          </button>
+          <p>{newReport.month}, {newReport.year}</p>
+      <h3>Current Report</h3>
+      <p> Report ID: {currentReport.sreportid} Report Type: {currentReport.monthoryear} Date Generated: {currentReport.summarydate} Time Period: {currentReport.timeperiod}</p>
       {reportContent.length > 0 ? (
-            reportContent.map((Entry) => (
+            reportContent.map((Entry)  => (
               <li key={Entry.healthid}>
-                <p>{Entry.healthid}, {Entry.noofexams}, {Entry.abnormalexams}</p>
+                <p>Patient ID: {Entry.healthid} No. of Tests: {Entry.noofexams} No of Abnormal Tests: {Entry.abnormalexams}  {(Entry.abnormalexams/(Entry.noofexams  + 0.0000000001) * 100).toFixed(1)}% Abnormal</p>
 
 
               </li>
@@ -132,7 +143,7 @@ const SumReport = ({ userId }) => {
           {reports.length > 0 ? (
             reports.map((Report) => (
               <li key={Report.sreportid}>
-                <p>{Report.sreportid}, {Report.monthoryear}, </p>
+                <p>Report ID: {Report.sreportid} Type: {Report.monthoryear} </p>
 
                 <button onClick={() => handleDeleteReport(Report.sreportid)}>Delete Report</button>
                 <button onClick={() => handleViewReport(Report)}>View Report</button>

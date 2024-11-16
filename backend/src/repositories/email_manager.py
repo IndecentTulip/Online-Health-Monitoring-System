@@ -6,7 +6,7 @@ class EmailManager:
         # Implementation for sending a notification
         pass
 
-    def send_report(self, report: 'ReportManager', email: str):
+    #def send_report(self, report: 'ReportManager', email: str):
         """
         Sends a report to the specified email.
         """

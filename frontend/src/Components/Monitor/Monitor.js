@@ -7,7 +7,13 @@ const Monitor = ({ userId }) => {
   const [examItems, setExamItems] = useState([]);  // List of exam types for dropdown
   const [newExamType, setNewExamType] = useState('');  // New exam type for creating a monitor
   const [newSmartStatus, setNewSmartStatus] = useState('');  // New smart status for creating a monitor
-  const [selectedMonitor, setSelectedMonitor] = useState(null);  // Monitor to be updated
+  const [selectedMonitor, setSelectedMonitor] = useState({
+    monitorid: 0,
+    workersid: userId,
+    testtype: 'fake',
+    smartstatus: 'null',
+    healthid: 66
+    });  // Monitor to be updated
   const [patients, setPatients] = useState([]);  // List of patients for selecting healthid
   const [error, setError] = useState(null);  // Error handling
   const [successMessage, setSuccessMessage] = useState('');  // Success message
@@ -15,7 +21,8 @@ const Monitor = ({ userId }) => {
   // Fetch monitors
   const fetchMonitors = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/monitor/fetch');
+      const response = await axios.get('http://localhost:5000/monitor/fetch', {
+        params: {userId: userId}})
       setMonitors(response.data);  // Store the fetched monitors in state
     } catch (err) {
       setError('Failed to fetch monitors');
@@ -37,7 +44,7 @@ const Monitor = ({ userId }) => {
   // Fetch available exam items for the dropdown
   const fetchExamItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/exam/fetch');
+      const response = await axios.get('http://localhost:5000/exam/fetch_test_types');
       setExamItems(response.data);  // Store the fetched exam items in state
     } catch (err) {
       setError('Failed to load exam items');
@@ -45,19 +52,18 @@ const Monitor = ({ userId }) => {
   };
 
   // Handle adding a new monitor
-  const handleAddMonitor = async (e) => {
-    e.preventDefault();
+  const handleAddMonitor = async () => {
+
     try {
       const monitorData = {
-        examtype: newExamType,
-        smartstatus: newSmartStatus,
-        healthid: selectedMonitor ? selectedMonitor.healthid : null,  // Assuming we select patient from dropdown
+        testtype: selectedMonitor.testtype,
+        smartstatus: selectedMonitor.smartstatus,
+        healthid: selectedMonitor.healthid,
+        workersid: selectedMonitor.workersid  
       };
       await axios.post('http://localhost:5000/monitor/new', monitorData);
       setSuccessMessage('Monitor added successfully!');
-      setNewExamType('');
-      setNewSmartStatus('');
-      setSelectedMonitor(null);
+
       fetchMonitors();  // Refresh the monitor list
     } catch (err) {
       setError('Failed to add monitor');
@@ -66,36 +72,38 @@ const Monitor = ({ userId }) => {
 
   // Handle deleting a monitor
   const handleDeleteMonitor = async (monitorId) => {
-    try {
+    
       await axios.delete('http://localhost:5000/monitor/del', {
-        data: { monitor_id: monitorId },
+        data: { monitorId: monitorId},
       });
       setSuccessMessage('Monitor deleted successfully!');
       fetchMonitors();  // Refresh the monitor list
-    } catch (err) {
-      setError('Failed to delete monitor');
-    }
+    
   };
 
   // Handle updating a monitor
-  const handleUpdateMonitor = async (e) => {
-    e.preventDefault();
+  const handleUpdateMonitor = async () => {
+   try{
+      var monitorData = {
+        testtype: selectedMonitor.testtype,
+        smartstatus: selectedMonitor.smartstatus,
+        healthid: selectedMonitor.healthid, 
+        monitorid: selectedMonitor.monitorid
+      }
+    }
+    catch {
+      setSuccessMessage('error?')
+    }
     try {
-      await axios.patch('http://localhost:5000/monitor/update', {
-        monitorid: selectedMonitor.monitorid,
-        examtype: newExamType,
-        smartstatus: newSmartStatus,
-        healthid: selectedMonitor.healthid,
-      });
+      await axios.patch('http://localhost:5000/monitor/update', monitorData);
+      
       setSuccessMessage('Monitor updated successfully!');
-      setNewExamType('');
-      setNewSmartStatus('');
-      setSelectedMonitor(null);
       fetchMonitors();  // Refresh the monitor list
-    } catch (err) {
+    }
+     catch (err) {
       setError('Failed to update monitor');
     }
-  };
+  }
 
   // Fetch monitors, patients, and exam items on component mount
   useEffect(() => {
@@ -113,35 +121,21 @@ const Monitor = ({ userId }) => {
       {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
 
       {/* Form to add or update monitor */}
-      <form onSubmit={selectedMonitor ? handleUpdateMonitor : handleAddMonitor}>
+      <p>{selectedMonitor.monitorid} {selectedMonitor.workersid} {selectedMonitor.testtype} {selectedMonitor.smartstatus} {selectedMonitor.healthid}</p>
         <div>
           <label>
-            Exam Type:
+            Test Type:
             <select
-              value={newExamType}
-              onChange={(e) => setNewExamType(e.target.value)}
-              required
+              
+              onChange={(e) => setSelectedMonitor({...selectedMonitor, testtype: e.target.value})}
+              
             >
-              <option value="">Select Exam Type</option>
+              <option value="">Select Test Type</option>
               {examItems.map((item, index) => (
-                <option key={index} value={item.examtype}>
-                  {item.examtype}
+                <option key={index} value={item.testtype}>
+                  {item.testtype}
                 </option>
               ))}
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-            Smart Status:
-            <select
-              value={newSmartStatus}
-              onChange={(e) => setNewSmartStatus(e.target.value)}
-              required
-            >
-              <option value="">Select Status</option>
-              <option value="sent">Sent</option>
-              <option value="not sent">Not Sent</option>
             </select>
           </label>
         </div>
@@ -155,15 +149,50 @@ const Monitor = ({ userId }) => {
             >
               <option value="">Select Patient</option>
               {patients.map((patient) => (
-                <option key={patient.healthid} value={patient.healthid}>
-                  {patient.name} (ID: {patient.healthid})
+                <option key={patient.id} value={patient.id}>
+                  {patient.name}
                 </option>
               ))}
             </select>
           </label>
         </div>
-        <button type="submit">{selectedMonitor ? 'Update Monitor' : 'Add Monitor'}</button>
-      </form>
+        <div>
+          <label>
+            Smart Status:
+            <select
+              onChange={(e) => setSelectedMonitor({...selectedMonitor, smartstatus: e.target.value})}
+              required
+            >
+              <option value="">Select Status</option>
+              <option value="sent">Sent</option>
+              <option value="not sent">Not Sent</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>
+            Monitor:
+            <select
+              onChange={(e) => setSelectedMonitor({ ...selectedMonitor, monitorid: e.target.value })}
+              value={selectedMonitor ? selectedMonitor.monitorid : ''}
+              required
+            >
+              <option value="">Select Monitor</option>
+              {monitors.map((monitor) => (
+                <option key={monitors.monitorid} value={monitors.monitorid}>
+                  {monitor.monitorid}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <button onClick={() => handleAddMonitor() }>
+            Create Monitor
+          </button>
+          <button onClick={() => handleUpdateMonitor()}>
+            Update Monitor
+          </button>
+ 
 
       {/* List of monitors */}
       <h3>Monitors List</h3>
@@ -174,10 +203,9 @@ const Monitor = ({ userId }) => {
           {monitors.map((monitor) => (
             <li key={monitor.monitorid}>
               <p><strong>Monitor ID:</strong> {monitor.monitorid}</p>
-              <p><strong>Exam Type:</strong> {monitor.examtype}</p>
+              <p><strong>Exam Type:</strong> {monitor.testtype}</p>
               <p><strong>Status:</strong> {monitor.smartstatus}</p>
               <p><strong>Patient ID:</strong> {monitor.healthid}</p>
-              <button onClick={() => setSelectedMonitor(monitor)}>Update</button>
               <button onClick={() => handleDeleteMonitor(monitor.monitorid)}>Delete</button>
             </li>
           ))}
