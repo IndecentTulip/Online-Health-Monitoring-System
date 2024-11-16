@@ -64,8 +64,9 @@ class ReportManager:
         return results
     #doctors can only view predict reports and only for patients assigned to them, this gives a list of reports a given doctor can access
     @staticmethod
-    def return_list_of_reports_doctor(doctorid: int) -> list:
-        getReports = """SELECT preportid FROM predictreports LEFT JOIN patient ON predictreports.healthid = patient.healthid
+    def return_list_of_reports_doctor(doctorid: int):
+        getReports = """SELECT predictreports.preportid, predictreports.workersid, predictreports.healthid, predictreports.pdate
+                    FROM predictreports LEFT JOIN patient ON predictreports.healthid = patient.healthid
                     WHERE patient.doctorid = %s"""
 
         db = DBService()
@@ -74,9 +75,15 @@ class ReportManager:
         cursor = conn.cursor()
         cursor.execute(getReports, (doctorid,))
         listofstuff = cursor.fetchall()
+        results = [{
+                'preportid': row[0],
+                'workersid': row[1],
+                'healthid': row[2],
+                'pdate': row[3]
+            } for row in listofstuff] 
         cursor.close()
         del cursor
-        return listofstuff
+        return results
     #This returns a list of tuples based on report ID and type. Each tuple is just the datas stored in the respective report entries table
     #Front-end will need to display the contents appropriately
     @staticmethod
@@ -226,7 +233,7 @@ class ReportManager:
                         LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype 
                         LEFT JOIN examtable ON testresults.examid = examtable.examid
                         WHERE examtable.healthid =%s AND DATE_PART ('year', examtable.examdate) =%s AND DATE_PART('month', examtable.examdate) =%s
-                        AND ((testtypes.lowerbound < testresults.results) AND (testresults.results < testtypes.upperbound ))"""
+                        AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))"""
         MakeReportQry     = """INSERT into summaryreport (sreportid, workersid, monthoryear, summarydate, timeperiod)
                             VALUES (%s, %s, %s, %s, %s);"""
         PreMakeReportQry = "        Select nextval(pg_get_serial_sequence('summaryreport', 'sreportid')) as new_id;"

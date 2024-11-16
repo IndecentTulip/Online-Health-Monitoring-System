@@ -6,7 +6,7 @@ import MainContence from '../Profile/MainContence';
 import TestResultsDoctor from '../Results/TestResultsDoctor';
 import PrescExam from '../Exam/PrescExam';
 import Monitor from '../Monitor/Monitor';
-
+import DocPredict from '../Reports/DocPredict';
 
 const DoctorMain = () => {
   const [activeTab, setActiveTab] = useState('main');
@@ -44,6 +44,12 @@ const DoctorMain = () => {
         >
           Manage Smart Monitor
         </div>
+        <div
+          className={`dtab ${activeTab === 'docpredict' ? 'active' : ''}`}
+          onClick={() => setActiveTab('docpredict')}
+        >
+          View Predict Reports
+        </div>
 
       </div>
 
@@ -54,6 +60,7 @@ const DoctorMain = () => {
         {activeTab === 'test' && <TestResultsDoctor userId={userId} />}
         {activeTab === 'prescexam' && <PrescExam userId={userId} />}
         {activeTab === 'monitor' && <Monitor userId={userId} />}
+        {activeTab === 'docpredict' && <DocPredict userId={userId} />}
       </div>
     </div>
   );

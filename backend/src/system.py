@@ -7,6 +7,7 @@ from repositories import user
 from repositories.exam import Exam
 from repositories.patient import Patient;
 from typing import List
+from repositories.monitor import Monitor
 
 from flask import Flask, request, jsonify
 from repositories.results import Results
@@ -333,7 +334,9 @@ class System:
     def view_predict_reports(self):
 
             return ReportManager.return_list_of_reports(1)
- 
+    
+    def view_doc_predict_reports(self, docID):
+        return ReportManager.return_list_of_reports_doctor(docID)
 
     def delete_report(self, reportID: int, reportType: int,):
        # try:
@@ -364,27 +367,31 @@ class System:
 #            'temp': 'temp'
 #        })
 
-    def view_smart_monitor(self):
-        return jsonify({
+    def view_smart_monitor(self, doctor_id: int):
+        return Monitor.return_list_of_monitors(doctor_id)
+        jsonify({
             'temp': 'temp'
         })
 
-    def create_smart_monitor(self):
+    def create_smart_monitor(self, doctor_id: int, test_to_monitor: str, status: str, patient_id: int):
     #def create_smart_monitor(self, doctor: Worker, options: List[str]):
+        Monitor.create_monitor(doctor_id, test_to_monitor, status, patient_id)
         return jsonify({
             'temp': 'temp'
         })
  
     
-    def change_smart_monitor(self):
+    def change_smart_monitor(self, monitor_id: int, new_status: str, new_test: str, new_patient: int):
     #def change_smart_monitor(self, doctor: Worker, options: List[str]):
+        Monitor.modify_monitor(monitor_id, new_status, new_test, new_patient)
         return jsonify({
             'temp': 'temp'
         })
  
-    def delete_smart_monitor(self):
+    def delete_smart_monitor(self, monitor_id: int):
     #def delete_smart_monitor(self, monitor_id: int):
-         return jsonify({
+        Monitor.remove_monitor(monitor_id)
+        return jsonify({
             'temp': 'temp'
         })
     

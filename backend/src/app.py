@@ -475,35 +475,19 @@ def post_predictreport():
     system.create_predict_reports(year, userID, admin)
     return jsonify({'message': 'report added'})
 
-# Add a new prediction report
-@app.route('/predict/new', methods=['POST'])
-def post_predict():
-    data = request.get_json()
-    workersid = data.get('workersid')
-    healthid = data.get('healthid')
-    pdate = data.get('pdate')
-    
-    if not workersid or not healthid or not pdate:
-        return jsonify({'error': 'Missing data'}), 400
 
-    system.create_predict_reports()  # Assuming this method exists
-    return jsonify({'message': 'Prediction report created successfully'}), 201
 
 # Get patients for a doctor
 @app.route('/predict/doc', methods=['GET'])
-def get_pat_for_doc():
-    id =0
-    patients = system.doctors_patients(id)  # Assuming this method fetches patients for the doctor
-    return  patients
-    #return jsonify({'temp': 'Not implemented'}), 404
+def get_predict_for_doc():
+    #data = request.get.json()
+    #id = data.get('ID')
+    #reports = system.view_doc_predict_reports(21004)  # Assuming this method fetches patients for the doctor
+    #return  jsonify(reports), 200
+    return jsonify({'temp': 'Not implemented'}), 200
 
 # Fetch all exam types
-@app.route('/predict/exam/fetch', methods=['GET'])
-def get_exams_for_predict():
-    #exams = system.view_exam(
-#return exams
-    #return jsonify({'temp': 'Not implemented'}), 404
-    pass
+
 
 # <><><><><><><> REPORTS <><><><><><><><><>
 
@@ -512,27 +496,40 @@ def get_exams_for_predict():
 # display Monitor
 @app.route('/monitor/fetch', methods=['GET'])
 def get_monitors():
-    system.view_smart_monitor()
-    return jsonify({'temp': 'Not implemented'}), 404
+    doctor_id = request.args.get('userId')
+    monitors = system.view_smart_monitor(doctor_id)
+    return jsonify(monitors), 200
 
 # add Monitor
 @app.route('/monitor/new', methods=['POST'])
 def post_monitor():
-    system.create_smart_monitor()
-    return jsonify({'temp': 'Not implemented'}), 404
+    data = request.get_json()
+    testtype = data.get('testtype')
+    healthid = data.get('healthid')
+    workerid = data.get('workersid')
+    smartstatus = data.get('smartstatus')
+    system.create_smart_monitor(workerid, testtype, smartstatus, healthid)
+    return jsonify({'temp': 'Not implemented'}), 200
 
 # delete Monitor
 @app.route('/monitor/del', methods=['DELETE'])
 def delete_monitor():
-    system.delete_smart_monitor()
-    return jsonify({'temp': 'Not implemented'}), 404
+    monitor_id = request.json.get('monitorId')
+    system.delete_smart_monitor(monitor_id)
+    return jsonify({'temp': 'Not implemented'}), 200
 
 # edit Monitor
 @app.route('/monitor/update', methods=['PATCH'])
 def patch_monitor():
-    system.change_smart_monitor()
-    return jsonify({'temp': 'Not implemented'}), 404
+    data = request.get_json()
 
+    testtype = data.get('testtype')
+    healthid = data.get('healthid')
+    smartstatus = data.get('smartstatus')
+    monitorid = data.get('monitorid')
+
+    system.change_smart_monitor(monitorid, smartstatus, testtype, healthid)
+    return jsonify({'temp': 'Not implemented'}), 200
 
 # <><><><><><><> MONITOR <><><><><><><><><>
 
