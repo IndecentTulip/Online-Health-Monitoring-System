@@ -330,7 +330,12 @@ class System:
         return jsonify({
             report_manager.return_list_of_reports(0)
         })
-    def delete_report(self, reportID: int, reportType: int):
+    def view_predict_reports(self):
+
+            return ReportManager.return_list_of_reports(1)
+ 
+
+    def delete_report(self, reportID: int, reportType: int,):
        # try:
             ReportManager.remove_report(reportID, reportType)
         #except Exception as e:
@@ -338,19 +343,16 @@ class System:
         
     def get_report_content(self, reportType: int, reportID: int):
         return ReportManager.return_report(reportType, reportID)
-    def create_year_n_month_reports(self):
-        ReportManager.generate_summary_report(2024, 0, 21002)
+    def create_year_n_month_reports(self, year: int, month: int, userID : int):
+        ReportManager.generate_summary_report(year, month, userID)
         return jsonify({
             'temp': 'temp'
         })
 
-    def view_predict_reports(self):
-        return jsonify({
-            'temp': 'temp'
-        })
     
-    def create_predict_reports(self):
+    def create_predict_reports(self, year: int, userID: int, adminID: int):
     #def create_reports(self, admin: Worker):
+        ReportManager.generate_predict_report(userID, year, adminID)
         return jsonify({
             'temp': 'temp'
         })
