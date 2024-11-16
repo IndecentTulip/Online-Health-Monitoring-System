@@ -437,16 +437,7 @@ def post_yearreport():
 
 
 # Get patients for a doctor (used for selecting patients for reports)
-@app.route('/predict/doc', methods=['GET'])
-def get_pat_for_doc_for_predict():
-    user_id = request.args.get('user_id')
-    if not user_id:
-        return jsonify({'error': 'User ID is required'}), 400
-    try:
-        patients = system.doctors_patients(user_id)
-        return jsonify(patients), 200
-    except Exception as e:
-        return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
+
 
 @app.route('/predict/fetch', methods=['GET'])
 def get_predict():
@@ -480,10 +471,10 @@ def post_predictreport():
 # Get patients for a doctor
 @app.route('/predict/doc', methods=['GET'])
 def get_predict_for_doc():
-    #data = request.get.json()
-    #id = data.get('ID')
-    #reports = system.view_doc_predict_reports(21004)  # Assuming this method fetches patients for the doctor
-    #return  jsonify(reports), 200
+    id: int = request.args.get('userID')
+
+    reports = system.view_doc_predict_reports(id)  # Assuming this method fetches patients for the doctor
+    return  jsonify(reports), 200
     return jsonify({'temp': 'Not implemented'}), 200
 
 # Fetch all exam types

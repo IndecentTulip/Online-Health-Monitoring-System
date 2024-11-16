@@ -20,8 +20,10 @@ const DocPredict = ({ userId }) => {
 
   // Function to fetch reports and patients data from the backend
   const fetchReports = async () => {
-    
-    const Response = await axios.get('http://localhost:5000/predict/fetch');
+
+    const Response = await axios.get('http://localhost:5000/predict/doc', {
+      params: {userID: doctor.doctorID}
+    });
     setreports(Response.data);
     setError("SUCCESS!")
     try {

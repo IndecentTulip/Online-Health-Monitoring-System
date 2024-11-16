@@ -335,7 +335,7 @@ class System:
 
             return ReportManager.return_list_of_reports(1)
     
-    def view_doc_predict_reports(self, docID):
+    def view_doc_predict_reports(self, docID: int):
         return ReportManager.return_list_of_reports_doctor(docID)
 
     def delete_report(self, reportID: int, reportType: int,):
