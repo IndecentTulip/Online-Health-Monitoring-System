@@ -48,29 +48,41 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>{userType === 'patient' ? 'Patient Login' : 'Worker Login'}</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="login-page">
+      <div className="quote-container">
+        <div className="quote-open">“</div>
+        <div className="login-container">
+          <h1>{userType === 'patient' ? 'Patient Login' : 'Worker Login'}</h1>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              id="email-field"
+              required
+            />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              id="password-field"
+              required
+            />
+            <a href="#" className="forgot-password">
+              Forgot Password?
+            </a>
+            <button type="submit" id="submit-button">
+              Login
+            </button>
+          </form>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </div>
+        <div className="quote-close">”</div>
+      </div>
     </div>
   );
 };
 
 export default Login;
-
