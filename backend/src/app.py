@@ -427,20 +427,14 @@ def delete_report():
 # Add new year and month report
 @app.route('/yearreports/new', methods=['POST'])
 def post_yearreport():
-    system.create_year_n_month_reports()
-    return jsonify({'message': 'report added'})
     data = request.get_json()
-    workersid = data.get('workersid')
-    monthoryear = data.get('monthoryear')
-    summarydate = data.get('summarydate')
-    timeperiod = data.get('timeperiod')
-    
-    if not workersid or not monthoryear or not summarydate or not timeperiod:
-        return jsonify({'error': 'Missing data'}), 400
+    month = data.get('month')
+    year = data.get('year')
+    userID = data.get('userID')
+    #year = request.json.get('Year')
+    system.create_year_n_month_reports(year, month, userID)
+    return jsonify({'message': 'report added'})
 
-    #system.create_year_n_month_reports(workersid, monthoryear, summarydate, timeperiod)  # Assuming this method exists
-    system.create_year_n_month_reports()  # Assuming this method exists
-    return jsonify({'message': 'Year and month report created successfully'}), 201
 
 # Get patients for a doctor (used for selecting patients for reports)
 @app.route('/predict/doc', methods=['GET'])
@@ -456,9 +450,30 @@ def get_pat_for_doc_for_predict():
 
 @app.route('/predict/fetch', methods=['GET'])
 def get_predict():
-    reports = system.view_predict_reports()  # Assuming this returns a list of prediction reports
+    reports = system.view_predict_reports()  # Assuming this method fetches the reports from DB
     #return reports
-    #return jsonify({'temp': 'Not implemented'}), 404
+    return jsonify(reports)
+
+@app.route('/predict/fetchcontent', methods=['GET'])
+def get_predict_content():
+    report_id = request.args.get('ReportID')
+    reports = system.get_report_content(1, report_id)
+    return jsonify(reports)
+@app.route('/predict/delete', methods=['DELETE'])
+def delete_predict_report():
+    
+    report_id = request.json.get('ReportId')
+    system.delete_report(report_id, 1)
+    return jsonify ({'message': 'Report deleted'}), 200
+@app.route('/predict/new', methods=['POST'])
+def post_predictreport():
+    data = request.get_json()
+    admin = data.get('AdminID')
+    year = data.get('year')
+    userID = data.get('userID')
+    #year = request.json.get('Year')
+    system.create_predict_reports(year, userID, admin)
+    return jsonify({'message': 'report added'})
 
 # Add a new prediction report
 @app.route('/predict/new', methods=['POST'])

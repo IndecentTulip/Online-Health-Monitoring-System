@@ -2,132 +2,167 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Prediction = ({ userId }) => {
-  const [reports, setReports] = useState([]);
-  const [patients, setPatients] = useState([]);
-  const [exams, setExams] = useState([]);
+  const [reports, setreports] = useState([]);
+  const [patient_list, setPList] = useState([]);
+  const [patient, setPatient] = useState([]);
+  const [currentReport, setCurrentReport] = useState({
+  preportid: 1,
+  workersid: 2,
+  healthid: 3,
+  pdate: "a day"
+  });
+  const [reportContent, setReportContent] = useState([{
+    preportid:	5,
+    testtype:	'fake test',
+    concernvalue:	5
+  }]);
   const [newReport, setNewReport] = useState({
-    workersid: '',
-    healthid: '',
-    pdate: '',
-    examtype: ''  // Add exam type to the report data
+    year: 0,
+    patient: 'dummy'
   });
   const [error, setError] = useState('');
 
-  // Fetch all prediction reports, patients, and exams on component mount
-  useEffect(() => {
-    const fetchData = async () => {
+  // Function to fetch reports and patients data from the backend
+  const fetchReports = async () => {
+    
+      const Response = await axios.get('http://localhost:5000/predict/fetch');
+      setreports(Response.data);
+      setError("SUCCESS!")
       try {
-        // Fetch prediction reports
-        const reportResponse = await axios.get('http://localhost:5000/predict/fetch');
-        setReports(reportResponse.data);
-
-        // Fetch patients assigned to the doctor
-        const patientResponse = await axios.get('http://localhost:5000/predict/doc');
-        setPatients(patientResponse.data);
-
-        // Fetch exam types
-        const examResponse = await axios.get('http://localhost:5000/predict/exam/fetch');
-        setExams(examResponse.data);
-      } catch (err) {
-        setError('Failed to fetch data');
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // Handle creating a new prediction report
-  const handleCreateReport = async () => {
-    try {
-      // Send POST request to create a new report
-      const response = await axios.post('http://localhost:5000/predict/new', newReport);
-
-      if (response.status === 201) {
-        setReports([...reports, response.data.report]);
-        setNewReport({ workersid: '', healthid: '', pdate: '', examtype: '' });
-      }
     } catch (err) {
-      setError('Failed to create prediction report');
+
+      setError('Failed to fetch reports and patients');
     }
   };
 
+  // Fetch data when the component mounts
+  useEffect(() => {
+    fetchReports();
+  }, []);
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/accounts/patient/every/fetch');
+        setPList(response.data);
+      } catch (err) {
+        setError('Request of the patients failed.');
+      }
+    };
+
+    fetchPatients();
+  }, []);
+
+  const handleViewReport = async (input) => {
+    setCurrentReport(input)
+    fetchReportContent(input.preportid)
+    setError('working')
+  }
+
+  const handleCreateReport = async (M) => {
+      const newData = {
+        userID: newReport.patient,
+        year: newReport.year,
+        AdminID: userId
+      };
+
+      const Response = await axios.post('http://localhost:5000/predict/new', newData)
+     
+      fetchReports()
+
+  }
+  const fetchReportContent = async (input) => {
+    try{
+      const Response = await axios.get('http://localhost:5000/predict/fetchcontent', {
+        params: {ReportID: input}
+      });
+      
+      setReportContent(Response.data)
+
+      
+    } catch (err) {
+      setError('oops')
+    }
+  }
+  const handleDeleteReport = async (ReportId) => {
+    try {
+      const response = await axios.delete('http://localhost:5000/predict/delete', {
+        data: { ReportId: ReportId},
+      });
+
+      if (response.status === 200) {
+        fetchReports(); // Refetch workers after deletion
+        setError('Hmmmm')
+      }
+    } catch (err) {
+      setError('Failed to delete Report');
+    }
+  };
+
+
+
   return (
     <div>
-      <h2>Prediction Reports</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <h2>Manage Prediction Reports</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      <h3>Add new Report</h3>
+      <p>Normally you cannot select year, and it must be december to generate reports.</p>
+      <p> For demonstration purposes, these restrictions are not present.</p>
+        
+          <input
+            type="number"
+            value={newReport.year}
+            onChange={(e) => setNewReport({ ...newReport, year: e.target.value })}
+            placeholder="year"
+            required
+          />
 
-      <h3>Prediction Reports</h3>
-      <ul>
-{/*
-        {reports.length > 0 ? (
-          reports.map((report) => (
-            <li key={report.preportid}>
-              <p>Report ID: {report.preportid}</p>
-              <p>Doctor ID: {report.workersid}</p>
-              <p>Patient ID: {report.healthid}</p>
-              <p>Date: {report.pdate}</p>
-              <p>Exam Type: {report.examtype}</p>
-            </li>
-          ))
-        ) : (
-          <p>No prediction reports available</p>
-        )}
-*/}
-      </ul>
+<select onChange={(e) => setNewReport({ ...newReport, patient: e.target.value })}>
+        <option value="">Select a Patient</option>
+        
+        {Array.isArray(patient_list) && patient_list.map((patient, index) => (
+          <option key={index} value={patient.healthid}>{patient.patient_name}</option>
+          
+        ))}
+      </select>
+          <button onClick={() => handleCreateReport()}>
+            Generate Report
+          </button>
+          <p>{newReport.patient}, {newReport.year}</p>
+        
+      <p> Report ID: {currentReport.preportid} &nbsp;&nbsp;Prepared By: {currentReport.workersid}&nbsp;&nbsp; Date Generated: {currentReport.pdate}&nbsp;&nbsp; Patient: {currentReport.healthid}</p>
+      <p>Concern Value represents likelihood of continued problems; lower is better.</p>
+      {reportContent.length > 0 ? (
+            reportContent.map((Entry)  => (
+              <li key={Entry.healthid}>
+                <p>Test Type: {Entry.testtype} &nbsp;&nbsp;&nbsp;Concern Value: {Entry.concernvalue}</p>
 
-      <h3>Create New Prediction Report</h3>
+
+              </li>
+            ))
+          ) : (
+            <p>No entries available</p>
+          )}
       <div>
-        <label>Doctor:</label>
-        <select
-          value={newReport.workersid}
-          onChange={(e) => setNewReport({ ...newReport, workersid: e.target.value })}
-        >
-          <option value="">Select Doctor</option>
-{/*          {patients.map((patient) => (
-            <option key={patient.healthid} value={patient.workersid}>
-              {patient.worker_name}
-            </option>
-          ))}
-*/}
-        </select>
+        <h3>Existing reports</h3>
+        <ul>
+          {reports.length > 0 ? (
+            reports.map((Report) => (
+              <li key={Report.preportid}>
+                <p>{Report.preportid} {Report.healthid} {Report.pdate} </p>
 
-        <label>Patient:</label>
-        <select
-          value={newReport.healthid}
-          onChange={(e) => setNewReport({ ...newReport, healthid: e.target.value })}
-        >
-          <option value="">Select Patient</option>
-{/*          {patients.map((patient) => (
-            <option key={patient.healthid} value={patient.healthid}>
-              {patient.patientname}
-            </option>
-          ))}
-*/}
-        </select>
+                <button onClick={() => handleDeleteReport(Report.preportid)}>Delete Report</button>
+                <button onClick={() => handleViewReport(Report)}>View Report</button>
+              </li>
+            ))
+          ) : (
+            <p>No reports available</p>
+          )}
+        </ul>
 
-        <label>Report Date:</label>
-        <input
-          type="date"
-          value={newReport.pdate}
-          onChange={(e) => setNewReport({ ...newReport, pdate: e.target.value })}
-        />
-
-        <label>Exam Type:</label>
-        <select
-          value={newReport.examtype}
-          onChange={(e) => setNewReport({ ...newReport, examtype: e.target.value })}
-        >
-          <option value="">Select Exam Type</option>
-{/*          {exams.map((exam) => (
-            <option key={exam.examtype} value={exam.examtype}>
-              {exam.examtype}
-            </option>
-          ))}
-*/}
-        </select>
-
-        <button onClick={handleCreateReport}>Create Report</button>
+        
       </div>
+
+
     </div>
   );
 };

@@ -36,20 +36,29 @@ class ReportManager:
             #getReports = "SELECT * FROM summaryreport"
             getReports = "SELECT sreportid, workersid, monthoryear, summarydate, timeperiod FROM summaryreport"
         elif type == 1:
-            getReports = "SELECT preportid FROM predictreports"
+            getReports = "SELECT preportid, workersid, healthid, pdate FROM predictreports"
         db = DBService()
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
         cursor.execute(getReports)
         listofstuff = cursor.fetchall()
-        results = [{
-                'sreportid': row[0],
+        results =[]
+        if type == 0:
+            results = [{
+                    'sreportid': row[0],
+                    'workersid': row[1],
+                    'monthoryear': row[2],
+                    'summarydate': row[3],
+                    'timeperiod': row[4]
+                } for row in listofstuff]
+        if type == 1:
+                results = [{
+                'preportid': row[0],
                 'workersid': row[1],
-                'monthoryear': row[2],
-                'summarydate': row[3],
-                'timeperiod': row[4]
-            } for row in listofstuff]
+                'healthid': row[2],
+                'pdate': row[3]
+            } for row in listofstuff] 
         cursor.close()
         del cursor
         return results
@@ -80,7 +89,7 @@ class ReportManager:
         if type == 0:
             getEntries = "SELECT healthid, noofexams, abnormalexams FROM summaryreportentries WHERE sreportid = %s"
         elif type ==1:
-            getEntries = "SELECT * FROM predictreportsentries WHERE preportid = %s"
+            getEntries = "SELECT preportid, testtype, concernvalue FROM predictreportsentries WHERE preportid = %s"
         db = DBService()
         conn = db.get_db_connection()
 
@@ -94,23 +103,37 @@ class ReportManager:
                 'noofexams': row[1],
                 'abnormalexams': row[2]
             } for row in listofstuff]
+        if type == 1:
+                returnlist = [{
+                'preportid': row[0],
+                'testtype': row[1],
+                'concernvalue': row[2]
+            } for row in listofstuff]               
         conn.commit()
         cursor.close()
         conn.close()
         return returnlist
     #Method to generate a prediction report. patient ID and year are needed as arguments.
     @staticmethod
-    def generate_predict_report (self, patient: int, year: int):
+    def generate_predict_report ( patient: int, year: int, userID: int):
 
-        findTestTypes = """SELECT DISTINCT testypes FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
+        findTestTypes = """SELECT DISTINCT testresults.testtype FROM testresults
+                            LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
                             LEFT JOIN examtable ON testresults.examid = examtable.examid
-                            WHERE examtable.healthid = %s AND NOT (testtypes.lowerbound < testresulsts.results < testtypes.upperbound) AND DATE_PART ('year', examtable.examdate) = %s"""
-        getTestResults = """"SELECT results, upperbound, lowerbound FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
-                             WHERE examtable.healthid = %s AND DATE_PART ('year', examtable.examdate) = %s ORDER BY examtable.examdate DESC"""
-        preMakeReportQry = "SELECT nextval(pg_get_serial_squence('predictreports', 'preportid')) as new_id"
-        makeReportQry     = """INSERT into predictreports (workersid, healthid, pdate)
-                            VALUES (%s, %s, %s);"""
-        makeReportEntry = """INSERT INTO predictreportsentries (preportid, testtype, convernvalue) 
+                            WHERE examtable.healthid = %s
+                            AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))
+                            AND DATE_PART ('year', examtable.examdate) = %s"""
+                            
+        getTestResults = """SELECT testresults.results, testtypes.upperbound, testtypes.lowerbound FROM testresults
+                             LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
+                             LEFT JOIN examtable ON testresults.examid = examtable.examid
+                             WHERE examtable.healthid = %s AND DATE_PART ('year', examtable.examdate) = %s
+                             AND testresults.testtype = %s ORDER BY examtable.examdate DESC"""
+        #PreMakeReportQry = "Select nextval(pg_get_serial_sequence('summaryreport', 'sreportid')) as new_id;"
+        preMakeReportQry = "SELECT nextval(pg_get_serial_sequence('predictreports', 'preportid')) as new_id;"
+        makeReportQry     = """INSERT into predictreports (preportid, workersid, healthid, pdate)
+                            VALUES (%s, %s, %s, %s);"""
+        makeReportEntry = """INSERT INTO predictreportsentries (preportid, testtype, concernvalue) 
                             VALUES (%s, %s, %s)"""
 
         db = DBService()
@@ -127,32 +150,37 @@ class ReportManager:
             reportID: int = result[0]
         
         #This is not checking if report exists, this is checking what id will be given to the new report
-        cursor.execute(makeReportQry, (0, patient, date.today()))
+        cursor.execute(makeReportQry, (reportID, userID, patient, date.today()))
         for value in testtypes:
             entry = PredictEntry(0, '0')
             multiplier = 1.0
             entry.concern = 100
             #won't this return the first letter of the string? Doesn't seem right but I'll leave it for now
             entry.type = value
-            cursor.execute(getTestResults, (patient, year))
+            cursor.execute(getTestResults, (patient, year, value))
             results = cursor.fetchall()
-            if len(results) == 1:
+            x = len(results)
+            if x == 1:
+
+                entryList.append(entry)
                 continue
-            if (results[0][0] < results[0][1] < results[0][2]):
+            if (results[0][2] < results[0][0] < results[0][1]):
+
                 for row in results:
-                    if not (row[0] < row[1] < row[2]):
-                        entry.concern += round(25 * multiplier)
+                    if not (row[2] < row[0] < row[1]):
+                        entry.concern = entry.concern + round(25 * multiplier)
                     else:
-                        entry.concern -= 25
+                        entry.concern = entry.concer - 25
                         multiplier = (multiplier / 2)
-            elif not results[0][0] < results[0][1] < results[0][2]:
+            elif not(results[0][2] < results[0][0] < results[0][1]):
                 x = 0
+
                 for row in results:
                     if x == 0:
                         x += 1
                         continue
-                    if not (row[0] < row[1] < row[2]):
-                        entry.concern +- round(25 * multiplier)
+                    if not (row[2] < row[0] < row[1]):
+                        entry.concern = entry.concern + round(25 * multiplier)
                     else:
                         multiplier = multiplier/2
             entryList.append(entry)
@@ -272,7 +300,7 @@ class ReportManager:
         if report_type == 0:
             deleteRep = "DELETE FROM summaryreport WHERE sreportid = %s"
         elif report_type == 1:
-            deleteRep = "DELETE FROM predictreports WHERE sreportid = %s"
+            deleteRep = "DELETE FROM predictreports WHERE preportid = %s"
 
         db = DBService()
         conn = db.get_db_connection()
