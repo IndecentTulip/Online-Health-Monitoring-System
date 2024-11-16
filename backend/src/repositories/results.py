@@ -140,6 +140,14 @@ class Results:
         Modifies an existing result by its ID.
         """
         # Implementation for modifying results
+        db = DBService()
+        conn = db.get_db_connection
+        cursor = conn.cursor()
+
+        cursor.execute("""Update testresults set testresultid = %d, testtype = %s, examid = %d, results = %d, resultdate = %s where testresultid = %d""")
+        conn.commit()
+        cursor.close()
+        conn.close()
         pass
 
     def download_result(self, result_id: int):
