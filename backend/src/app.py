@@ -403,7 +403,7 @@ def search_results():
     search_type = int(request.args.get('search_type'))
     pat_name = request.args.get('pat_name')
     date = request.args.get('date')
-    date = datetime.strptime(date, '%Y-%m-%d').date()
+    #date = datetime.strptime(date, '%Y-%m-%d').date()
     test_type = request.args.get('test_type')
     #pat_name = data.get('pat_name')
     patient_ID = int(request.args.get('patient_ID'))
