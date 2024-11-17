@@ -1,3 +1,4 @@
+import './Profile.css';
 import React, { useEffect, useState } from 'react';
 import { useRole } from '../../Utils/RoleContext';
 import axios from 'axios';
@@ -70,71 +71,76 @@ const Profile = ({ userId }) => {
   if (error) {
     return <div style={{ color: 'red' }}>{error}</div>;
   }
-
   return (
-    <div>
-      <h2>{role === 'Patient' ? 'Patient Profile' : 'Worker Profile'}</h2>
+    <div className="profile-container">
+        <div className="profile-form">
+            <h2>{role === 'Patient' ? 'Patient Profile' : 'Worker Profile'}</h2>
 
-      {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
+            {successMessage && <div className="success-message">{successMessage}</div>}
 
-      {profileData ? (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>
-              <strong>Name:</strong>
-              <input
-                type="text"
-                name="name"
-                value={editData.name || ''}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
+            {error && <div className="error-message">{error}</div>}
 
-          <div>
-            <label>
-              <strong>Email:</strong>
-              <input
-                type="email"
-                name="email"
-                value={editData.email || ''}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
+            {profileData ? (
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>
+                            Name:
+                            <input
+                                type="text"
+                                name="name"
+                                value={editData.name || ''}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
 
-          <div>
-            <label>
-              <strong>Phone:</strong>
-              <input
-                type="tel"
-                name="phone"
-                value={editData.phone || ''}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
+                    <div className="form-group">
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                name="email"
+                                value={editData.email || ''}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
 
-          <div>
-            <label>
-              <strong>Image:</strong>
-              <input
-                type="file"
-                name="image"
-                onChange={(e) => handleChange({ target: { name: 'image', value: e.target.files[0] } })}
-              />
-            </label>
-          </div>
+                    <div className="form-group">
+                        <label>
+                            Phone:
+                            <input
+                                type="tel"
+                                name="phone"
+                                value={editData.phone || ''}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
 
-          <button type="submit" disabled={loading}>
-            {loading ? 'Updating...' : 'Update Profile'}
-          </button>
-        </form>
-      ) : (
-        <p>Loading profile...</p>
-      )}
+                    <div className="form-group">
+                        <label>
+                            Image:
+                            <input
+                                type="file"
+                                name="image"
+                                onChange={(e) =>
+                                    handleChange({ target: { name: 'image', value: e.target.files[0] } })
+                                }
+                            />
+                        </label>
+                    </div>
+
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Updating...' : 'Update Profile'}
+                    </button>
+                </form>
+            ) : (
+                <p>Loading profile...</p>
+            )}
+        </div>
     </div>
-  );
+); 
 };
 
 export default Profile;
