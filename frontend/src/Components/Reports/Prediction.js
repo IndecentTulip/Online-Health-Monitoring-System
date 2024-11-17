@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Prediction.css';
 
 const Prediction = ({ userId }) => {
   const [reports, setreports] = useState([]);
@@ -101,7 +102,7 @@ const Prediction = ({ userId }) => {
 
 
   return (
-    <div>
+    <div className="prediction">
       <h2>Manage Prediction Reports</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
       <h3>Add new Report</h3>
