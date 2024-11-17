@@ -1,123 +1,85 @@
-/* Tab Item */
+/* Tabs Container */
+.atabs {
+  display: flex;
+  justify-content: space-around; /* Spread the tabs evenly */
+  align-items: center;
+  padding: 10px 0;
+  background-color: #ffffff; /* White background for the container */
+  border-bottom: 2px solid #ccc; /* Subtle underline for separation */
+}
 
+/* Tab Item */
 .atab {
-  padding: 10px 20px;
-  cursor: pointer;
+  flex: 1; /* Allow tabs to have equal width */
   text-align: center;
-  transition: background-color 0.3s, color 0.3s;
-  flex-grow: 1;
+  padding: 10px 0;
+  cursor: pointer;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 14px;
   color: #333;
-  border-radius: 5px;
-  margin: 5px; 
-  background-color: #eaeaea; 
-  display: flex;
-  justify-content: space-between; /* Space out tabs */
-  align-items: center;
-  border-bottom: 2px solid #ccc;
-  margin-bottom: 20px;
-  position: relative; /* Required for dropdown positioning */
+  background-color: transparent; /* No background for unselected tabs */
+  transition: color 0.3s, background-color 0.3s;
 }
 
-/* Tab Item Hover Effect */
-.atab:hover {
-  background-color: #dcdcdc; 
-}
-
-/* Active Tab Style */
+/* Active Tab */
 .atab.active {
-  background-color: #b33a3a;
+  background-color: #b33a3a; /* Red background for active tab */
   color: white;
-  border-bottom: 2px solid #b33a3a; /* Highlighting active tab */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px; /* Slight rounding for aesthetics */
 }
 
-/* Tab Content */
-.atab-content {
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-top: none;
-  min-height: 200px;
-  background-color: #f9f9f9;
-  margin-top: -1px;
+/* Tab Hover Effect */
+.atab:hover {
+  color: #b33a3a; /* Red text for hover */
 }
 
 /* Dropdown Menu */
 .atab-dropdown {
   position: relative;
-  display: inline-block;
+  flex: 1; /* Ensure dropdown tabs are evenly spaced */
 }
 
 /* Dropdown Content */
 .atab-dropdown .dropdown-content {
-  display: none; /* Default to hidden */
+  display: none;
   position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  border: 1px solid #ccc;
+  min-width: 100%;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  border: 1px solid #ccc;
-  border-top: none;
-  border: 1px solid #ccc;
-  margin-top: 5px;
-  left: 0; /* Ensure dropdown aligns with the tab */
-  opacity: 0;
-  overflow: hidden;
-  transition: opacity 0.3s ease, visibility 0s 0.3s; /* Transition opacity and add delay for visibility */
 }
 
-/* Show the dropdown when it's toggled on */
-.atab-dropdown .dropdown-content {
+.atab-dropdown:hover .dropdown-content {
   display: block;
-  opacity: 1; /* Make dropdown visible */
-  visibility: visible;
-  transition-delay: 0s; /* Remove delay on toggle */
 }
 
-/* Dropdown Item */
+/* Dropdown Items */
 .dropdown-content div {
-  padding: 10px 20px;
+  padding: 10px;
   cursor: pointer;
-  text-transform: capitalize;
-  font-weight: normal;
-  transition: background-color 0.3s;
+  text-align: center;
 }
 
-/* Hover Effect for Dropdown Items */
 .dropdown-content div:hover {
-  background-color: #ddd;
+  background-color: #f5f5f5;
 }
 
-.atab-dropdown .atab::after {
-  content: "▼";
-  font-size: 12px;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #555;
-}
-
-
+/* Tab Content */
 .atab-content {
   padding: 20px;
-  border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 5px;
   background-color: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
-  margin-top: -10px; 
+  margin-top: 10px;
 }
 
-
+/* Mobile Responsive */
 @media (max-width: 768px) {
   .atabs {
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
-
-
+  .atab {
+    flex: 1 1 100%;
+    margin-bottom: 5px;
+  }
 }
-
-

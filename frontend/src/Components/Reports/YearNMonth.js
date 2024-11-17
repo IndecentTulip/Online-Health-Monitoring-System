@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './YearNMonth.css';
 
 const SumReport = ({ userId }) => {
   const [reports, setreports] = useState([]);
@@ -88,11 +89,15 @@ const SumReport = ({ userId }) => {
 
 
   return (
-    <div>
+    
+    <div className="sumreport-container">
       <h2>Manage Summary Reports</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+     
+      <div className="report-sections-container"></div>
+      <div className="report-box add-report-section">
       <h3>Add Report</h3>
-        
+      <div className="form-group">
           <input
             type="number"
             value={newReport.year}
@@ -100,7 +105,9 @@ const SumReport = ({ userId }) => {
             placeholder="year"
             required
           />
+      </div>
 
+      <div className="form-group">
           <select
             value={newReport.month}
             onChange={(e) => setNewReport({ ...newReport, month: e.target.value })}
@@ -120,15 +127,20 @@ const SumReport = ({ userId }) => {
             <option value="11">November</option>
             <option value="12">December</option>
             </select>
+            </div>
           <button onClick={() => handleCreateReport()}>
             Generate Report
           </button>
           <p>{newReport.month}, {newReport.year}</p>
+
+
+        <div className="report-box current-report-section">
       <h3>Current Report</h3>
       <p> Report ID: {currentReport.sreportid} 
         Report Type: {currentReport.monthoryear} 
         Date Generated: {currentReport.summarydate} 
         Time Period: {currentReport.timeperiod}</p>
+   
 
       {reportContent.length > 0 ? (
             reportContent.map((Entry)  => (
@@ -137,14 +149,18 @@ const SumReport = ({ userId }) => {
                   No. of Tests: {Entry.noofexams} 
                   No of Abnormal Tests: {Entry.abnormalexams}  
                   {(Entry.abnormalexams/(Entry.noofexams  + 0.0000000001) * 100).toFixed(1)}% Abnormal</p>
-
+                
 
               </li>
             ))
+      
           ) : (
+          
             <p>No entries available</p>
           )}
-      <div>
+          </div>
+
+          <div className="existing-reports-section">
         <h3>Existing reports</h3>
         <ul>
           {reports.length > 0 ? (
@@ -164,7 +180,7 @@ const SumReport = ({ userId }) => {
 
         
       </div>
-
+      </div>
 
     </div>
   );
