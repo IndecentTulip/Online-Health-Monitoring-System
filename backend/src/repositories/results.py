@@ -8,7 +8,7 @@ class Status(Enum):
     ABNORMAL = "abnormal"
 
 class Results:
-    def __init__(self, result_id: int, test_type: str, exam_id: int, results: int, test_date: date):
+    def __init__(self, result_id: int, test_type: str, exam_id: int, results: int, test_date: str):
         self.result_id = result_id
         self.exam_id = exam_id  
         self.test_type = test_type
