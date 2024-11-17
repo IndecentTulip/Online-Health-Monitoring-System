@@ -140,3 +140,9 @@
     font-weight: bold;
     margin-top: 15px;
   }
+  
+  @media (max-width: 768px) {
+    .atabs {
+      flex-wrap: wrap; 
+    }
+}
