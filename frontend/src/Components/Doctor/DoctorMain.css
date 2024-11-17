@@ -1,18 +1,11 @@
 
-/*
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-*/
 
 /* dTab Container */
 .dtabs {
   display: flex;
   border-bottom: 2px solid #ccc;
   margin-bottom: 10px;
+  background-color: #fff; 
 }
 
 /* dTab Item */
@@ -20,15 +13,17 @@ body {
   padding: 10px 20px;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;;
   flex-grow: 1;
   text-transform: uppercase;
   font-weight: bold;
+  position: relative;
 }
 
 /* dTab Item Hover Effect */
 .dtab:hover {
   background-color: #f0f0f0;
+  color: #6B8E23; 
 }
 
 /* Active dTab Style */
@@ -46,6 +41,51 @@ body {
   min-height: 200px;
   background-color: #f9f9f9;
   margin-top: -1px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.dtab-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content */
+.dtab-dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border: 1px solid #ccc;
+  border-top: none;
+  margin-top: 5px;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.dtab-dropdown .dropdown-content {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.dropdown-content div {
+  padding: 10px 20px;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-weight: normal;
+  transition: background-color 0.3s ease;
+}
+
+
+.dropdown-content div:hover {
+  background-color: #ddd;
+}
+
+.dtab-dropdown .dtab {
+  padding-right: 40px;
+}
 
