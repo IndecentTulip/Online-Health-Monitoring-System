@@ -1,0 +1,116 @@
+/* General styling for the monitor page */
+.monitor-page {
+    background-color: #f7f9fc;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  /* Header styling */
+  .monitor-page h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #000000;
+  }
+  
+  /* Error and Success Messages */
+  .error-message {
+    color: #e74c3c;
+    background-color: #fbeaea;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: #27ae60;
+    background-color: #eafaf1;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  /* Form Styling */
+  .monitor-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 600px;
+  }
+  
+  .monitor-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .monitor-form select,
+  .monitor-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .monitor-form button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s;
+  }
+  
+  .monitor-form button:hover {
+    background-color: #217dbb;
+  }
+  
+  .monitor-form button:active {
+    background-color: #1a5e8a;
+  }
+  
+  /* Monitors List */
+  .monitors-list {
+    margin-top: 30px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .monitors-list li {
+    background: #ffffff;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .monitors-list li p {
+    margin: 5px 0;
+  }
+  
+  .monitors-list li button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .monitors-list li button:hover {
+    background-color: #c0392b;
+  }
+  
+  .monitors-list li button:active {
+    background-color: #96281b;
+  }
+  

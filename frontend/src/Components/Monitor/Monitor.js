@@ -112,107 +112,106 @@ const Monitor = ({ userId }) => {
     fetchExamItems();  // Fetch available exam items for the dropdown
   }, []);
 
-  return (
-    <div>
-      <h2>Smart Monitors</h2>
+ return (
+  <div className="monitor-page">
+    <h2>Smart Monitors</h2>
 
-      {/* Error and Success messages */}
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-      {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
+    {/* Error and Success messages */}
+    {error && <div className="error-message">{error}</div>}
+    {successMessage && <div className="success-message">{successMessage}</div>}
 
-      {/* Form to add or update monitor */}
+    {/* Form to add or update monitor */}
+    <div className="monitor-form">
       <p>{selectedMonitor.monitorid} {selectedMonitor.workersid} {selectedMonitor.testtype} {selectedMonitor.smartstatus} {selectedMonitor.healthid}</p>
-        <div>
-          <label>
-            Test Type:
-            <select
-              
-              onChange={(e) => setSelectedMonitor({...selectedMonitor, testtype: e.target.value})}
-              
-            >
-              <option value="">Select Test Type</option>
-              {examItems.map((item, index) => (
-                <option key={index} value={item.testtype}>
-                  {item.testtype}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-            Patient:
-            <select
-              onChange={(e) => setSelectedMonitor({ ...selectedMonitor, healthid: e.target.value })}
-              value={selectedMonitor ? selectedMonitor.healthid : ''}
-              required
-            >
-              <option value="">Select Patient</option>
-              {patients.map((patient) => (
-                <option key={patient.id} value={patient.id}>
-                  {patient.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-            Smart Status:
-            <select
-              onChange={(e) => setSelectedMonitor({...selectedMonitor, smartstatus: e.target.value})}
-              required
-            >
-              <option value="">Select Status</option>
-              <option value="sent">Sent</option>
-              <option value="not sent">Not Sent</option>
-            </select>
-          </label>
-        </div>
-        <div>
-          <label>
-            Monitor:
-            <select
-              onChange={(e) => setSelectedMonitor({ ...selectedMonitor, monitorid: e.target.value })}
-              value={selectedMonitor ? selectedMonitor.monitorid : ''}
-              required
-            >
-              <option value="">Select Monitor</option>
-              {monitors.map((monitor) => (
-                <option key={monitors.monitorid} value={monitors.monitorid}>
-                  {monitor.monitorid}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-        <button onClick={() => handleAddMonitor() }>
-            Create Monitor
-          </button>
-          <button onClick={() => handleUpdateMonitor()}>
-            Update Monitor
-          </button>
- 
+      <div>
+        <label>
+          Test Type:
+          <select
+            onChange={(e) => setSelectedMonitor({ ...selectedMonitor, testtype: e.target.value })}
+          >
+            <option value="">Select Test Type</option>
+            {examItems.map((item, index) => (
+              <option key={index} value={item.testtype}>
+                {item.testtype}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>
+          Patient:
+          <select
+            onChange={(e) => setSelectedMonitor({ ...selectedMonitor, healthid: e.target.value })}
+            value={selectedMonitor ? selectedMonitor.healthid : ''}
+            required
+          >
+            <option value="">Select Patient</option>
+            {patients.map((patient) => (
+              <option key={patient.id} value={patient.id}>
+                {patient.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>
+          Smart Status:
+          <select
+            onChange={(e) => setSelectedMonitor({ ...selectedMonitor, smartstatus: e.target.value })}
+            required
+          >
+            <option value="">Select Status</option>
+            <option value="sent">Sent</option>
+            <option value="not sent">Not Sent</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>
+          Monitor:
+          <select
+            onChange={(e) => setSelectedMonitor({ ...selectedMonitor, monitorid: e.target.value })}
+            value={selectedMonitor ? selectedMonitor.monitorid : ''}
+            required
+          >
+            <option value="">Select Monitor</option>
+            {monitors.map((monitor) => (
+              <option key={monitor.monitorid} value={monitor.monitorid}>
+                {monitor.monitorid}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <button onClick={() => handleAddMonitor()}>
+        Create Monitor
+      </button>
+      <button onClick={() => handleUpdateMonitor()}>
+        Update Monitor
+      </button>
+    </div>
 
-      {/* List of monitors */}
-      <h3>Monitors List</h3>
+    {/* List of monitors */}
+    <h3>Monitors List</h3>
+    <ul className="monitors-list">
       {monitors.length === 0 ? (
         <p>No monitors available</p>
       ) : (
-        <ul>
-          {monitors.map((monitor) => (
-            <li key={monitor.monitorid}>
-              <p><strong>Monitor ID:</strong> {monitor.monitorid}</p>
-              <p><strong>Exam Type:</strong> {monitor.testtype}</p>
-              <p><strong>Status:</strong> {monitor.smartstatus}</p>
-              <p><strong>Patient ID:</strong> {monitor.healthid}</p>
-              <button onClick={() => handleDeleteMonitor(monitor.monitorid)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+        monitors.map((monitor) => (
+          <li key={monitor.monitorid}>
+            <p><strong>Monitor ID:</strong> {monitor.monitorid}</p>
+            <p><strong>Exam Type:</strong> {monitor.testtype}</p>
+            <p><strong>Status:</strong> {monitor.smartstatus}</p>
+            <p><strong>Patient ID:</strong> {monitor.healthid}</p>
+            <button onClick={() => handleDeleteMonitor(monitor.monitorid)}>Delete</button>
+          </li>
+        ))
       )}
-    </div>
-  );
+    </ul>
+  </div>
+);
 };
 
 export default Monitor;
