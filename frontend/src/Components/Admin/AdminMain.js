@@ -24,7 +24,7 @@ const AdminMain = () => {
   };
 
   return (
-    <div>
+    <div className="admin-container">
       {/* Tab Navigation */}
       <div className="atabs">
         <div
