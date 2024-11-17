@@ -1,0 +1,174 @@
+
+.sumreport-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  h2, h3 {
+    color: #333;
+    text-align: center;
+    font-size: 24px;
+  }
+  
+ 
+  .error {
+    color: red;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+ 
+  .report-sections-container {
+    display: flex;
+    justify-content: space-between; 
+    gap: 20px; 
+    flex-wrap: wrap; 
+    margin-top: 30px;
+  }
+  
+
+  .report-box {
+    flex: 1; 
+    min-width: 280px; 
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Add Report Section */
+  .add-report-section .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .add-report-section input,
+  .add-report-section select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .add-report-section .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-report-section .btn-primary:hover {
+    background-color: #45a049;
+  }
+  
+  /* Current Report Section */
+  .current-report-section p {
+    margin-bottom: 15px;
+  }
+  
+
+  .existing-reports-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .existing-reports-section li {
+    margin-bottom: 15px;
+  }
+  
+  .existing-reports-section .btn-danger {
+    background-color: #f44336;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .existing-reports-section .btn-danger:hover {
+    background-color: #e53935;
+  }
+  
+  .existing-reports-section .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .existing-reports-section .btn-primary:hover {
+    background-color: #45a049;
+  }
+  
+ 
+  @media (max-width: 768px) {
+    .report-sections-container {
+      flex-direction: column; 
+      gap: 10px;
+    }
+  }
+
+.report-sections-container {
+    display: flex;
+    justify-content: space-between; 
+    gap: 20px; 
+  }
+  
+
+  .report-box {
+    flex: 1; 
+    padding: 20px;
+    background-color: #f9f9f9; 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 10px; 
+  }
+  
+  
+  .add-report-section {
+    background-color: #e0f7fa; /* Light blue for the Add Report section */
+  }
+  
+  .current-report-section {
+    background-color: #ffecb3; /* Light yellow for the Current Report section */
+  }
+  
+  .existing-reports-section {
+    background-color: #c8e6c9; /* Light green for the Existing Reports section */
+  }
+  
+
+  button {
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  button.btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  button.btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.8;
+  }
+
+  
