@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './TestResultsDoctor.css';
 
 const TestResultsDoctor = ({ userId }) => {
   const [results, setResults] = useState([]); // All fetched results
@@ -85,7 +86,7 @@ const TestResultsDoctor = ({ userId }) => {
   }, [userId]);
 
   return (
-    <div>
+    <div className="form-container">
       <h2>Test Results for Doctor</h2>
 
       {/* Error display */}
@@ -93,8 +94,8 @@ const TestResultsDoctor = ({ userId }) => {
 
       {/* Filter Form */}
       <form>
-        <div>
-          <label>
+      <div className="form">
+           <label>
             Patient Name:
             <input
               type="text"
@@ -105,7 +106,7 @@ const TestResultsDoctor = ({ userId }) => {
           </label>
         </div>
 
-        <div>
+        <div className="form">
           <label>
             Exam Date:
             <input
@@ -117,7 +118,7 @@ const TestResultsDoctor = ({ userId }) => {
           </label>
         </div>
 
-        <div>
+        <div className="form">
           <label>
             Exam Item:
             <select
@@ -134,8 +135,7 @@ const TestResultsDoctor = ({ userId }) => {
             </select>
           </label>
         </div>
-
-        <div>
+        <div className="form">
           <label>
             Show Only Abnormal Results:
             <input
