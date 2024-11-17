@@ -1,0 +1,63 @@
+/* Main container for the Approve Accounts page */
+.approve-acc-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  /* Header styling */
+  .approve-acc-page h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 20px;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  /* List styling */
+  .approve-acc-page ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .approve-acc-page li {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Patient details styling */
+  .approve-acc-page li div {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  
+  /* Button styling */
+  .approve-acc-page li button {
+    display: block;
+    width: 200px; /* Fixed button width */
+    margin: 0 auto; /* Center the button horizontally */
+    padding: 10px 0; /* Adjust padding for consistent height */
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect for buttons */
+  .approve-acc-page li button:hover {
+    background-color: #218838;
+  }
+  

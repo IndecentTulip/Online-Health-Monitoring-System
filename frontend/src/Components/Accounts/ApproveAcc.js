@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './ApproveAcc.css'; // Import the CSS file
 
 const ApproveAcc = () => {
   const [patients, setPatients] = useState([]);
@@ -34,6 +35,7 @@ const ApproveAcc = () => {
       if (response.status === 200) {
         // Remove the approved patient from the pending list (client-side update)
         setPendingPatients(prevPatients => prevPatients.filter(patient => patient.healthid !== patientId));
+        setError(''); // Clear any previous errors
       }
     } catch (err) {
       setError('Failed to approve patient');
@@ -41,19 +43,22 @@ const ApproveAcc = () => {
   };
 
   return (
-    <div>
+    <div className="approve-acc-page">
       <h2>Approve Accounts</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* Display error messages */}
+      {error && <div className="error-message">{error}</div>}
       
+      {/* Display pending patients */}
       {pendingPatients.length > 0 ? (
         <ul>
           {pendingPatients.map((patient) => (
             <li key={patient.healthid}>
               <div>
-                <p>{patient.patientname}</p>
-                <p>{patient.email}</p>
+                <p><strong>Name:</strong> {patient.patientname}</p>
+                <p><strong>Email:</strong> {patient.email}</p>
                 <button onClick={() => handleApprove(patient.healthid)}>
-                  Approve Account
+                  Approve Account?
                 </button>
               </div>
             </li>
@@ -67,4 +72,3 @@ const ApproveAcc = () => {
 };
 
 export default ApproveAcc;
-
