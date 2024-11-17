@@ -8,7 +8,7 @@ class Status(Enum):
     ABNORMAL = "abnormal"
 
 class Results:
-    def __init__(self, result_id: int, test_type: str, exam_id: int, results: int, test_date: str):
+    def __init__(self, result_id: int, test_type: str, exam_id: int, results: int, test_date: date):
         self.result_id = result_id
         self.exam_id = exam_id  
         self.test_type = test_type
@@ -16,7 +16,7 @@ class Results:
         self.results = results
 
     @staticmethod
-    def result_search(search_type: int, date: date, test_type: str, pat_name: str, patient_ID: int )-> List['Results']:
+    def result_search(search_type: int, date: date, test_type: str, pat_name: str, patient_ID: int ):
      
         # 0 = search by date  (patient)              4 = search by patient name + date (doctor)
         # 1 = search by exam item (patient)          5 = search by name + exam item (doctor)
@@ -31,7 +31,7 @@ class Results:
         query_2 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
                     FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
                     LEFT JOIN testtypes ON testresults.test = testtypes.testtype
-                    WHERE examtable.patientid = %d AND NOT (testtype.lowerbound < testresults.result < testtype.upperbound)"""
+                    WHERE examtable.patientid = %d AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))"""
         query_3 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
                     FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
                     LEFT JOIN patient ON examtable.healthid = patient.healthid
@@ -45,8 +45,8 @@ class Results:
                     LEFT JOIN patient ON examtable.healthid = patient.healthid
                     WHERE patient.patientname = %s AND testresults.testtype = %s"""
         query_6 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
-                    FROM testresults LEFT JOIN testtypes ON testresults.test = testtypes.testtype
-                    WHERE NOT (testtype.lowerbound < testresults.result < testtype.upperbound)"""
+                    FROM testresults LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
+                    WHERE ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))"""
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
@@ -66,9 +66,19 @@ class Results:
             cursor.execute(query_5, (pat_name, test_type))
         elif search_type == 6:
             cursor.execute(query_6)
-        results = cursor.fetchall()
-        for row in results:
-            returnlist.append(Results(row[0], row[1], row[2], row[3], row[4]))
+        results = []
+        try:
+            results = cursor.fetchall()
+            for row in results:
+                returnlist.append({
+                    'result_id': row[0],
+                    'test_name': row[1],
+                    'exam_id': row[2],
+                    'results': row[3],
+                    'test_date': row[4]
+                })
+        except Exception as e:
+            pass
         return returnlist
 
 

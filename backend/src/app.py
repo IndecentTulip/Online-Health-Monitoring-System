@@ -5,7 +5,7 @@ from flask_cors import CORS
 from system import System
 import json
 from decimal import Decimal
-import datetime
+
 
 app = Flask(__name__)
 CORS(app)
@@ -397,6 +397,20 @@ def delete_result():
         return jsonify({'message': 'Test result deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+@app.route('/results/search', methods=['GET'])
+def search_results():
+    search_type = int(request.args.get('search_type'))
+    pat_name = request.args.get('pat_name')
+    date = request.args.get('date')
+    date = datetime.strptime(date, '%Y-%m-%d').date()
+    test_type = request.args.get('test_type')
+    #pat_name = data.get('pat_name')
+    patient_ID = int(request.args.get('patient_ID'))
+
+    #results = system.search_results(search_type, date, test_type, pat_name, patient_ID)  # Assuming this method fetches the reports from DB
+    #return reports
+    results = system.search_results(search_type, date, test_type, pat_name, patient_ID)
+    return jsonify(results)
 # <><><><><><><> RESULTS <><><><><><><><><>
 
 # <><><><><><><> REPORTS <><><><><><><><><>
