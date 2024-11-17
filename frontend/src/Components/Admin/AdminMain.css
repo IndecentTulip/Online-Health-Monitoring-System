@@ -1,34 +1,33 @@
-/*
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-*/
 
-/* Tab Container */
 .atabs {
   display: flex;
+  justify-content: space-between; /* Space out tabs */
+  align-items: center;
   border-bottom: 2px solid #ccc;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  background-color: #f7f7f7; /* Light background for tabs */
+  padding: 5px 15px;
 }
-
 /* Tab Item */
 .atab {
   padding: 10px 20px;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
   flex-grow: 1;
   text-transform: uppercase;
   font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  border-radius: 5px;
+  margin: 5px; 
+  background-color: #eaeaea; 
   position: relative; /* Required for dropdown positioning */
 }
 
 /* Tab Item Hover Effect */
 .atab:hover {
-  background-color: #f0f0f0;
+  background-color: #dcdcdc; 
 }
 
 /* Active Tab Style */
@@ -36,6 +35,7 @@ body {
   background-color: #b33a3a;
   color: white;
   border-bottom: 2px solid #b33a3a; /* Highlighting active tab */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Tab Content */
@@ -64,9 +64,11 @@ body {
   z-index: 1;
   border: 1px solid #ccc;
   border-top: none;
+  border: 1px solid #ccc;
   margin-top: 5px;
   left: 0; /* Ensure dropdown aligns with the tab */
   opacity: 0;
+  overflow: hidden;
   transition: opacity 0.3s ease, visibility 0s 0.3s; /* Transition opacity and add delay for visibility */
 }
 
@@ -92,8 +94,39 @@ body {
   background-color: #ddd;
 }
 
-/* Adjust the active tab content margin to fit dropdown */
-.atab-dropdown .atab {
-  padding-right: 40px; /* Make room for the dropdown icon */
+.atab-dropdown .atab::after {
+  content: "▼";
+  font-size: 12px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
 }
 
+
+.atab-content {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+  margin-top: -10px; 
+}
+
+
+@media (max-width: 768px) {
+  .atabs {
+    flex-wrap: wrap; 
+  }
+
+  .atab {
+    flex: 1 1 100%; 
+    text-align: center;
+  }
+
+  .atab-dropdown .dropdown-content {
+    min-width: 100%; 
+  }
+}
