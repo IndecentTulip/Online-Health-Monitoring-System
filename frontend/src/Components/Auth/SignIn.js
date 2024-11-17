@@ -1,4 +1,5 @@
 import './SignIn.css';
+import '../../Main.css';
 import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
@@ -14,6 +15,17 @@ const SignIn = () => {
 
   return (
     <div className="sign-in-page">
+      {/* Navbar Section */}
+      <div className="navbar">
+        <button className="register" onClick={handleRedirectToRegister}>
+          Register
+        </button>
+        <button className="signin" onClick={() => navigate('/signin')}>
+          Sign in
+        </button>
+      </div>
+
+      {/* Main Sign-In Content */}
       <div className="sign-in-container">
         <div className="left-section">
           <div className="decorative-circle"></div>
