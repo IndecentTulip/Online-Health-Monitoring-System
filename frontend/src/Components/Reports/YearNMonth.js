@@ -125,11 +125,18 @@ const SumReport = ({ userId }) => {
           </button>
           <p>{newReport.month}, {newReport.year}</p>
       <h3>Current Report</h3>
-      <p> Report ID: {currentReport.sreportid} Report Type: {currentReport.monthoryear} Date Generated: {currentReport.summarydate} Time Period: {currentReport.timeperiod}</p>
+      <p> Report ID: {currentReport.sreportid} 
+        Report Type: {currentReport.monthoryear} 
+        Date Generated: {currentReport.summarydate} 
+        Time Period: {currentReport.timeperiod}</p>
+
       {reportContent.length > 0 ? (
             reportContent.map((Entry)  => (
               <li key={Entry.healthid}>
-                <p>Patient ID: {Entry.healthid} No. of Tests: {Entry.noofexams} No of Abnormal Tests: {Entry.abnormalexams}  {(Entry.abnormalexams/(Entry.noofexams  + 0.0000000001) * 100).toFixed(1)}% Abnormal</p>
+                <p>Patient ID: {Entry.healthid} 
+                  No. of Tests: {Entry.noofexams} 
+                  No of Abnormal Tests: {Entry.abnormalexams}  
+                  {(Entry.abnormalexams/(Entry.noofexams  + 0.0000000001) * 100).toFixed(1)}% Abnormal</p>
 
 
               </li>
@@ -143,7 +150,8 @@ const SumReport = ({ userId }) => {
           {reports.length > 0 ? (
             reports.map((Report) => (
               <li key={Report.sreportid}>
-                <p>Report ID: {Report.sreportid} Type: {Report.monthoryear} </p>
+                <p>Report ID: {Report.sreportid} 
+                  Type: {Report.monthoryear} </p>
 
                 <button onClick={() => handleDeleteReport(Report.sreportid)}>Delete Report</button>
                 <button onClick={() => handleViewReport(Report)}>View Report</button>
