@@ -16,7 +16,7 @@ from repositories.workers import Worker
 from repositories.user import UserInfo
 from datetime import datetime
 from repositories.report_manager import ReportManager
-
+from datetime import date
 class System:
     # def __init__(self):
         # self.permission_manager = PermissionManager()
@@ -395,4 +395,5 @@ class System:
             'temp': 'temp'
         })
     
-
+    def search_results(self, search_type: int, date: date, test_type: str, pat_name: str, patient_ID: int ):
+        return Results.result_search(search_type, date, test_type, pat_name, patient_ID)
