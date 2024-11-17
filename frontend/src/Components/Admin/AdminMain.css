@@ -1,14 +1,7 @@
 
-.atabs {
-  display: flex;
-  justify-content: space-between; /* Space out tabs */
-  align-items: center;
-  border-bottom: 2px solid #ccc;
-  margin-bottom: 20px;
-  background-color: #f7f7f7; /* Light background for tabs */
-  padding: 5px 15px;
-}
+
 /* Tab Item */
+
 .atab {
   padding: 10px 20px;
   cursor: pointer;
@@ -22,6 +15,11 @@
   border-radius: 5px;
   margin: 5px; 
   background-color: #eaeaea; 
+  display: flex;
+  justify-content: space-between; /* Space out tabs */
+  align-items: center;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 20px;
   position: relative; /* Required for dropdown positioning */
 }
 
@@ -121,12 +119,5 @@
     flex-wrap: wrap; 
   }
 
-  .atab {
-    flex: 1 1 100%; 
-    text-align: center;
-  }
 
-  .atab-dropdown .dropdown-content {
-    min-width: 100%; 
-  }
 }
