@@ -58,11 +58,11 @@ const DocPredict = ({ userId }) => {
   }, []);
   return (
     <div>
-      <h2>Manage Prediction Reports</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      <h2>View Prediction Reports</h2>
+      {error && <p style={{ color: 'red' }}></p>} {/* Display error if it exists */}
       
-       <p> Doctor ID: {doctor.doctorID} {userId}</p> 
-      <p> Report ID: {currentReport.preportid} &nbsp;&nbsp;Prepared By: {currentReport.workersid}&nbsp;&nbsp; Date Generated: {currentReport.pdate}&nbsp;&nbsp; Patient: {currentReport.healthid}</p>
+      <h2>Current report</h2>
+      <p> Report ID: {currentReport.preportid} &nbsp;&nbsp;Prepared By: {currentReport.workersid}&nbsp;&nbsp; Date Generated: {currentReport.pdate}&nbsp;&nbsp; PatientID: {currentReport.healthid}</p>
       <p>Concern Value represents likelihood of continued problems; lower is better.</p>
       {reportContent.length > 0 ? (
             reportContent.map((Entry)  => (
@@ -76,12 +76,12 @@ const DocPredict = ({ userId }) => {
             <p>No entries available</p>
           )}
       <div>
-        <h3>Existing reports</h3>
+        <h3>Existing Reports:</h3>
         <ul>
           {reports.length > 0 ? (
             reports.map((Report) => (
               <li key={Report.preportid}>
-                <p>{Report.preportid} {Report.healthid} {Report.pdate} </p>
+                <p>Report ID:{Report.preportid} &nbsp;&nbsp;&nbsp; Patient Health ID: {Report.healthid} &nbsp;&nbsp;&nbsp; Date Report Generated:{Report.pdate} </p>
 
                 <button onClick={() => handleViewReport(Report)}>View Report</button>
               </li>

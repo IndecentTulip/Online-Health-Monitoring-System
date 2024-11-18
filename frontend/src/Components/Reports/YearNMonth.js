@@ -92,7 +92,7 @@ const SumReport = ({ userId }) => {
     
     <div className="sumreport-container">
       <h2>Manage Summary Reports</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      {error && <p style={{ color: 'red' }}></p>} {/* Display error if it exists */}
      
       <div className="report-sections-container"></div>
       <div className="report-box add-report-section">
@@ -131,23 +131,22 @@ const SumReport = ({ userId }) => {
           <button onClick={() => handleCreateReport()}>
             Generate Report
           </button>
-          <p>{newReport.month}, {newReport.year}</p>
 
 
         <div className="report-box current-report-section">
       <h3>Current Report</h3>
-      <p> Report ID: {currentReport.sreportid} 
-        Report Type: {currentReport.monthoryear} 
-        Date Generated: {currentReport.summarydate} 
+      <p> Report ID: {currentReport.sreportid} &nbsp;&nbsp;
+        Report Type: {currentReport.monthoryear} &nbsp;&nbsp;
+        Date Generated: {currentReport.summarydate} &nbsp;&nbsp;
         Time Period: {currentReport.timeperiod}</p>
    
 
       {reportContent.length > 0 ? (
             reportContent.map((Entry)  => (
               <li key={Entry.healthid}>
-                <p>Patient ID: {Entry.healthid} 
-                  No. of Tests: {Entry.noofexams} 
-                  No of Abnormal Tests: {Entry.abnormalexams}  
+                <p>Patient ID: {Entry.healthid} &nbsp;&nbsp;
+                  No. of Tests: {Entry.noofexams} &nbsp;&nbsp;
+                  No of Abnormal Tests: {Entry.abnormalexams}  &nbsp;&nbsp;
                   {(Entry.abnormalexams/(Entry.noofexams  + 0.0000000001) * 100).toFixed(1)}% Abnormal</p>
                 
 
