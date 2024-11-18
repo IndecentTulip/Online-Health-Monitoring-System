@@ -14,6 +14,7 @@ const Register = () => {
   const [docID, setDocID] = useState('');
   const [password, setPassword] = useState('');
 
+  // Fetch the doctors list from the backend
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
@@ -30,27 +31,31 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate the phone number
     if (phoneNumber.length !== 10) {
       setError('Phone number must be exactly 10 digits long.');
-      return;
+      return; // Prevent form submission
     }
 
+    // Validate password length
     if (password.length < 6) {
       setError('Password must be at least 6 characters long.');
       return;
     }
 
     try {
+      // Send the plain password directly (no hashing)
       const response = await axios.post('http://localhost:5000/register', {
         patientName,
         email,
         phoneNumber,
         dob,
         docID,
-        password
+        password // Send the plain password here
       });
 
-      if (response.data.confirm === "OK") {
+      console.log('Registration successful:', response.data);
+      if (response.data.confirm === "OK"){
         navigate('/');
       } else if (response.data.confirm === "ERROR") {
         setError('Registration failed. Account with the same email already exists.');
@@ -68,47 +73,12 @@ const Register = () => {
         <h2>Patient Registration Form</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>First Name</label>
+            <label>Name</label>
             <input
               type="text"
               value={patientName}
               onChange={(e) => setPName(e.target.value)}
-              placeholder="Enter your first name"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Last Name</label>
-            <input
-              type="text"
-              placeholder="Enter your last name"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Health Card Number</label>
-            <input
-              type="text"
-              placeholder="Enter your health card number"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone Number</label>
-            <input
-              type="tel"
-              value={phoneNumber}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Enter your phone number"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Date of Birth (YYYY-MM-DD)</label>
-            <input
-              type="date"
-              value={dob}
-              onChange={(e) => setDOB(e.target.value)}
+              placeholder="Enter your name"
               required
             />
           </div>
@@ -123,12 +93,44 @@ const Register = () => {
             />
           </div>
           <div className="form-group">
-            <label>Message</label>
-            <textarea placeholder="Enter your message here"></textarea>
+            <label>Phone Number</label>
+            <input
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter your phone number"
+              required
+            />
           </div>
           <div className="form-group">
-            <button type="submit" className="submit-button">Submit Now</button>
+            <label>Date of Birth</label>
+            <input
+              type="date"
+              value={dob}
+              onChange={(e) => setDOB(e.target.value)}
+              required
+            />
           </div>
+          <div className="form-group">
+            <label>Assign a Doctor</label>
+            <select onChange={(e) => setDocID(e.target.value)} required>
+              <option value="">Select a Doctor</option>
+              {Array.isArray(doctors_list) && doctors_list.map((doctor, index) => (
+                <option key={index} value={doctor.id}>{doctor.email}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button type="submit" className="submit-button">Submit</button>
         </form>
         {error && <p className="error-message">{error}</p>}
       </div>
