@@ -1,113 +1,95 @@
-.doctor-results-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-  height: 100vh; 
-  display: flex;
-  flex-direction: column;
-}
-
-.doctor-results-container {
-  display: flex;
-  justify-content: center; 
-  align-items: center;  
-  height: 100%;  
-  padding-top: 80px; 
-}
-
-.doctor-form-container {
-  background-color: white;
+.box-container {
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 800px;
+  background-color: #ffffff;
   border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+
+
+
+.form-container {
+  max-width: 500px;
   margin: 0 auto;
-}
-
-.doctor-form-container h2 {
-  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-}
-
-.doctor-form-container h3 {
-  margin-top: 30px;
+  font-size: 18px;
+  color: #333;
   text-align: center;
 }
 
-.doctor-form {
+
+.form-group {
   margin-bottom: 15px;
 }
 
-.doctor-form-container label {
+
+.form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8px;
 }
 
-.doctor-form-container input[type="text"],
-.doctor-form-container input[type="date"],
-.doctor-form-container select,
-.doctor-form-container input[type="checkbox"] {
+
+.form-group input,
+.form-group select {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: border-color 0.3s;
 }
 
-.doctor-form-container input[type="checkbox"] {
-  width: auto;
-  margin-right: 10px;
-}
-
-.doctor-form-container input[type="text"]:focus,
-.doctor-form-container input[type="date"]:focus,
-.doctor-form-container select:focus {
-  border-color: #4CAF50;
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.7);
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6B8E23;
   outline: none;
 }
 
-.doctor-form-container button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.button-group button {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color:#6B8E23;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
-  width: 100%;
-  font-size: 16px;
   transition: background-color 0.3s;
 }
 
-.doctor-form-container button:hover {
-  background-color: #45a049;
+.button-group button:hover {
+  background-color: #6B8E23;
 }
 
-.doctor-results-list {
-  list-style-type: none;
-  padding: 0;
-}
+@media (min-width: 768px) {
+  .button-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+  }
 
-.doctor-results-list-item {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 15px;
-  margin-bottom: 10px;
-}
-
-.doctor-results-list-item p {
-  margin: 5px 0;
-  font-size: 16px;
-}
-
-.doctor-error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 20px;
+  .button-group button {
+    flex: 1;
+    max-width: calc(50% - 7.5px);
+  }
 }
