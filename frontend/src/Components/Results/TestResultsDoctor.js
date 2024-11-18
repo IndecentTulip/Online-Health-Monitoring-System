@@ -45,17 +45,17 @@ const TestResultsDoctor = ({ userId }) => {
 
 
   return (
-    <div className="container">
+    <div>
       <h3>Manage Summary results</h3>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
      
      
-      <div className="box-container">
+
      <h3>Search Test Results</h3>
         
 
 <label>
-<div className="box-container">
+
             Exam Date:
             <input
               type="date"
@@ -63,13 +63,13 @@ const TestResultsDoctor = ({ userId }) => {
               value={newSearch.date}
               onChange={(e) => setNewSearch({ ...newSearch, date: e.target.value })}
             />
-            </div>
+
           </label>
         
-          </div>
+          
           <label>
             
-          <div className="box-container">
+
             Patient Name:
           <input
               type="text"
@@ -78,7 +78,7 @@ const TestResultsDoctor = ({ userId }) => {
               placeholder="Patient Name"
               id="pat_name"
             />
-            </div>
+            
             </label>
             <label>
 
@@ -110,7 +110,7 @@ const TestResultsDoctor = ({ userId }) => {
         <button onClick={() => handleSearchResults(6)}>Seach By Abnormal Results</button>
         </div>
 
-        <div className="results-section">
+        
         <div className="box-container">
       <h3>Current Values</h3>
       <p>{newSearch.date} {newSearch.pat_name} {newSearch.patient_ID} {newSearch.test_type} Search Type:{newSearch.search_type}</p>
@@ -126,7 +126,7 @@ const TestResultsDoctor = ({ userId }) => {
             <p>No results available</p>
           )}
         </ul>
-
+        </div>
 
 
 
