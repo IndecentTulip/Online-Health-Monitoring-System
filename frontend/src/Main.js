@@ -1,5 +1,6 @@
 import './Main.css';
 import { useNavigate } from 'react-router-dom';
+import logo from './logo_processed.png';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Main = () => {
           Jlabs
     </div>
     <nav className="navbar">
+    <img src={logo} alt="logo" className="logo" />
         <button className="register" onClick={() => handleNavigation('/register')}>Register</button>
         <button className="signin" onClick={() => handleNavigation('/signin')}>Sign In</button>
     </nav>
