@@ -92,7 +92,7 @@ class Monitor:
 
     @staticmethod
     def check_monitors():
-        listmonitors = ("""SELECT smartmonitor.monitorid, workers.email
+        listmonitors = ("""SELECT DISTINCT smartmonitor.monitorid, workers.email
         FROM smartmonitor LEFT JOIN examtable ON smartmonitor.healthid = examtable.healthid
         LEFT JOIN testresults ON (examtable.examid = testresults.examid AND smartmonitor.testtype =  testresults.testtype)
         LEFT JOIN testtypes ON smartmonitor.testtype = testtypes.testtype
@@ -106,7 +106,8 @@ class Monitor:
         tocheck = cursor.fetchall()
         for value in tocheck:
             Monitor.update_monitor_status("sent", value[0])
-            #SEmailManager.send_notification("alert", value[1])
+            print ("loop")
+            EmailManager.send_notification("alert", value[1])
         conn.commit()
         cursor.close()
         conn.close()

@@ -365,13 +365,13 @@ def post_result():
     if not user_id or not exam_id or not result_data:
         return jsonify({'error': 'User ID, Exam ID, and result data are required'}), 400
 
-    try:
+    
         # Call the system to create results for the selected exam and test types
-        system.create_results(user_id, exam_id, result_data)  # Insert the new results into the system
-        return jsonify({'message': 'Results inserted successfully'}), 201
+    system.create_results(user_id, exam_id, result_data)  # Insert the new results into the system
+    return jsonify({'message': 'Results inserted successfully'}), 201
         
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
+    
+    return jsonify({'error': str(e)}), 500
 
 
 @app.route('/results/fetch', methods=['GET'])
