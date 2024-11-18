@@ -165,8 +165,8 @@ const SumReport = ({ userId }) => {
           {reports.length > 0 ? (
             reports.map((Report) => (
               <li key={Report.sreportid}>
-                <p>Report ID: {Report.sreportid} 
-                  Type: {Report.monthoryear} </p>
+                <p>Report ID: {Report.sreportid} &nbsp;&nbsp;&nbsp;
+                  Type:  {Report.monthoryear} </p>
 
                 <button onClick={() => handleDeleteReport(Report.sreportid)}>Delete Report</button>
                 <button onClick={() => handleViewReport(Report)}>View Report</button>
