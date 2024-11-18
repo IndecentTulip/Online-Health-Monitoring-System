@@ -104,7 +104,7 @@ const Prediction = ({ userId }) => {
   return (
     <div className="prediction">
       <h2>Manage Prediction Reports</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      {error && <p style={{ color: 'red' }}></p>} {/* Display error if it exists */}
       <h3>Add new Report</h3>
       <p>Normally you cannot select year, and it must be december to generate reports.</p>
       <p> For demonstration purposes, these restrictions are not present.</p>
@@ -128,7 +128,7 @@ const Prediction = ({ userId }) => {
           <button onClick={() => handleCreateReport()}>
             Generate Report
           </button>
-          <p>{newReport.patient}, {newReport.year}</p>
+
         
       <p> Report ID: {currentReport.preportid} &nbsp;&nbsp;Prepared By: {currentReport.workersid}&nbsp;&nbsp; Date Generated: {currentReport.pdate}&nbsp;&nbsp; Patient: {currentReport.healthid}</p>
       <p>Concern Value represents likelihood of continued problems; lower is better.</p>
@@ -149,7 +149,7 @@ const Prediction = ({ userId }) => {
           {reports.length > 0 ? (
             reports.map((Report) => (
               <li key={Report.preportid}>
-                <p>{Report.preportid} {Report.healthid} {Report.pdate} </p>
+                <p>Report ID:{Report.preportid} &nbsp;&nbsp;&nbsp; Patient Health ID: {Report.healthid} &nbsp;&nbsp;&nbsp; Date Report Generated:{Report.pdate} </p>
 
                 <button onClick={() => handleDeleteReport(Report.preportid)}>Delete Report</button>
                 <button onClick={() => handleViewReport(Report)}>View Report</button>

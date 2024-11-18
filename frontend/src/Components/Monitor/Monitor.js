@@ -122,7 +122,7 @@ const Monitor = ({ userId }) => {
 
     {/* Form to add or update monitor */}
     <div className="monitor-form">
-      <p>{selectedMonitor.monitorid} {selectedMonitor.workersid} {selectedMonitor.testtype} {selectedMonitor.smartstatus} {selectedMonitor.healthid}</p>
+      
       <div>
         <label>
           Test Type:
