@@ -93,7 +93,7 @@ const TestResultsDoctor = ({ userId }) => {
           {results.length > 0 ? (
             results.map((result) => (
               <li key={result.result_id}>
-                <p>result ID: {result.result_id} </p>
+                <p>result ID: {result.result_id} Test Type:{result.test_name} Result: {result.results} ExamID: {result.exam_id}</p>
 
               </li>
             ))
@@ -101,7 +101,7 @@ const TestResultsDoctor = ({ userId }) => {
             <p>No results available</p>
           )}
         </ul>
- 
+
 
 
 

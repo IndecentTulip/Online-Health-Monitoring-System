@@ -96,9 +96,9 @@ class Monitor:
         FROM smartmonitor LEFT JOIN examtable ON smartmonitor.healthid = examtable.healthid
         LEFT JOIN testresults ON (examtable.examid = testresults.examid AND smartmonitor.testtype =  testresults.testtype)
         LEFT JOIN testtypes ON smartmonitor.testtype = testtypes.testtype
-        LEFT JOIN workers ON smartmonitor.workersid = workers.workerID
+        LEFT JOIN workers ON smartmonitor.workersid = workers.workersID
         WHERE smartmonitor.smartstatus = 'not sent'
-        AND ((testtypes.lowerbound < testresults.results) AND (testresults.results < testtypes.upperbound ))""")
+        AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))""")
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
@@ -106,7 +106,7 @@ class Monitor:
         tocheck = cursor.fetchall()
         for value in tocheck:
             Monitor.update_monitor_status("sent", value[0])
-            EmailManager.send_notification("alert", value[1])
+            #SEmailManager.send_notification("alert", value[1])
         conn.commit()
         cursor.close()
         conn.close()

@@ -24,14 +24,14 @@ class Results:
         # 3 = search by patient name (doctor)
         query_0 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
                     FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
-                    WHERE examtable.patientid = %d AND testresults.resultdate = %s"""
+                    WHERE examtable.healthid = %s AND testresults.resultdate = %s"""
         query_1 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
                     FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
-                    WHERE examtable.patientid = %d AND testresults.testtype = %s"""
+                    WHERE examtable.healthid = %s AND testresults.testtype = %s"""
         query_2 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
                     FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
-                    LEFT JOIN testtypes ON testresults.test = testtypes.testtype
-                    WHERE examtable.patientid = %d AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))"""
+                    LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
+                    WHERE examtable.healthid = %s AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))"""
         query_3 = """SELECT testresults.testresultsid, testresults.testtype, testresults.examid, testresults.results, testresults.resultdate 
                     FROM testresults LEFT JOIN examtable ON testresults.examid = examtable.examid
                     LEFT JOIN patient ON examtable.healthid = patient.healthid
