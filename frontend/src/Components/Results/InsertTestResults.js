@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './InsertTestResults.css';
 
 const InsertTestResults = ({ userId }) => {
   const [exams, setExams] = useState([]);
@@ -77,7 +78,7 @@ const InsertTestResults = ({ userId }) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Insert Test Results</h2>
 
       {/* Display success or error messages */}

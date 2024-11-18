@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './DelTestResults.css'; 
+
 
 const DelTestResults = () => {
   const [testResults, setTestResults] = useState([]);  // List of all test results
@@ -41,7 +43,7 @@ const DelTestResults = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       <h2>Delete Test Results</h2>
 
       {/* Error and Success messages */}

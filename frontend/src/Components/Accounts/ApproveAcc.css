@@ -44,9 +44,9 @@
   /* Button styling */
   .approve-acc-page li button {
     display: block;
-    width: 200px; /* Fixed button width */
-    margin: 0 auto; /* Center the button horizontally */
-    padding: 10px 0; /* Adjust padding for consistent height */
+    width: 200px; 
+    margin: 10px auto 0 auto;
+    padding: 10px 0; 
     background-color: #28a745;
     color: #fff;
     border: none;

@@ -59,7 +59,7 @@
   }
   
   .monitor-form button {
-    background-color: #3498db;
+    background-color: #6B8E23;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -70,11 +70,11 @@
   }
   
   .monitor-form button:hover {
-    background-color: #217dbb;
+    background-color: #6B8E23;
   }
   
   .monitor-form button:active {
-    background-color: #1a5e8a;
+    background-color: #6B8E23;
   }
   
   /* Monitors List */

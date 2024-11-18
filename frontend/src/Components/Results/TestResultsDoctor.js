@@ -45,13 +45,17 @@ const TestResultsDoctor = ({ userId }) => {
 
 
   return (
-    <div>
-      <h2>Manage Summary results</h2>
+    <div className="container">
+      <h3>Manage Summary results</h3>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
-      <h3>Search Test Results</h3>
+     
+     
+      <div className="box-container">
+     <h3>Search Test Results</h3>
         
 
 <label>
+<div className="box-container">
             Exam Date:
             <input
               type="date"
@@ -59,8 +63,13 @@ const TestResultsDoctor = ({ userId }) => {
               value={newSearch.date}
               onChange={(e) => setNewSearch({ ...newSearch, date: e.target.value })}
             />
+            </div>
           </label>
+        
+          </div>
           <label>
+            
+          <div className="box-container">
             Patient Name:
           <input
               type="text"
@@ -69,24 +78,40 @@ const TestResultsDoctor = ({ userId }) => {
               placeholder="Patient Name"
               id="pat_name"
             />
+            </div>
             </label>
             <label>
+
+        
           Test Type:
-          <select
-            onChange={(e) => setNewSearch({...newSearch, test_type: e.target.value})}
+
+          
+           <select onChange={(e) => setNewSearch({...newSearch, test_type: e.target.value})}
           >
+        
             <option value="">Select Test Type</option>
-            {examItems.map((item, index) => (
+           {examItems.map((item, index) => ( 
+            
               <option key={index} value={item.testtype}>
-                {item.testtype}
-              </option>
+                {item.testtype} 
+              
+                  </option>
+            
             ))}
+          
           </select>
+          
+
         </label>
+        <div className="button-group">
         <button onClick={() =>  handleSearchResults(3)}>Seach By Name</button>
         <button onClick={() =>  handleSearchResults(4)}>Seach By Name And Date</button>
         <button onClick={() => handleSearchResults(5)}>Seach By Name And Exam Item</button>
         <button onClick={() => handleSearchResults(6)}>Seach By Abnormal Results</button>
+        </div>
+
+        <div className="results-section">
+        <div className="box-container">
       <h3>Current Values</h3>
       <p>{newSearch.date} {newSearch.pat_name} {newSearch.patient_ID} {newSearch.test_type} Search Type:{newSearch.search_type}</p>
       <ul>
