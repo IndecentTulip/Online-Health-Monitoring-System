@@ -369,6 +369,7 @@ def post_result():
         # Call the system to create results for the selected exam and test types
         system.create_results(user_id, exam_id, result_data)  # Insert the new results into the system
         return jsonify({'message': 'Results inserted successfully'}), 201
+        
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 

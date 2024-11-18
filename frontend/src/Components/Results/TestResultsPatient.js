@@ -3,151 +3,97 @@ import axios from 'axios';
 import './TestResultsPatient.css';
 
 const TestResultsPatient = ({ userId }) => {
-  const [results, setResults] = useState([]); // All fetched results (initially an empty array)
-  const [filteredResults, setFilteredResults] = useState([]); // Filtered results (initially an empty array)
-  const [filters, setFilters] = useState({
-    exam_date: '',
-    exam_item: '',
-    abnormal: false,
+  const [results, setResults] = useState([]);
+  const [examItems, setExamItems] = useState([]);
+  const [newSearch, setNewSearch] = useState({
+    date: "1111-11-11",
+    test_type: "test",
+    pat_name: "name",
+    patient_ID: userId,
+    search_type: 0,
   });
-  const [examItems, setExamItems] = useState([]); // To hold unique exam items for filtering
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+ const handleSearchResults = async (input) => {
 
-  // Fetch results from the backend once on mount
-  const fetchResults = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/results/patient/fetch', {
-        params: { user_id: userId },
-      });
-      const fetchedResults = response.data;
-      setResults(fetchedResults); // Store all results in state
-      setFilteredResults(fetchedResults); // Set the initial filtered results to all fetched results
-    } catch (err) {
-      setError('Failed to fetch results');
+  setNewSearch({...newSearch, search_type: input})
+  const response = await axios.get('http://localhost:5000/results/search', {
+    params: {test_type: newSearch.test_type,
+      pat_name: newSearch.pat_name,
+      patient_ID: newSearch.patient_ID,
+      search_type: input,
+      date: newSearch.date
     }
-  };
-
-  // Fetch the exam items for the dropdown filter
+  })
+  setResults(response.data)
+ }
   const fetchExamItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/exam/fetch');
-      setExamItems(response.data); // Store the exam items for filtering
+      const response = await axios.get('http://localhost:5000/exam/fetch_test_types');
+      setExamItems(response.data);  // Store the fetched exam items in state
     } catch (err) {
       setError('Failed to load exam items');
     }
   };
+  // Function to fetch results and patients data from the backend
 
-  // Handle filter change
-  const handleFilterChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFilters((prevFilters) => {
-      const updatedFilters = {
-        ...prevFilters,
-        [name]: type === 'checkbox' ? checked : value,
-      };
-      filterResults(updatedFilters); // Re-filter the results when filters change
-      return updatedFilters;
-    });
-  };
 
-  // Filter results based on the current filter state
-  const filterResults = (filters) => {
-    const { exam_date, exam_item, abnormal } = filters;
-
-    // Only filter if 'results' is an array
-    if (Array.isArray(results)) {
-      const filtered = results.filter((result) => {
-        const isExamDateMatch = exam_date ? result.exam_date === exam_date : true;
-        const isExamItemMatch = exam_item ? result.exam_item === exam_item : true;
-        const isAbnormalMatch = abnormal ? result.abnormal === abnormal : true;
-
-        return isExamDateMatch && isExamItemMatch && isAbnormalMatch;
-      });
-
-      setFilteredResults(filtered); // Update the filtered results
-    }
-  };
-
-  // Fetch data on mount
+  // Fetch data when the component mounts
   useEffect(() => {
-    if (userId) {
-      fetchResults(); // Fetch results once
-      fetchExamItems(); // Fetch exam items for filtering
-    }
-  }, [userId]);
+    fetchExamItems(); 
+  }, []);
+
+
 
   return (
-    
+    <div>
+      <h2>Manage Summary results</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      <h3>Search Test Results</h3>
+        
 
-    <div className="test-results-container">
-  <div className="form-container">
-      <h2>Test Results</h2>
-
-      {/* Error display */}
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-
-      {/* Filter Form */}
-      <form>
-      <div className="form-group">
-          <label>
+<label>
             Exam Date:
             <input
               type="date"
               name="exam_date"
-              value={filters.exam_date}
-              onChange={handleFilterChange}
+              value={newSearch.date}
+              onChange={(e) => setNewSearch({ ...newSearch, date: e.target.value })}
             />
           </label>
-        </div>
+            <label>
+          Test Type:
+          <select
+            onChange={(e) => setNewSearch({...newSearch, test_type: e.target.value})}
+          >
+            <option value="">Select Test Type</option>
+            {examItems.map((item, index) => (
+              <option key={index} value={item.testtype}>
+                {item.testtype}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button onClick={() =>  handleSearchResults(0)}>Seach By Exam Date</button>
+        <button onClick={() =>  handleSearchResults(1)}>Seach By Exam Item</button>
+        <button onClick={() => handleSearchResults(2)}>Seach By Abnormal Results</button>
+      <h3>Current Values</h3>
+      <p>{newSearch.date} {newSearch.pat_name} {newSearch.patient_ID} {newSearch.test_type} Search Type:{newSearch.search_type}</p>
+      <ul>
+          {results.length > 0 ? (
+            results.map((result) => (
+              <li key={result.result_id}>
+                <p>result ID: {result.result_id} Test Type:{result.test_name} Result: {result.results} ExamID: {result.exam_id}</p>
 
-        <div className="form-group">
-          <label>
-            Exam Item:
-            <select
-              name="exam_item"
-              value={filters.exam_item}
-              onChange={handleFilterChange}
-            >
-              <option value="">Select Exam Item</option>
-              {examItems.map((item, index) => (
-                <option key={index} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-
-        <div className="form-group">
-          <label>
-            Show Only Abnormal Results:
-            <input
-              type="checkbox"
-              name="abnormal"
-              checked={filters.abnormal}
-              onChange={handleFilterChange}
-            />
-          </label>
-        </div>
-      </form>
-
-      {/* Display Results */}
-      <h3>Test Results:</h3>
-      {filteredResults.length === 0 ? (
-        <p>No results found</p>
-      ) : (
-        <ul>
-          {filteredResults.map((result, index) => (
-            <li key={index}>
-              <p><strong>Exam Item:</strong> {result.exam_item}</p>
-              <p><strong>Date:</strong> {result.exam_date}</p>
-              <p><strong>Result:</strong> {result.result_value}</p>
-              <p><strong>Abnormal:</strong> {result.abnormal ? 'Yes' : 'No'}</p>
-            </li>
-          ))}
+              </li>
+            ))
+          ) : (
+            <p>No results available</p>
+          )}
         </ul>
-      )}
-    </div>
+
+
+
+
     </div>
   );
 };

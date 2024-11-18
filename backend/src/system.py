@@ -308,6 +308,7 @@ class System:
         conn.commit()
         cursor.close()
         conn.close()
+        Monitor.check_monitors()
 
 
     def view_all_results(self):
