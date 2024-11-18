@@ -1,63 +1,70 @@
 /* Background container */
-.background { 
+.background {
   z-index: 1;
-  background-color: lightblue; 
+  background-color: lightblue;
   width: 100%; /* Ensure the background covers the full width */
   height: 100vh; /* Make sure the background spans the full height */
   background-image: url('https://media-public.canva.com/YMuxs/MAEJnwYMuxs/1/s2.jpg'); /* Path to your PNG image */
   background-size: cover; /* Make the background image cover the whole screen */
   background-position: center; /* Ensure the background is centered */
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   align-items: flex-start; /* Align items to the left */
   justify-content: flex-start; /* Align content to the top */
   padding-left: 20px; /* Add padding to the left */
+  padding-top: 40px;
 }
 
 /* Navbar styling */
-.navbarname { 
-  color: black; 
+.navbarname {
+  color: black;
   font-size: 80px; /* Adjust font size for readability */
-  font-weight: bold; 
-  padding-left: 10px; 
+  font-weight: bold;
+  padding-left: 10px;
   margin-top: 90px; /* Add margin to push navbar name down */
 }
 
 /* Navbar styling */
 .navbar {
-  width: 100%; 
+  width: 100%;
   background-color: white;
   display: flex;
-  justify-content: flex-end; /* Align the buttons to the right side */
-  align-items: center; /* Vertically center the buttons */
-  padding: 15px 30px; /* Add some padding to the navbar */
-  position: fixed; 
-  top: 0; 
+  justify-content: space-between; /* Space between logo and buttons */
+  align-items: center; /* Vertically center the items */
+  position: fixed;
+  top: 0;
   left: 0;
   z-index: 10; /* Keep the navbar on top */
   box-sizing: border-box; /* Prevent padding from affecting layout */
   flex-wrap: wrap; /* Allow buttons to wrap to the next line if the screen is too narrow */
 }
 
+/* Logo styling */
+.logo {
+  width: 120px; /* Adjust logo size */
+  height: 100px; /* Maintain aspect ratio */
+  margin-right: auto; /* Push logo to the left */
+}
+
 /* Navbar button styling */
-.navbar button { 
-  color: white; 
+.navbar button {
+  color: white;
   border: 2px solid transparent;
-  padding: 10px 15px; 
+  padding: 10px 15px;
   margin-left: 10px; /* Add some space between buttons */
-  cursor: pointer; 
-  font-size: 25px; 
+  cursor: pointer;
+  font-size: 25px;
   border-radius: 5px;
 }
 
-.navbar .register { 
+.navbar .register {
   background-color: white;
-  color: black; 
+  color: black;
 }
 
-.navbar .signin { 
+.navbar .signin {
   background-color: #00c2cb;
-  color: white; 
+  color: white;
 }
 
 /* Hover effect for the navbar button */
@@ -71,9 +78,9 @@
   left: 20px; /* Align it to the left of the screen */
   top: 220px; /* Adjust top to avoid overlapping with navbar */
   padding: 20px;
-  border: 2px solid #333; 
-  border-radius: 8px; 
-  background-color: #f9f9f9; 
+  border: 2px solid #333;
+  border-radius: 8px;
+  background-color: #f9f9f9;
   width: 80%; /* Make it take 80% of the screen width */
   max-width: 800px; /* Limit maximum width */
   text-align: left; /* Align text to the left */
@@ -91,4 +98,3 @@
   line-height: 1.5;
   margin-bottom: 20px;
 }
-

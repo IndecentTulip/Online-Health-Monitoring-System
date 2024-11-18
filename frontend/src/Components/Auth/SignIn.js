@@ -1,6 +1,7 @@
 import './SignIn.css';
 import '../../Main.css';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../logo_processed.png';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const SignIn = () => {
     <div className="sign-in-page">
       {/* Navbar Section */}
       <div className="navbar">
+        <img src={logo} alt="logo" className="logo" />
         <button className="register" onClick={handleRedirectToRegister}>
           Register
         </button>
