@@ -103,6 +103,7 @@ const Prediction = ({ userId }) => {
 
   return (
     <div className="prediction">
+    <div className='predictioninner'>
       <h2>Manage Prediction Reports</h2>
       {error && <p style={{ color: 'red' }}></p>} {/* Display error if it exists */}
       <h3>Add new Report</h3>
@@ -163,7 +164,7 @@ const Prediction = ({ userId }) => {
         
       </div>
 
-
+</div>
     </div>
   );
 };
