@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './DocPredict.css';
 
 const DocPredict = ({ userId }) => {
   const [reports, setreports] = useState([]);
@@ -57,7 +58,8 @@ const DocPredict = ({ userId }) => {
     fetchReports();
   }, []);
   return (
-    <div>
+<div className='doc-predict-container'>
+  <div className='docpredictinner'>
       <h2>View Prediction Reports</h2>
       {error && <p style={{ color: 'red' }}></p>} {/* Display error if it exists */}
       
@@ -93,7 +95,7 @@ const DocPredict = ({ userId }) => {
 
         
       </div>
-
+      </div>
 
     </div>
   );
