@@ -43,7 +43,8 @@ const DelTestResults = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="delete">
+      <div className='innerdelete'>
       <h2>Delete Test Results</h2>
 
       {/* Error and Success messages */}
@@ -68,6 +69,7 @@ const DelTestResults = () => {
           ))}
         </ul>
       )}
+    </div>
     </div>
   );
 };

@@ -1,76 +1,30 @@
+* {
+  box-sizing: border-box; 
+}
 
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f4f7fb;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
+.innerdelete {
+  background-color: white; 
+  border-radius: 8px;
+  padding: 20px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  max-width: 800px; 
+  width: 100%; 
+  margin: 0 auto; 
+}
 
-  h2 {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
 
-  .error, .success {
-    text-align: center;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 4px;
+.delete {
+  background-color: #f9f9f9;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  background-color: #ffecb3; 
+  border: 2px solid #ffecb3;  
+  border-radius: 10px;
+  padding: 50px; 
+  max-width: 1000px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto; 
+  width: 100%; 
   }
-  
-  .error {
-    color: red;
-    background-color: #f8d7da;
-  }
-  
-  .success {
-    color: green;
-    background-color: #d4edda;
-  }
-  
  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
   
-  ul li {
-    background-color: #fff;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  ul li p {
-    margin: 5px 0;
-    font-size: 14px;
-    color: #333;
-  }
-  
-  ul li button {
-    background-color: #b33a3a;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-  }
-  
-  ul li button:hover {
-    background-color: #a02828;
-  }
-  
-
-  .centered {
-    text-align: center;
-    margin-top: 20px;
-  }
