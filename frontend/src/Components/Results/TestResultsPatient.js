@@ -45,9 +45,12 @@ const TestResultsPatient = ({ userId }) => {
 
 
   return (
-    <div>
+    
+    <div classname ="container">
+
       <h2>Manage Summary results</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if it exists */}
+      
       <h3>Search Test Results</h3>
         
 
@@ -92,9 +95,8 @@ const TestResultsPatient = ({ userId }) => {
         </ul>
 
 
+</div>
 
-
-    </div>
   );
 };
 
