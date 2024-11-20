@@ -2,26 +2,26 @@
 .background {
   z-index: 1;
   background-color: lightblue;
-  width: 100%; /* Ensure the background covers the full width */
-  height: 100vh; /* Make sure the background spans the full height */
-  background-image: url('https://media-public.canva.com/YMuxs/MAEJnwYMuxs/1/s2.jpg'); /* Path to your PNG image */
-  background-size: cover; /* Make the background image cover the whole screen */
-  background-position: center; /* Ensure the background is centered */
+  width: 100%; 
+  height: 100vh; 
+  background-image: url('https://media-public.canva.com/YMuxs/MAEJnwYMuxs/1/s2.jpg');
+  background-size: cover;
+  background-position: center;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Align items to the left */
-  justify-content: flex-start; /* Align content to the top */
-  padding-left: 20px; /* Add padding to the left */
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 20px;
   padding-top: 40px;
 }
 
 /* Navbar styling */
 .navbarname {
   color: black;
-  font-size: 80px; /* Adjust font size for readability */
+  font-size: 80px; 
   font-weight: bold;
   padding-left: 10px;
-  margin-top: 90px; /* Add margin to push navbar name down */
+  margin-top: 90px; 
 }
 
 /* Navbar styling */
@@ -29,21 +29,21 @@
   width: 100%;
   background-color: white;
   display: flex;
-  justify-content: space-between; /* Space between logo and buttons */
-  align-items: center; /* Vertically center the items */
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10; /* Keep the navbar on top */
-  box-sizing: border-box; /* Prevent padding from affecting layout */
-  flex-wrap: wrap; /* Allow buttons to wrap to the next line if the screen is too narrow */
+  z-index: 10;
+  box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
 /* Logo styling */
 .logo {
-  width: 120px; /* Adjust logo size */
-  height: 100px; /* Maintain aspect ratio */
-  margin-right: auto; /* Push logo to the left */
+  width: 120px; 
+  height: 100px; 
+  margin-right: auto;
 }
 
 /* Navbar button styling */
@@ -51,7 +51,7 @@
   color: white;
   border: 2px solid transparent;
   padding: 10px 15px;
-  margin-left: 10px; /* Add some space between buttons */
+  margin-left: 10px; 
   cursor: pointer;
   font-size: 25px;
   border-radius: 5px;
@@ -67,27 +67,54 @@
   color: white;
 }
 
-/* Hover effect for the navbar button */
+/* Hover effect for navbar button */
 .navbar button:hover {
-  background-color: rgba(0, 194, 203, 0.8); /* Darker cyan with transparency */
+  background-color: rgba(0, 194, 203, 0.8); 
+}
+
+/* Quote container */
+.main-quote-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px; /* Add space from the navbar */
+  text-align: left;
+}
+
+/* Opening quote */
+.main-quote-open {
+  font-size: 60px;
+  color: black;
+  position: absolute;
+  top: -30px;
+  font-weight: bold;
+  padding-left: 100px;
+}
+
+/* Closing quote */
+.main-quote-close {
+  font-size: 60px;
+  color: black;
+  position: absolute;
+  font-weight: bold;
+  padding-right: 100px;
 }
 
 /* About section styling */
 .about-section {
-  position: absolute; /* Position it relative to the screen */
-  left: 20px; /* Align it to the left of the screen */
-  top: 220px; /* Adjust top to avoid overlapping with navbar */
+  position: relative;
   padding: 20px;
   border: 2px solid #333;
   border-radius: 8px;
   background-color: #f9f9f9;
-  width: 80%; /* Make it take 80% of the screen width */
-  max-width: 800px; /* Limit maximum width */
-  text-align: left; /* Align text to the left */
-  box-sizing: border-box; /* Ensure padding doesn't affect layout */
+  width: 80%; 
+  max-width: 800px; 
+  text-align: left; 
+  box-sizing: border-box;
+  z-index: 1;
 }
 
-/* Additional styling for content */
 .about-section h1 {
   font-size: 2rem;
   margin-bottom: 20px;
@@ -98,3 +125,4 @@
   line-height: 1.5;
   margin-bottom: 20px;
 }
+
