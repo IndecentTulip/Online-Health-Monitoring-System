@@ -73,7 +73,7 @@
 }
 
 /* Quote container */
-.quote-container {
+.main-quote-container {
   position: relative;
   display: flex;
   justify-content: center;
@@ -83,7 +83,7 @@
 }
 
 /* Opening quote */
-.quote-open {
+.main-quote-open {
   font-size: 60px;
   color: black;
   position: absolute;
@@ -93,7 +93,7 @@
 }
 
 /* Closing quote */
-.quote-close {
+.main-quote-close {
   font-size: 60px;
   color: black;
   position: absolute;

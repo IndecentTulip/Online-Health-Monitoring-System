@@ -21,8 +21,8 @@ const Main = () => {
       </nav>
 
       {/* Quote Container for About Us section */}
-      <div className="quote-container">
-        <div className="quote-open">“</div>
+      <div className="main-quote-container">
+        <div className="main-quote-open">“</div>
         <div className="about-section">
           <h1>About Us</h1>
           <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -36,7 +36,7 @@ const Main = () => {
             Suspendisse at lacus commodo, pharetra augue quis, dapibus tortor. Donec non egestas quam. Nam mattis arcu lacus, id sagittis nunc molestie ut.
           </p>
         </div>
-        <div className="quote-close">”</div>
+        <div className="main-quote-close">”</div>
       </div>
     </div> 
   );
