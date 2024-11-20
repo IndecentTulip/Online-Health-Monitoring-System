@@ -40,7 +40,17 @@ const InsertTestResults = ({ userId }) => {
       setError('Failed to fetch test types for selected exam');
     }
   };
+  const refreshExam = async () => {
 
+    // Fetch associated test types for the selected exam
+    try {
+      const response = await axios.get(`http://localhost:5000/results/testtypes/${selectedExam}`);
+      setTestTypes(response.data);
+      setResults({}); // Reset the results when a new exam is selected
+    } catch (err) {
+      setError('Failed to fetch test types for selected exam');
+    }
+  };
   const handleResultChange = (testType, e) => {
     setResults({
       ...results,
@@ -67,9 +77,11 @@ const InsertTestResults = ({ userId }) => {
         exam_id: selectedExam,
         result_data: results,
       });
-
+      
       setSuccessMessage('Results added successfully!');
-      setResults({}); // Clear the results after successful submission
+      refreshExam();
+
+      //setResults({}); // Clear the results after successful submission
     } catch (err) {
       setError('Failed to insert results');
     } finally {
