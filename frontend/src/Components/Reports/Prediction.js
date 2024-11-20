@@ -7,11 +7,19 @@ const Prediction = ({ userId }) => {
   const [patient_list, setPList] = useState([]);
   const [patient, setPatient] = useState([]);
   const [currentReport, setCurrentReport] = useState({
+  preportid: 1,
+  workersid: 2,
+  healthid: 3,
+  pdate: "a day"
   });
   const [reportContent, setReportContent] = useState([{
+    preportid:	5,
     testtype:	'fake test',
+    concernvalue:	5
   }]);
   const [newReport, setNewReport] = useState({
+    year: null,
+    patient: 'dummy'
   });
   const [error, setError] = useState('');
 
@@ -54,10 +62,9 @@ const Prediction = ({ userId }) => {
   const handleCreateReport = async (M) => {
       const newData = {
         userID: newReport.patient,
-        pdate: newReport.pdate,
+        year: newReport.year,
         AdminID: userId
       };
-      console.log(newReport.pdate)
       try {
       const Response = await axios.post('http://localhost:5000/predict/new', newData)
      
@@ -103,14 +110,14 @@ const Prediction = ({ userId }) => {
       <h2>Manage Prediction Reports</h2>
       {error && <p style={{ color: 'red' }}></p>} {/* Display error if it exists */}
       <h3>Add new Report</h3>
-      <p>Normally you cannot select prediction date, and it must be december to generate reports.</p>
+      <p>Normally you cannot select year, and it must be december to generate reports.</p>
       <p> For demonstration purposes, these restrictions are not present.</p>
         
           <input
-            type="date"
-            value={newReport.pdate}
-            onChange={(e) => setNewReport({ ...newReport, pdate: e.target.value })}
-            placeholder=""
+            type="number"
+            value={newReport.year}
+            onChange={(e) => setNewReport({ ...newReport, year: e.target.value })}
+            placeholder="year"
             required
           />
 
