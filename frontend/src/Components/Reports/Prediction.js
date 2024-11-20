@@ -121,7 +121,7 @@ const Prediction = ({ userId }) => {
             required
           />
 
-<select onChange={(e) => setNewReport({ ...newReport, patient: e.target.value })}>
+      <select onChange={(e) => setNewReport({ ...newReport, patient: e.target.value })}>
         <option value="">Select a Patient</option>
         
         {Array.isArray(patient_list) && patient_list.map((patient, index) => (

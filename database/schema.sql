@@ -26,10 +26,10 @@ create table patient (
   email varchar(50) not null UNIQUE,
   dob date not null,
   status boolean not null,
-  doctorid int not null,
+  doctorid int,
   patientpassword varchar(250) not null,
   phonenumber varchar(10),
-  foreign key (doctorid) references workers(workersid)
+  foreign key (doctorid) references workers(workersid) ON DELETE SET NULL
 );
 
 create table examtable (
