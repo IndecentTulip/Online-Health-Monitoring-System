@@ -17,7 +17,7 @@ const SumReport = ({ userId }) => {
     noofexams:	5
   }]);
   const [newReport, setNewReport] = useState({
-    year: 0,
+    year: null,
     month: 0
   });
   const [error, setError] = useState('');
@@ -52,11 +52,14 @@ const SumReport = ({ userId }) => {
         year: newReport.year,
         userID: userId
       };
-
+      try {
       const Response = await axios.post('http://localhost:5000/yearreports/new', newData)
      
       fetchReports()
-
+      }
+      catch (err) {
+        setError("Couldn't create report!")
+      }
   }
   const fetchReportContent = async (input) => {
     try{

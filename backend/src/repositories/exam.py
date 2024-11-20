@@ -156,7 +156,9 @@ class Exam:
         cursor = conn.cursor()
 
         cursor.execute("""
-            SELECT testtype FROM presecribedTest WHERE examId = %s
+            SELECT presecribedTest.testtype FROM presecribedTest
+            LEFT JOIN testresults ON ((presecribedTest.examid = testresults.examid) AND(presecribedTest.testtype = testresults.testtype))
+            WHERE presecribedTest.examId = %s AND testresults.results IS NULL
         """, (exam_id,))
         test_types = cursor.fetchall()
 

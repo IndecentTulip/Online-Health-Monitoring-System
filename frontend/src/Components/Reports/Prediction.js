@@ -18,7 +18,7 @@ const Prediction = ({ userId }) => {
     concernvalue:	5
   }]);
   const [newReport, setNewReport] = useState({
-    year: 0,
+    year: null,
     patient: 'dummy'
   });
   const [error, setError] = useState('');
@@ -65,10 +65,13 @@ const Prediction = ({ userId }) => {
         year: newReport.year,
         AdminID: userId
       };
-
+      try {
       const Response = await axios.post('http://localhost:5000/predict/new', newData)
      
-      fetchReports()
+      fetchReports()}
+      catch (err) {
+        setError("Couldn't create report")
+      }
 
   }
   const fetchReportContent = async (input) => {
