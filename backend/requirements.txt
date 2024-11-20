@@ -2,3 +2,5 @@ Flask
 psycopg2-binary
 Flask-Cors
 locust
+flask 
+flask-testing
