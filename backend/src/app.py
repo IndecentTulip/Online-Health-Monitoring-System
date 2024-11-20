@@ -200,7 +200,7 @@ def add_worker():
 
     try:
         system.create_worker_account(worker_name, worker_email, worker_role, worker_phone, worker_password)
-        return jsonify({'message': 'Worker added successfully'}), 201
+        return jsonify({'message': 'Worker added successfully'}), 200
     except Exception as e:
         return jsonify({'error': f'Error creating worker: {str(e)}'}), 500
 
@@ -376,7 +376,7 @@ def post_result():
     
         # Call the system to create results for the selected exam and test types
     system.create_results(user_id, exam_id, result_data)  # Insert the new results into the system
-    return jsonify({'message': 'Results inserted successfully'}), 201
+    return jsonify({'message': 'Results inserted successfully'}), 200
         
     
     return jsonify({'error': str(e)}), 500
@@ -427,6 +427,7 @@ def delete_result():
 def search_results():
     search_type = int(request.args.get('search_type'))
     pat_name = request.args.get('pat_name')
+    print(pat_name)
     date = request.args.get('date')
     #date = datetime.strptime(date, '%Y-%m-%d').date()
     test_type = request.args.get('test_type')

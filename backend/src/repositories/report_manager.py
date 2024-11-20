@@ -124,6 +124,8 @@ class ReportManager:
     @staticmethod
     def generate_predict_report ( patient: int, year: int, userID: int):
 
+        print(year)
+
         findTestTypes = """SELECT DISTINCT testresults.testtype FROM testresults
                             LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
                             LEFT JOIN examtable ON testresults.examid = examtable.examid
