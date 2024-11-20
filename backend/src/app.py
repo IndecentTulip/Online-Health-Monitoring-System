@@ -368,7 +368,7 @@ def post_result():
     
         # Call the system to create results for the selected exam and test types
     system.create_results(user_id, exam_id, result_data)  # Insert the new results into the system
-    return jsonify({'message': 'Results inserted successfully'}), 201
+    return jsonify({'message': 'Results inserted successfully'}), 200
         
     
     return jsonify({'error': str(e)}), 500
@@ -476,10 +476,10 @@ def delete_predict_report():
 def post_predictreport():
     data = request.get_json()
     admin = data.get('AdminID')
-    year = data.get('year')
+    pdate = data.get('pdate')
     userID = data.get('userID')
     #year = request.json.get('Year')
-    system.create_predict_reports(year, userID, admin)
+    system.create_predict_reports(pdate, userID, admin)
     return jsonify({'message': 'report added'})
 
 
