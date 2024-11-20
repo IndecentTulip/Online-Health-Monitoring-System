@@ -281,7 +281,12 @@ class System:
             return test_types
         except Exception as e:
             raise Exception(f"Error fetching test types for exam {exam_id}: {str(e)}")
-
+    def get_test_types_for_exam_update(self, exam_id):
+        try:
+            test_types = Exam.fetch_test_types_update(exam_id)  # Fetch test types associated with the selected exam
+            return test_types
+        except Exception as e:
+            raise Exception(f"Error fetching test types for exam {exam_id}: {str(e)}")
 
     def create_results(self, user_id, exam_id, result_data):
         db = DBService()
@@ -310,6 +315,32 @@ class System:
         conn.close()
         Monitor.check_monitors()
 
+    def update_results(self, user_id, exam_id, result_data):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+    
+        # Get associated test types for the selected exam
+        cursor.execute("""
+            SELECT testtype FROM presecribedTest WHERE examId = %s
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+    
+        # Loop through each test type and insert the result data
+        for test_type in test_types:
+            # Assume `result_data` contains results for each test type, possibly in an array or dictionary format
+            test_result = result_data.get(test_type[0])
+    
+            if test_result is not None:  # Only insert if there's a result for this test type
+                cursor.execute("""
+                    UPDATE testresults SET examid =%s, testtype =%s, results =%s 
+                    WHERE examid = %s AND testtype = %s
+                """, (exam_id, test_type[0], test_result, exam_id, test_type[0]))
+    
+        conn.commit()
+        cursor.close()
+        conn.close()
+        Monitor.check_monitors()
 
     def view_all_results(self):
         try:

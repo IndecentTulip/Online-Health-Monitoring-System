@@ -355,7 +355,15 @@ def get_test_types_for_exam(exam_id):
         return jsonify(test_types)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
+    
+@app.route('/results/existtesttypes/<int:exam_id>', methods=['GET'])
+def get_test_types_for_exam_update(exam_id):
+    try:
+        test_types = system.get_test_types_for_exam_update(exam_id)
+        return jsonify(test_types)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 @app.route('/results/new', methods=['POST'])
 def post_result():
     user_id = request.json.get('user_id')
@@ -373,6 +381,22 @@ def post_result():
     
     return jsonify({'error': str(e)}), 500
 
+@app.route('/results/update', methods=['PATCH'])
+def patch_result():
+    user_id = request.json.get('user_id')
+    exam_id = request.json.get('exam_id')  # Exam ID for the test
+    result_data = request.json.get('result_data')  # The results data for each test type
+
+    if not user_id or not exam_id or not result_data:
+        return jsonify({'error': 'User ID, Exam ID, and result data are required'}), 400
+
+    
+        # Call the system to create results for the selected exam and test types
+    system.update_results(user_id, exam_id, result_data)  # Insert the new results into the system
+    return jsonify({'message': 'Results inserted successfully'}), 201
+        
+    
+    return jsonify({'error': str(e)}), 500
 
 @app.route('/results/fetch', methods=['GET'])
 def get_results():
