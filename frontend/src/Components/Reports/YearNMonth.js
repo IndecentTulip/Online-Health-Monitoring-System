@@ -17,7 +17,7 @@ const SumReport = ({ userId }) => {
     noofexams:	5
   }]);
   const [newReport, setNewReport] = useState({
-    year: 0,
+    year: null,
     month: 0
   });
   const [error, setError] = useState('');

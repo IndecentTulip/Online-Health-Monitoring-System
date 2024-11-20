@@ -18,7 +18,7 @@ const Prediction = ({ userId }) => {
     concernvalue:	5
   }]);
   const [newReport, setNewReport] = useState({
-    year: 0,
+    year: null,
     patient: 'dummy'
   });
   const [error, setError] = useState('');
