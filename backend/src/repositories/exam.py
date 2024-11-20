@@ -167,3 +167,20 @@ class Exam:
 
         return [test_type[0] for test_type in test_types]
 
+    @staticmethod
+    def fetch_test_types_update(exam_id):
+        db = DBService()
+        conn = db.get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT presecribedTest.testtype FROM presecribedTest
+            LEFT JOIN testresults ON ((presecribedTest.examid = testresults.examid) AND(presecribedTest.testtype = testresults.testtype))
+            WHERE presecribedTest.examId = %s AND testresults.results IS NOT NULL
+        """, (exam_id,))
+        test_types = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return [test_type[0] for test_type in test_types]

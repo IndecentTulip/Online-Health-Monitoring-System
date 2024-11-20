@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Profile from '../Profile/Profile';
 import MainContence from '../Profile/MainContence';
 import InsertTestResults from '../Results/InsertTestResults';
-
+import UpdateTestResults from '../Results/UpdateTestResults';
 
 const StaffMain = () => {
   const [activeTab, setActiveTab] = useState('main');
@@ -30,6 +30,12 @@ const StaffMain = () => {
         >
           Input Exam Results 
         </div>
+        <div
+          className={`stab ${activeTab === 'update' ? 'active' : ''}`}
+          onClick={() => setActiveTab('update')}
+        >
+          Update Exam Results 
+        </div>
       </div>
 
       {/* Render Tab Content */}
@@ -37,6 +43,7 @@ const StaffMain = () => {
         {activeTab === 'main' && <MainContence userId={userId} />}
         {activeTab === 'profile' && <Profile userId={userId} />}
         {activeTab === 'input' && <InsertTestResults userId={userId} />}
+        {activeTab === 'update' && <UpdateTestResults userId={userId} />}
       </div>
     </div>
   );
