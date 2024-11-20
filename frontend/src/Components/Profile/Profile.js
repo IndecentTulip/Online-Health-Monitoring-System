@@ -54,6 +54,7 @@ const Profile = ({ userId }) => {
     setError(null);
 
     try {
+      console.log(editData)
       const response = await axios.patch(patchApiEndpoint, editData, {
         headers: { 'Content-Type': 'application/json' }
       });
