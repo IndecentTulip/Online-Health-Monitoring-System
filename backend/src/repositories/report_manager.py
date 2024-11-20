@@ -3,8 +3,6 @@ from datetime import date, datetime
 from repositories.db_service import DBService
 
 import datetime
-from datetime import datetime
-from datetime import date
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -124,19 +122,14 @@ class ReportManager:
         return returnlist
     #Method to generate a prediction report. patient ID and year are needed as arguments.
     @staticmethod
-    def generate_predict_report ( patient: int, pdate: str, userID: int):
+    def generate_predict_report ( patient: int, year: int, userID: int):
 
-        pdate = date.fromisoformat(pdate)
-
-        print(patient)
-        print(pdate)
-        print(userID)
         findTestTypes = """SELECT DISTINCT testresults.testtype FROM testresults
                             LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
                             LEFT JOIN examtable ON testresults.examid = examtable.examid
                             WHERE examtable.healthid = %s
                             AND ((testtypes.lowerbound > testresults.results) OR (testresults.results > testtypes.upperbound ))
-                            AND  examtable.examdate = %s"""
+                            AND DATE_PART ('year', examtable.examdate) = %s"""
                             
         getTestResults = """SELECT testresults.results, testtypes.upperbound, testtypes.lowerbound FROM testresults
                              LEFT JOIN testtypes ON testresults.testtype = testtypes.testtype
@@ -154,7 +147,7 @@ class ReportManager:
         conn = db.get_db_connection()
 
         cursor = conn.cursor()
-        cursor.execute (findTestTypes, (patient, pdate))
+        cursor.execute (findTestTypes, (patient, year))
         testtypes = cursor.fetchall()
         entryList = []
         cursor.execute(preMakeReportQry)
@@ -164,14 +157,14 @@ class ReportManager:
             reportID: int = result[0]
         
         #This is not checking if report exists, this is checking what id will be given to the new report
-        cursor.execute(makeReportQry, (reportID, userID, patient, pdate))
+        cursor.execute(makeReportQry, (reportID, userID, patient, date.today()))
         for value in testtypes:
             entry = PredictEntry(0, '0')
             multiplier = 1.0
             entry.concern = 100
             #won't this return the first letter of the string? Doesn't seem right but I'll leave it for now
-            entry.type = value[0]
-            cursor.execute(getTestResults, (patient, pdate, value))
+            entry.type = value
+            cursor.execute(getTestResults, (patient, year, value))
             results = cursor.fetchall()
             x = len(results)
             if x == 1:

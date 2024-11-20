@@ -354,9 +354,9 @@ class System:
         })
 
     
-    def create_predict_reports(self, pdate: str, userID: int, adminID: int):
+    def create_predict_reports(self, year: int, userID: int, adminID: int):
     #def create_reports(self, admin: Worker):
-        ReportManager.generate_predict_report(userID, pdate, adminID)
+        ReportManager.generate_predict_report(userID, year, adminID)
         return jsonify({
             'temp': 'temp'
         })
