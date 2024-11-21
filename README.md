@@ -25,15 +25,19 @@ https://github.com/IndecentTulip/Online-Health-Monitoring-System
 
 **For database:**
 https://youtu.be/0n41UTkOBb0?si=mwjP3QVn0X90ViIU
+
 https://www.postgresql.org/download/windows/
 
 **For backend:**
 https://youtu.be/yivyNCtVVDk?si=YaoqdwUmstb82Udr
+
 https://www.python.org/downloads/
 
 **For frontend:**
 https://youtu.be/yOAZDymGWVw?si=R68Jgss3ae-LaECa
+
 https://nodejs.org/en/
+
 https://react.dev/learn/start-a-new-react-project
 
 > NOTE THAT YOU WILL NEED TO RUN BACKEND AND FRONTEND IS DIFFERENT TERMINALS
@@ -115,6 +119,9 @@ by hand
 # video tutorials
 
 https://youtu.be/7NFysoAMjSs
+
 https://youtu.be/J8InQhY2qks
+
 https://youtu.be/eIRYHYk74Ng
+
 https://youtu.be/wn7Xdk65yS0
