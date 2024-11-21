@@ -17,37 +17,68 @@
 └── README.md
 ```
 
-> NOTE THAT YOU WILL NEED TO RUN BACKEND AND FRONTEND IS DIFFERENT TERMINALS
+# github link
 
+https://github.com/IndecentTulip/Online-Health-Monitoring-System
+
+# dependencies(programming lenguages)
+
+**For database:**
+https://youtu.be/0n41UTkOBb0?si=mwjP3QVn0X90ViIU
+https://www.postgresql.org/download/windows/
+
+**For backend:**
+https://youtu.be/yivyNCtVVDk?si=YaoqdwUmstb82Udr
+https://www.python.org/downloads/
+
+**For frontend:**
+https://youtu.be/yOAZDymGWVw?si=R68Jgss3ae-LaECa
+https://nodejs.org/en/
+https://react.dev/learn/start-a-new-react-project
+
+> NOTE THAT YOU WILL NEED TO RUN BACKEND AND FRONTEND IS DIFFERENT TERMINALS
+scripts will open this terminals for you do not be affraid
+
+# project install instractions: 
+
+**To be able to run the scripts**
+
+On Windows
 poweshell:
 ```
-    .\run.ps1
-```
-bash:
-```
-    ./run.sh
+Set-ExecutionPolicy Unrestricted
 ```
 
+**Scripts to run the system**
+
+On Windows
+poweshell:
+```
+.\run.ps1
+```
+
+On Linux/Mac
+bash:
+```
+./run.sh
+```
 
 by hand
 
 ## build database
 
-    cd ./database/
+    cd ./backend/
 
-    psql
-
-    CREATE USER <username> WITH PASSWORD <password>;
-
-
-    ```Init database schema
-    psql -U <username> -d postgres < schema.sql
-
+    ```cmd
+    venv\Scripts\activate
     ```
 
-    ```Seed database
-    psql -U <username> -d jlabs < seed.sql
+    ```powershell
+    .\venv\Scripts\Activate.ps1
     ```
+    
+    python createdb.py
+
 
 ## start backend
 
@@ -68,14 +99,22 @@ by hand
     python app.py
 
 
-> If can't, just do
-
-    .\venv\Scripts\python app.py
+> NOTE If can't source the venv, you can do do
+.\venv\Scripts\python app.py
 
 ## start frontend
 
     cd ./frontend/
 
+    npm update 
+
     npm install
 
     npm start
+
+# video tutorials
+
+https://youtu.be/7NFysoAMjSs
+https://youtu.be/J8InQhY2qks
+https://youtu.be/eIRYHYk74Ng
+https://youtu.be/wn7Xdk65yS0
