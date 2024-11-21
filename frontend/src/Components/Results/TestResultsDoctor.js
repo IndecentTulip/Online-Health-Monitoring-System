@@ -7,7 +7,7 @@ const TestResultsDoctor = ({ userId }) => {
   const [examItems, setExamItems] = useState([]);
   const [patientList, setPatientList] = useState([]);  // New state to store patients list
   const [newSearch, setNewSearch] = useState({
-    date: "",
+    date: "11-11-1111",
     test_type: "test",
     pat_name: "name",
     patient_ID: 0,
