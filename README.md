@@ -67,7 +67,7 @@ bash:
 ./run.sh
 ```
 
-by hand
+{ by hand }
 
 ## build database
 
@@ -108,6 +108,7 @@ by hand
 
 ## start frontend
 
+
     cd ./frontend/
 
     npm update 
@@ -116,7 +117,31 @@ by hand
 
     npm start
 
-# video tutorials
+# Testing
+
+> NOTE that you can only run testing **after** you did run.ps1
+
+On Windows
+poweshell:
+```
+./testing.ps1
+```
+
+{ by hand }
+
+    cd ./backend 
+
+    python -m venv venv
+
+    pip install -r requirements.txt
+
+    pytest ./src/API_unit_test.py
+
+    locust -f ./src/perfomence_test.py
+
+        go to http://0.0.0.0:8089/
+
+# Video tutorials
 
 https://youtu.be/7NFysoAMjSs
 
