@@ -94,15 +94,16 @@ INSERT INTO summaryReportEntries(SReportID, healthID, noofExams, abnormalExams) 
   (5513, 10036, 3, 3),
   (5514, 10037, 1, 1);
 
+
 -- Insert into predictReports
 INSERT INTO predictReports(pReportID, workersID, healthID, pDate) VALUES
-  (5508, 21002, 10031, '2024-10-20'),
-  (5509, 21003, 10032, '2023-11-30'),
+  (5508, 21004, 10031, '2024-10-20'),
+  (5509, 21004, 10032, '2023-11-30'),
   (5510, 21004, 10033, '2023-06-01'),
-  (5511, 21005, 10034, '2024-08-25'),
-  (5512, 21006, 10035, '2023-03-28'),
-  (5513, 21001, 10036, '2024-02-28'),
-  (5514, 21007, 10037, '2024-11-23');
+  (5511, 21004, 10034, '2024-08-25'),
+  (5512, 21008, 10035, '2023-03-28'),
+  (5513, 21008, 10036, '2024-02-28'),
+  (5514, 21008, 10037, '2024-11-23');
 
 -- Insert into predictReportsEntries
 INSERT INTO predictReportsEntries(pReportID, testtype, concernValue) VALUES
@@ -117,11 +118,11 @@ INSERT INTO predictReportsEntries(pReportID, testtype, concernValue) VALUES
 -- Insert into smartMonitor
 INSERT INTO smartMonitor (monitorID, workersID, testtype, smartStatus, healthID) VALUES
   (60001, 21004, 'Blood Test Iron', 'sent', 10031),
-  (60002, 21007, 'Urine Test', 'not sent', 10032),
+  (60002, 21004, 'Urine Test', 'not sent', 10032),
   (60003, 21004, 'CT-Scan', 'not sent', 10033),
   (60004, 21004, 'CT-Scan', 'sent', 10034),
-  (60005, 21005, 'Blood Test Iron', 'sent', 10035),
-  (60006, 21004, 'X-Ray', 'sent', 10036),
-  (60007, 21004, 'ECG', 'not sent', 10037),
-  (60008, 21003, 'MRI', 'not sent', 10031);
+  (60005, 21008, 'Blood Test Iron', 'sent', 10035),
+  (60006, 21008, 'X-Ray', 'sent', 10036),
+  (60007, 21008, 'ECG', 'not sent', 10037),
+  (60008, 21008, 'MRI', 'not sent', 10031);
 

@@ -178,10 +178,10 @@ class System:
         except Exception as e:
             return jsonify({'error': f'Something went wrong: {str(e)}'}), 500
     
-    def update_worker_account(self, id: int, data: dict):
+    def update_worker_account(self, data: dict):
         try:
             # Update the worker's information through the Worker class
-            updated_worker = Worker.update_user_record_profile(id, data)
+            updated_worker = Worker.update_user_record_profile(data)
     
             if updated_worker:
                 return jsonify({

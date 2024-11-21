@@ -98,6 +98,7 @@ class Exam:
     #    return test_types_list
 
 
+
     @staticmethod
     def prescribe_exam(data):
         exam_type = data.get('examType')
@@ -109,14 +110,32 @@ class Exam:
         db = DBService()
         conn = db.get_db_connection()
         cursor = conn.cursor()
-        
-        # Insert the exam data into the examtable
-        cursor.execute(
-            "INSERT INTO examtable (examdate, healthid, workersid, examtype, notes) VALUES (CURRENT_DATE, %s, %s, %s, %s) RETURNING examid",
-            (healthid, workersid, exam_type, content)
-        )
-        exam_id = cursor.fetchone()[0]
-        
+    
+        # If exam type is "Blood", check if there's an existing exam for this patient
+        if exam_type == 'Blood':
+            cursor.execute(
+                "SELECT examid FROM examtable WHERE healthid = %s AND examtype = %s ORDER BY examdate DESC LIMIT 1",
+                (healthid, exam_type)
+            )
+            existing_exam = cursor.fetchone()
+    
+            # If an existing exam is found, use that examId, else create a new exam
+            if existing_exam:
+                exam_id = existing_exam[0]
+            else:
+                cursor.execute(
+                    "INSERT INTO examtable (examdate, healthid, workersid, examtype, notes) VALUES (CURRENT_DATE, %s, %s, %s, %s) RETURNING examid",
+                    (healthid, workersid, exam_type, content)
+                )
+                exam_id = cursor.fetchone()[0]
+        else:
+            # For other exam types, create a new exam entry as usual
+            cursor.execute(
+                "INSERT INTO examtable (examdate, healthid, workersid, examtype, notes) VALUES (CURRENT_DATE, %s, %s, %s, %s) RETURNING examid",
+                (healthid, workersid, exam_type, content)
+            )
+            exam_id = cursor.fetchone()[0]
+    
         # Insert prescribed test types for this exam
         for test_type in test_types:
             cursor.execute(
@@ -129,7 +148,6 @@ class Exam:
         conn.close()
         
         return exam_id
-
     @staticmethod
     def return_test_types_with_examtype():
         db = DBService()

@@ -158,7 +158,9 @@ def patch_worker_profile():
     # Call the system to modify the worker account with the provided data
     try:
         #system.modify_worker_account(worker_id, updated_data)
-        system.update_worker_account(worker_id, updated_data)
+        print(updated_data)
+
+        system.update_worker_account(updated_data)
         return jsonify({'message': 'Worker profile updated successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500

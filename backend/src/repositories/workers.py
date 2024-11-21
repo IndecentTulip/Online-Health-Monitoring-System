@@ -163,7 +163,7 @@ class Worker(User):
             return worker_info
     
     @staticmethod
-    def update_user_record_profile(id: int, data: dict) -> UserInfo:
+    def update_user_record_profile(data: dict) -> UserInfo:
         # Update worker profile in the database with provided data
         update_query = """
         UPDATE workers
@@ -177,12 +177,13 @@ class Worker(User):
         cursor = conn.cursor()
     
         # Assuming the image is passed as a bytea type (e.g., as base64 string or a path)
+        # {'email': 'Jayne.Samer@jlabemail.com', 'id': 21003, 'image': {}, 'name': 'Jayne Samer Test', 'phone': '7893217894', 'user_type': 'Staff'}
         cursor.execute(update_query, (
             data.get('name'),
             data.get('email'),
             data.get('phone'),
             data.get('image'),  # You can modify how you handle image (base64 or binary)
-            id
+            data.get('id') 
         ))
     
         result = cursor.fetchone()
